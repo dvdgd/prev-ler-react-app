@@ -3,7 +3,7 @@ import PricingSection from "./components/PricingSection";
 
 export default function LandingPage() {
   return (
-    <body className="bg-gray-100">
+    <main className="bg-gray-100">
       <nav className="bg-blue-500">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center py-4">
@@ -46,6 +46,6 @@ export default function LandingPage() {
           <p>&copy; 2023 Your Company. All Rights Reserved.</p>
         </div>
       </footer>
-    </body>
+    </main>
   );
 }

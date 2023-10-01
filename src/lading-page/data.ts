@@ -1,13 +1,16 @@
 export const features = [
   {
+    id: 1,
     title: "Exercise Registration",
     description: "Easily register exercises to promote employee health and safety."
   },
   {
+    id: 2,
     title: "Routine Creation",
     description: "Allow employees to create personalized routines for a healthier workplace."
   },
   {
+    id: 3,
     title: "Data Analytics",
     description: "Gain insights into employee health trends with powerful analytics tools."
   }
