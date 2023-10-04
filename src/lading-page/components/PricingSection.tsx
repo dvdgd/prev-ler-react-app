@@ -24,8 +24,7 @@ function PricingCard(props: PricingCardInput) {
       <p className="text-gray-700">{props.description}</p>
       <p className="text-2xl font-semibold mt-4">R$ {props.price}/{props.periodicy}</p>
       <a href="#contact"
-        className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-6 rounded-full mt-4 block">Get
-        Started
+        className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-6 rounded-full mt-4 block">Saiba mais
       </a>
     </div>
   );
