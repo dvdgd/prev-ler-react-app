@@ -24,7 +24,7 @@ export default function LandingPage() {
 
       <header className="bg-blue-600 text-white py-16">
         <div className="container mx-auto text-center">
-          <h1 className="text-4xl font-bold mb-4">Sistema de prevenção as lesões contra de esforço repetitivo</h1>
+          <h1 className="text-4xl font-bold mb-4">Sistema de gestão e prevenção a Lesões por Esforço Repetitivo</h1>
           <p className="text-lg mb-8">Nosso sistema auxilia sua empresa a melhorar a saúde dos funcionários, permitindo que eles criem rotinas de exercícios para promover um ambiente de trabalho mais saudável.</p>
           <a href="#contato"
             className="bg-yellow-400 text-blue-900 hover:bg-yellow-500 py-2 px-6 rounded-full text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105">Comece já</a>
