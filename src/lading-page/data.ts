@@ -1,41 +1,32 @@
 export const features = [
   {
     id: 1,
-    title: "Exercise Registration",
-    description: "Easily register exercises to promote employee health and safety."
+    title: "Gerenciamento de exercícios",
+    description: "Crie exercícios de forma simples e prática com foco em melhorar a saúde física de seus funcionários"
   },
   {
     id: 2,
-    title: "Routine Creation",
-    description: "Allow employees to create personalized routines for a healthier workplace."
+    title: "Criação de rotinas",
+    description: "Permite que funcionários criem rotinas personalizadas de exercícios e pausas com foco saúde do ambiente de trabalho"
   },
   {
     id: 3,
-    title: "Data Analytics",
-    description: "Gain insights into employee health trends with powerful analytics tools."
+    title: "Análise de dados",
+    description: "Obtenha insights sobre as tendências de saúde dos seus funcionários com poderosas ferramentas de análise"
+  },
+  {
+    id: 4,
+    title: "Geração de relatórios gerenciais",
+    description: "Extraia informações preciosas para a tomada de decisão com base nos dados do seu sistema"
+  },
+  {
+    id: 5,
+    title: "Painel informacional",
+    description: "Forneça uma ampla gama de dados com dicas para a melhoria da saúde de seus funcionários"
+  },
+  {
+    id: 6,
+    title: "",
+    description: ""
   }
-];
-
-export const pricings = [
-  {
-    id: 1,
-    title: "Starter Plan",
-    description: "Perfect for small companies",
-    price: 19,
-    periodicy: "month"
-  },
-  {
-    id: 2,
-    title: "Pro Plan",
-    description: "Ideal for medium - sized businesses",
-    price: 49,
-    periodicy: "month",
-  },
-  {
-    id: 3,
-    title: "Enterprise Plan",
-    description: "For large corporations",
-    price: 99,
-    periodicy: "month",
-  },
 ];
