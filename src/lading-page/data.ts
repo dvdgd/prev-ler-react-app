@@ -23,10 +23,5 @@ export const features = [
     id: 5,
     title: "Painel informacional",
     description: "Forneça uma ampla gama de dados com dicas para a melhoria da saúde de seus funcionários"
-  },
-  {
-    id: 6,
-    title: "",
-    description: ""
   }
 ];
