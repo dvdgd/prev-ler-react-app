@@ -1,4 +1,4 @@
-import { Box, VStack } from "@chakra-ui/react";
+import { HStack, VStack } from "@chakra-ui/react";
 import { FunctionComponent } from "react";
 import { Header } from "./Header";
 
@@ -10,11 +10,11 @@ export const Layout: FunctionComponent<LayoutProps> = ({
   children,
 }: LayoutProps) => {
   return (
-    <Box bg="gray.50">
+    <HStack bg="gray.50" h="full">
       <VStack spacing={10} w="full" align="center">
         <Header title="PrevLer" />
         {children}
       </VStack>
-    </Box>
+    </HStack>
   );
 };

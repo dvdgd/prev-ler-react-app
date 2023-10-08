@@ -9,7 +9,6 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
-  Heading,
   IconButton,
   Image,
   Link,
@@ -18,6 +17,7 @@ import {
   chakra,
   useDisclosure
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 type NavLink = {
   name: string,
@@ -25,17 +25,32 @@ type NavLink = {
 };
 
 const navLinks: NavLink[] = [
-  { name: "Inicio", link: "/" },
   { name: "Funcionalidades", link: "#features" },
   { name: "Preços", link: "#pricing" },
-  { name: "Entrar/Cadastra-se", link: "/signin" },
+  { name: "Entrar/Cadastrar-se", link: "/login" },
 ];
 
-interface SidebarProps {
-  name: string;
+interface HeaderProps {
+  title: string;
 }
 
-const DesktopSidebarContents = ({ name }: SidebarProps) => {
+export const LogoButton = ({ title }: HeaderProps) => {
+  const navigate = useNavigate();
+
+  return (
+    <Flex onClick={() => navigate("/")} cursor="pointer">
+      <Image
+        height={39}
+        width={36}
+        src="prev_ler_logo.svg"
+        alt={title}
+      />
+    </Flex>
+  );
+}
+
+const DesktopSidebarContents = ({ title: name }: HeaderProps) => {
+
   return (
     <Container maxW={["full", "container.lg"]} p={0}>
       <Stack
@@ -44,15 +59,7 @@ const DesktopSidebarContents = ({ name }: SidebarProps) => {
         w="full"
         direction={["column", "row"]}
       >
-        <Box display={{ base: "none", md: "flex" }}>
-          <Image
-            boxSize="30px"
-            src="Logo_PrevLer.png"
-            alt="logotipo Prevler"
-            marginX="8px"
-          />
-          <Heading fontSize="xl">{name}</Heading>
-        </Box>
+        <LogoButton title={name} />
         <Spacer />
         <Stack
           align="flex-start"
@@ -77,19 +84,13 @@ const DesktopSidebarContents = ({ name }: SidebarProps) => {
   );
 };
 
-const MobileSidebar = ({ name }: SidebarProps) => {
+const MobileSidebar = ({ title: name }: HeaderProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
       <Flex w="full" align="center">
-        <Image
-          boxSize="30px"
-          src="Logo_PrevLer.png"
-          alt="logotipo Prevler"
-          marginX="8px"
-        />
-        <Heading fontSize="xl">{name}</Heading>
+        <LogoButton title={name} />
         <Spacer />
         <IconButton
           aria-label="Search database"
@@ -129,28 +130,24 @@ const MobileSidebar = ({ name }: SidebarProps) => {
   );
 };
 
-const Sidebar = ({ name }: SidebarProps) => {
+const Sidebar = ({ title: name }: HeaderProps) => {
   return (
     <chakra.header id="header">
       <Box display={{ base: "flex", md: "none" }} p={4}>
-        <MobileSidebar name={name} />
+        <MobileSidebar title={name} />
       </Box>
 
       <Box display={{ base: "none", md: "flex" }} bg="gray.50">
-        <DesktopSidebarContents name={name} />
+        <DesktopSidebarContents title={name} />
       </Box>
     </chakra.header>
   );
 };
 
-interface HeaderProps {
-  title: string;
-}
-
 export const Header = ({ title: name }: HeaderProps) => {
   return (
     <Box w="full">
-      <Sidebar name={name} />
+      <Sidebar title={name} />
     </Box>
   );
 };

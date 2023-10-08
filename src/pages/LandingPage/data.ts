@@ -22,13 +22,11 @@ export const features = [
     title: "Geração de relatórios gerenciais",
     description: "Extraia informações preciosas para a tomada de decisão com base nos dados do seu sistema",
     icon: "🔌",
-
   },
   {
     id: 5,
     title: "Painel informacional",
     description: "Forneça uma ampla gama de dados com dicas para a melhoria da saúde de seus funcionários",
     icon: "😃",
-
   }
 ];
