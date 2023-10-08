@@ -62,7 +62,7 @@ export default function SigninCard() {
                 <Text align={'center'}>
                   Ainda não é usuário? {" "}
                   <Link color={'blue.500'} onClick={() => navigate("/sign-up")}>
-                    Sign up!
+                    Cadastre-se
                   </Link>
                 </Text>
               </Stack>
