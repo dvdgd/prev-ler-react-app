@@ -9,6 +9,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
+  HStack,
   IconButton,
   Image,
   Link,
@@ -24,17 +25,11 @@ type NavLink = {
   link: string,
 };
 
-const navLinks: NavLink[] = [
-  { name: "Funcionalidades", link: "#features" },
-  { name: "Preços", link: "#pricing" },
-  { name: "Entrar/Cadastrar-se", link: "/login" },
-];
-
 interface HeaderProps {
   title: string;
 }
 
-export const LogoButton = ({ title }: HeaderProps) => {
+const LogoButton = ({ title }: HeaderProps) => {
   const navigate = useNavigate();
 
   return (
@@ -49,8 +44,34 @@ export const LogoButton = ({ title }: HeaderProps) => {
   );
 }
 
-const DesktopSidebarContents = ({ title: name }: HeaderProps) => {
+const NavListComponent = () => {
+  const navLinks: NavLink[] = [
+    { name: "Funcionalidades", link: "/#features" },
+    { name: "Preços", link: "/#pricing" },
+    { name: "Entrar/Cadastrar-se", link: "/login" },
+  ];
 
+  return (
+    <>
+      {
+        navLinks.map((navLink: NavLink, i: number) => {
+          return (
+            <Link
+              href={navLink.link}
+              key={`navlink_${i}`}
+              fontWeight={500}
+              variant="ghost"
+            >
+              {navLink.name}
+            </Link>
+          );
+        })
+      }
+    </>
+  )
+}
+
+const DesktopSidebarContents = ({ title: name }: HeaderProps) => {
   return (
     <Container maxW={["full", "container.lg"]} p={0}>
       <Stack
@@ -60,27 +81,15 @@ const DesktopSidebarContents = ({ title: name }: HeaderProps) => {
         direction={["column", "row"]}
       >
         <LogoButton title={name} />
-        <Spacer />
-        <Stack
+        <HStack
           align="flex-start"
           spacing={[4, 10]}
-          direction={["column", "row"]}
+          alignItems="end"
         >
-          {navLinks.map((navLink: NavLink, i: number) => {
-            return (
-              <Link
-                href={navLink.link}
-                key={`navlink_${i}`}
-                fontWeight={500}
-                variant="ghost"
-              >
-                {navLink.name}
-              </Link>
-            );
-          })}
-        </Stack>
+          <NavListComponent />
+        </HStack>
       </Stack>
-    </Container>
+    </Container >
   );
 };
 
@@ -89,7 +98,7 @@ const MobileSidebar = ({ title: name }: HeaderProps) => {
 
   return (
     <>
-      <Flex w="full" align="center">
+      <HStack w="full" align="center" alignItems="center">
         <LogoButton title={name} />
         <Spacer />
         <IconButton
@@ -109,45 +118,28 @@ const MobileSidebar = ({ title: name }: HeaderProps) => {
                 spacing="4"
                 direction="column"
               >
-                {navLinks.map((navLink: NavLink, i: number) => {
-                  return (
-                    <Link
-                      href={navLink.link}
-                      key={`navlink_${i}`}
-                      fontWeight={500}
-                      variant="ghost"
-                    >
-                      {navLink.name}
-                    </Link>
-                  );
-                })}
+                <NavListComponent />
               </Stack >
             </DrawerBody>
           </DrawerContent>
         </Drawer>
-      </Flex>
+      </HStack>
     </>
   );
 };
 
-const Sidebar = ({ title: name }: HeaderProps) => {
+export const Header = ({ title }: HeaderProps) => {
   return (
-    <chakra.header id="header">
-      <Box display={{ base: "flex", md: "none" }} p={4}>
-        <MobileSidebar title={name} />
-      </Box>
+    <Box w="full" >
+      <chakra.header id="header">
+        <Box display={{ base: "flex", md: "none" }} p={4}>
+          <MobileSidebar title={title} />
+        </Box>
 
-      <Box display={{ base: "none", md: "flex" }} bg="gray.50">
-        <DesktopSidebarContents title={name} />
-      </Box>
-    </chakra.header>
-  );
-};
-
-export const Header = ({ title: name }: HeaderProps) => {
-  return (
-    <Box w="full">
-      <Sidebar title={name} />
+        <Box display={{ base: "none", md: "flex" }} bg="gray.50">
+          <DesktopSidebarContents title={title} />
+        </Box>
+      </chakra.header>
     </Box>
   );
 };
