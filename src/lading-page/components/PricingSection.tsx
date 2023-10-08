@@ -1,12 +1,15 @@
+import { CheckCircleIcon } from "@chakra-ui/icons";
+import { Box, Button, Container, HStack, List, ListIcon, ListItem, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { supabaseClient } from "../../config/supabase";
 
-type PricingCardInput = {
+interface PricingCardProps {
   id: number;
   title: string;
   description: string;
   price: number;
   periodicy: string;
+  maxUsers: number;
 }
 
 type PlanoResponse = {
@@ -15,24 +18,59 @@ type PlanoResponse = {
   descricao: string;
   valor_plano: number;
   periodicidade: string;
+  qtd_max_usuarios: number;
 }
 
-function PricingCard(props: PricingCardInput) {
+function PricingCard(props: PricingCardProps) {
+  const pro = props.title === 'Profissional';
+
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg">
-      <h3 className="text-xl font-semibold mb-4">{props.title}</h3>
-      <p className="text-gray-700">{props.description}</p>
-      <p className="text-2xl font-semibold mt-4">R$ {props.price}/{props.periodicy}</p>
-      <a href="#contact"
-        className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-6 rounded-full mt-4 block">Saiba mais
-      </a>
-    </div>
+    <Box
+      id="#princing"
+      boxShadow="sm"
+      p={6}
+      rounded="lg"
+      bg={pro ? "white" : "white"}
+      borderColor={pro ? "brand.500" : "gray.200"}
+      backgroundColor={pro ? "brand.50" : "white"}
+      borderWidth={2}
+    >
+      <VStack spacing={3} align="flex-start">
+        <Text fontWeight={600} casing="uppercase" fontSize="sm">
+          {props.title}
+        </Text>
+        <Box w="full">
+          <Text fontSize="3xl" fontWeight="medium">
+            R$ {props.price} {props.periodicy}
+          </Text>
+        </Box>
+
+        <Text>{props.description}</Text>
+        <VStack>
+          <Button size="sm" colorScheme="brand">
+            Saiba mais →
+          </Button>
+        </VStack>
+
+        <VStack pt={8} spacing={4} align="flex-start">
+          <List spacing={3}>
+            <ListItem>
+              <HStack align="flex-start" spacing={1}>
+                <ListIcon as={CheckCircleIcon} color="brand.500" mt={1} />
+                <Text>
+                  Até {props.maxUsers} usuários ativos.
+                </Text>
+              </HStack>
+            </ListItem>
+          </List>
+        </VStack>
+      </VStack>
+    </Box>
   );
 }
 
 export default function PricingSection() {
-
-  const [pricings, setPrincings] = useState<PricingCardInput[]>([]);
+  const [pricings, setPrincings] = useState<PricingCardProps[]>([]);
 
   useEffect(() => {
     fetchPlans();
@@ -44,13 +82,14 @@ export default function PricingSection() {
       .select()
       .order('valor_plano', { ascending: true });
 
-    const pricings: PricingCardInput[] | undefined = data?.map((p: PlanoResponse) => {
+    const pricings: PricingCardProps[] | undefined = data?.map((p: PlanoResponse) => {
       return {
         id: p.id_plano,
         title: p.titulo,
         price: p.valor_plano,
         description: p.descricao,
         periodicy: p.periodicidade,
+        maxUsers: p.qtd_max_usuarios,
       };
     });
 
@@ -60,26 +99,16 @@ export default function PricingSection() {
   }
 
   return (
-    <section id="pricing" className="bg-gray-100 py-16">
-      <div className="container mx-auto text-center">
-        <h2 className="text-3xl font-semibold mb-8">Preços</h2>
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <>
+      <Container py={28} maxW="container.lg" w="full" id="pricing">
+        <SimpleGrid columns={[1, null, 3]} spacing={10}>
           {
             pricings.length > 0 ? pricings.map((p) => (
-              <li key={p.id}>
-                <PricingCard
-                  key={p.id}
-                  id={p.id}
-                  title={p.title}
-                  description={p.description}
-                  price={p.price}
-                  periodicy={p.periodicy}
-                />
-              </li>
+              <PricingCard {...p} />
             )) : []
           }
-        </ul>
-      </div>
-    </section>
+        </SimpleGrid>
+      </Container >
+    </>
   );
 }
