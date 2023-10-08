@@ -23,7 +23,6 @@ export default function SigninCard() {
   return (
     <Layout>
       <Flex
-        minH={'100vh'}
         align={'center'}
         justify={'center'}
         bg={useColorModeValue('gray.50', 'gray.800')}>
@@ -51,7 +50,7 @@ export default function SigninCard() {
                   align={'start'}
                   justify={'space-between'}>
                   <Checkbox>Lembre-me</Checkbox>
-                  <Link>Esqueceu sua senha?</Link>
+                  <Link color={'blue.500'}>Esqueci minha senha</Link>
                 </Stack>
                 <Button
                   colorScheme="brand"
@@ -61,8 +60,8 @@ export default function SigninCard() {
               </Stack>
               <Stack pt={6}>
                 <Text align={'center'}>
-                  Ainda não é usuário?
-                  <Link color={'blue.400'} onClick={() => navigate("/sign-up")}>
+                  Ainda não é usuário? {" "}
+                  <Link color={'blue.500'} onClick={() => navigate("/sign-up")}>
                     Sign up!
                   </Link>
                 </Text>
