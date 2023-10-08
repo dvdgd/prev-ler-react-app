@@ -11,7 +11,7 @@ export const Layout: FunctionComponent<LayoutProps> = ({
 }: LayoutProps) => {
   return (
     <HStack bg="gray.50" h="full">
-      <VStack spacing={10} w="full" align="center">
+      <VStack spacing={10} w="full" minH="100vh" align="center">
         <Header title="PrevLer" />
         {children}
       </VStack>
