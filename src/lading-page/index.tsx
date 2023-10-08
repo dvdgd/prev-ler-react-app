@@ -1,5 +1,8 @@
 import FeaturesSection from "./components/FeaturesSection";
 import PricingSection from "./components/PricingSection";
+import SignupCard from "../Sign in_up/SignUp-Form";
+import SigninCard from "../Sign in_up/SignIn-Form";
+
 
 export default function LandingPage() {
   return (
@@ -33,13 +36,16 @@ export default function LandingPage() {
 
       < FeaturesSection />
       < PricingSection />
+      <SignupCard />
+      <SigninCard />
+
 
       <section id="contato" className="py-16">
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-semibold mb-8">Contate-nos</h2>
           <p className="text-gray-700 mb-8">Tem alguma dúvida ou deseja saber mais? Entre em contato conosco hoje mesmo!</p>
           <a href="mailto:contatos@PrevlerLabs.com"
-            className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-6 rounded-full text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105">Enviar 
+            className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-6 rounded-full text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105">Enviar
             Email</a>
         </div>
       </section>
@@ -49,6 +55,8 @@ export default function LandingPage() {
           <p>&copy; 2023 PrevlerLabs. Todos os direitos reservados.</p>
         </div>
       </footer>
+
     </main>
+
   );
 }
