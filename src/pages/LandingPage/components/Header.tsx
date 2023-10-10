@@ -19,6 +19,7 @@ import {
   useDisclosure
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { useCurrentUser } from "../../../hooks/useCurrentUser";
 
 type NavLink = {
   name: string,
@@ -45,10 +46,13 @@ const LogoButton = ({ title }: HeaderProps) => {
 }
 
 const NavListComponent = () => {
+  const { currentUser } = useCurrentUser();
   const navLinks: NavLink[] = [
     { name: "Funcionalidades", link: "/#features" },
     { name: "Preços", link: "/#pricing" },
-    { name: "Entrar/Cadastrar-se", link: "/login" },
+    currentUser
+      ? { name: "Sair", link: "/logout" }
+      : { name: "Entrar/Cadastrar-se", link: "/login" }
   ];
 
   return (

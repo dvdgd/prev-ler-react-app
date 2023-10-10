@@ -10,8 +10,8 @@ export const Layout: FunctionComponent<LayoutProps> = ({
   children,
 }: LayoutProps) => {
   return (
-    <HStack bg="gray.50" h="full">
-      <VStack spacing={10} w="full" minH="100vh" align="center">
+    <HStack bg="gray.50" h="full" minH="100vh">
+      <VStack w="full" minH="100vh" align="center">
         <Header title="PrevLer" />
         {children}
       </VStack>
