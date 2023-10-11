@@ -1,13 +1,11 @@
 import { Box, Button, FormControl, FormLabel, HStack, Input, Stack } from "@chakra-ui/react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { TCompanySupa } from "../../../@types/company";
+import { TCompanySupabase } from "../../../@types/company";
 import { supabaseClient } from "../../../config/supabase";
 import { Layout } from "../../LandingPage/components/Layout";
 import { FormCard } from "../components/FormCard";
 import { TFormCompanyInput, TGetCompanyByCnpjHttp } from "./@types";
-
-
 
 export default function CompleteCompnaySignUp() {
   const { register, handleSubmit, getValues, setValue } = useForm<TFormCompanyInput>();
@@ -26,7 +24,7 @@ export default function CompleteCompnaySignUp() {
       razao_social: formAttributes.mail,
       telefone: formAttributes.phoneNumber,
       uf: formAttributes.uf,
-    } as TCompanySupa;
+    } as TCompanySupabase;
 
     try {
       setIsLoading(true);

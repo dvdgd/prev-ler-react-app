@@ -1,13 +1,26 @@
-export type TCompanySupa = {
-  id_cnpj: string | null;
-  created_at: string;
-  nome_fantasia: string | null;
-  razao_social: string | null;
-  cep: string | null;
-  data_abertura: string | null;
-  ddd: number | null;
-  telefone: string | null;
-  email: string | null;
-  municipio: string | null;
-  uf: string | null;
+import { TAdress } from "./adress";
+import { TPhone } from "./phone";
+
+export type TCompanySupabase = {
+  id_cnpj: string;
+  created_at?: string;
+  nome_fantasia: string;
+  razao_social: string;
+  cep: string;
+  data_abertura: string;
+  ddd: number;
+  telefone: string;
+  email: string;
+  municipio: string;
+  uf: string;
 };
+
+export type TCompany = {
+  fantasyName: string;
+  companyName: string;
+  cnpj: string;
+  openAt: string;
+  email: string;
+  adress: TAdress;
+  phone: TPhone;
+}

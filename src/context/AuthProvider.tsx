@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { TUser } from "../@types/user";
 
 interface AuthProviderAttributes {
@@ -16,6 +16,10 @@ export const CurrentUserContext = createContext(
 
 export const CurrentUserProvider = ({ children }: AuthProviderAttributes) => {
   const [currentUser, setCurrentUser] = useState<TUser>();
+
+  useEffect(() => {
+    console.log(currentUser);
+  }, [currentUser]);
 
   return (
     <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>

@@ -16,15 +16,17 @@ import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { EUserType } from '../../../@types/profile';
 import { useCurrentUser } from '../../../hooks/useCurrentUser';
-import { registerUser } from '../../../service/authService';
+import { registerUser } from '../../../services/AuthService';
 import { Layout } from '../../LandingPage/components/Layout';
 import { FormCard } from '../components/FormCard';
 
 interface IFormSignUpInputs {
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
+  profile: {
+    firstName: string;
+    lastName: string;
+  }
 }
 
 export default function SignUp() {
@@ -40,11 +42,7 @@ export default function SignUp() {
       const user = await registerUser({
         email: formAttributes.email,
         password: formAttributes.password,
-        profile: {
-          firstName: formAttributes.firstName,
-          lastName: formAttributes.lastName,
-          userType: "representante" as EUserType,
-        }
+        profile: { ...formAttributes.profile, userType: EUserType.representante },
       });
       setCurrentUser(user);
       console.log("Logged with sucess");
@@ -63,13 +61,13 @@ export default function SignUp() {
             <Box>
               <FormControl isRequired>
                 <FormLabel htmlFor="firstName" >Primeiro Nome</FormLabel>
-                <Input id='firstName' {...register("firstName", { required: true })} />
+                <Input id='firstName' {...register("profile.firstName", { required: true })} />
               </FormControl>
             </Box>
             <Box>
               <FormControl>
                 <FormLabel htmlFor='lastName'>Último Nome</FormLabel>
-                <Input id="lastName" {...register("lastName")} />
+                <Input id="lastName" {...register("profile.lastName")} />
               </FormControl>
             </Box>
           </HStack>
@@ -108,7 +106,7 @@ export default function SignUp() {
           <Stack pt={6}>
             <Text align={'center'}>
               Já é um usuário? {" "}
-              <Link color={'blue.500'} href="/login">
+              <Link color={'blue.500'} href="/check/login">
                 Faça o Login!
               </Link>
             </Text>

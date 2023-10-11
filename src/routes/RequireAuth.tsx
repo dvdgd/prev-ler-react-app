@@ -13,7 +13,7 @@ export const RequireAuth = ({ allowedRoles }: IRequireAuthAttributes) => {
     allowedRoles.includes(currentUser?.profile.userType || "")
       ? <Outlet />
       : currentUser?.id
-        ? <Navigate to="/unautorized" state={{ from: location }} replace />
-        : <Navigate to="/login" state={{ from: location }} replace />
+        ? <Navigate to="/unauthorized" state={{ from: location }} replace />
+        : <Navigate to="/check/login" state={{ from: location }} replace />
   )
 };

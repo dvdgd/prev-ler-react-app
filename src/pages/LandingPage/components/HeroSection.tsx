@@ -7,10 +7,13 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { FunctionComponent } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface HeroSectionProps { }
 
 export const HeroSection: FunctionComponent<HeroSectionProps> = () => {
+  const navigate = useNavigate();
+
   return (
     <Container maxW="container.lg">
       <Center p={4} minHeight="70vh">
@@ -28,13 +31,10 @@ export const HeroSection: FunctionComponent<HeroSectionProps> = () => {
               mt={8}
               colorScheme="brand"
               // TODO: ir para pagina de cadastro
-              onClick={() => {
-
-              }}
+              onClick={() => navigate("/check/sign-up")}
             >
               Comece Já
             </Button>
-
           </Container>
         </VStack>
       </Center>

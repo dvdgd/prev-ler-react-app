@@ -10,3 +10,10 @@ export type TUserProfile = {
   lastName: string;
   userType: EUserType;
 }
+
+export type TUserProfileSupabase = {
+  id_usuario?: string;
+  first_name: string,
+  last_name: string,
+  id_tipo_usuario: EUserType;
+}
