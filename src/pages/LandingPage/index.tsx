@@ -11,8 +11,8 @@ export default function LandingPage() {
       <Layout>
         <Box bg="grey.50">
           <HeroSection />
-          <PricingSection />
           <FeaturesSection />
+          <PricingSection />
           <Spacer />
           <Footer />
         </Box>
