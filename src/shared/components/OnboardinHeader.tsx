@@ -8,7 +8,7 @@ import {
   chakra
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { useCurrentUser } from "../../../hooks/useCurrentUser";
+import { useAuth } from "../../hooks/useCurrentUser";
 
 type ActionButton = {
   name: string;
@@ -37,7 +37,7 @@ const LogoButton = ({ title }: HeaderProps) => {
 
 const DesktopSidebarContents = ({ title: name }: HeaderProps) => {
   const navigate = useNavigate();
-  const { currentUser } = useCurrentUser();
+  const { userSession: currentUser } = useAuth();
   const navLink: ActionButton = currentUser
     ? { name: "Sair", link: "/logout", colorScheme: "red" }
     : { name: "Entrar", link: "/check/login", colorScheme: "brand" }
@@ -59,7 +59,7 @@ const DesktopSidebarContents = ({ title: name }: HeaderProps) => {
   );
 };
 
-export const Header = ({ title }: HeaderProps) => {
+export const OnboardingHeader = ({ title }: HeaderProps) => {
   return (
     <Box w="full" >
       <chakra.header id="header">

@@ -1,17 +1,3 @@
-export type TFormCompanyInput = {
-  fantasyName: string;
-  cnpj: string;
-  companyName: string;
-  cep: string;
-  openAt: string;
-  ddd: number;
-  phoneNumber: string;
-  mail: string;
-  city: string;
-  uf: string;
-  email: string;
-}
-
 export type TGetCompanyByCnpjHttp = {
   "NOME FANTASIA": string;
   "RAZAO SOCIAL": string;

@@ -11,10 +11,9 @@ import {
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { PasswordInput } from "../../../components/PasswordInput";
-import { useCurrentUser } from "../../../hooks/useCurrentUser";
-import { login } from "../../../services/AuthService";
-import { Layout } from "../../LandingPage/components/Layout";
+import { useAuth } from "../../../hooks/useCurrentUser";
+import { OnboardingLayout } from "../../../shared/components/OnboardingLayout";
+import { PasswordInput } from "../../../shared/components/PasswordInput";
 import { FormCard } from "../components/FormCard";
 
 interface IFormLoginInputs {
@@ -22,18 +21,17 @@ interface IFormLoginInputs {
   password: string;
 }
 
-export default function SigninCard() {
+export function Login() {
   const { register, handleSubmit, ...rest } = useForm<IFormLoginInputs>();
   const [isLoading, setIsLoading] = useState(false);
-  const { setCurrentUser } = useCurrentUser();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const onFormSubmit = async (loginFormAttributes: IFormLoginInputs) => {
     try {
       setIsLoading(true);
-      const user = await login(loginFormAttributes);
-      setCurrentUser(user);
-      navigate("/company/register");
+      await login(loginFormAttributes);
+      navigate("/company/dashboard");
     } catch (error) {
       console.log("Got an error while logging a user", error);
     } finally {
@@ -42,9 +40,8 @@ export default function SigninCard() {
   }
 
   return (
-    <Layout>
+    <OnboardingLayout>
       <FormProvider {...{ register, handleSubmit, ...rest }}>
-
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <FormCard title={"Faça o login em sua conta!"}>
             <FormControl isRequired>
@@ -79,6 +76,6 @@ export default function SigninCard() {
           </FormCard>
         </form>
       </FormProvider>
-    </Layout>
+    </OnboardingLayout>
   )
 }

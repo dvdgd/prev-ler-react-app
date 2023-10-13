@@ -1,4 +1,4 @@
-import { TUserProfile, TUserProfileSupabase } from "../@types/profile";
+import { TUserProfile, TUserProfileSupabase } from "../../@types/profile";
 
 export function UserProfileToSupabase(userProfile: TUserProfile): TUserProfileSupabase {
   return {

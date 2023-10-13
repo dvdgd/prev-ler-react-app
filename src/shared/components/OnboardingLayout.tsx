@@ -1,18 +1,18 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import { FunctionComponent } from "react";
-import { Header } from "./Header";
+import { OnboardingHeader } from "./OnboardinHeader";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-export const Layout: FunctionComponent<LayoutProps> = ({
+export const OnboardingLayout: FunctionComponent<LayoutProps> = ({
   children,
 }: LayoutProps) => {
   return (
     <HStack bg="gray.50" h="full" minH="100vh">
       <VStack w="full" minH="100vh" align="center">
-        <Header title="PrevLer" />
+        <OnboardingHeader title="PrevLer" />
         {children}
       </VStack>
     </HStack>

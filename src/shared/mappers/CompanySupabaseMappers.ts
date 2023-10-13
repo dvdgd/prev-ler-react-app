@@ -1,4 +1,5 @@
-import { TCompany, TCompanySupabase } from "../@types/company";
+import { TCompany, TCompanySupabase } from "../../@types/company";
+import { DateonlyPtBrToISO } from "./DatePtBrMapper";
 
 export function CompanyFromSupabase(company: TCompanySupabase): TCompany {
   return {
@@ -15,7 +16,7 @@ export function CompanyFromSupabase(company: TCompanySupabase): TCompany {
     companyName: company.razao_social,
     fantasyName: company.nome_fantasia,
     email: company.email,
-    openAt: company.data_abertura,
+    openAt: company.data_abertura.toString(),
   }
 }
 
@@ -30,6 +31,6 @@ export function CompanyToSupabase(company: TCompany): TCompanySupabase {
     razao_social: company.companyName,
     nome_fantasia: company.fantasyName,
     email: company.email,
-    data_abertura: company.openAt,
+    data_abertura: DateonlyPtBrToISO(company.openAt) || "",
   }
 }

@@ -7,7 +7,7 @@ export type TCompanySupabase = {
   nome_fantasia: string;
   razao_social: string;
   cep: string;
-  data_abertura: string;
+  data_abertura: string | Date;
   ddd: number;
   telefone: string;
   email: string;

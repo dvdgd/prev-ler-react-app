@@ -15,9 +15,8 @@ import {
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { EUserType } from '../../../@types/profile';
-import { useCurrentUser } from '../../../hooks/useCurrentUser';
-import { registerUser } from '../../../services/AuthService';
-import { Layout } from '../../LandingPage/components/Layout';
+import { useAuth } from '../../../hooks/useCurrentUser';
+import { OnboardingLayout } from '../../../shared/components/OnboardingLayout';
 import { FormCard } from '../components/FormCard';
 
 interface IFormSignUpInputs {
@@ -29,22 +28,21 @@ interface IFormSignUpInputs {
   }
 }
 
-export default function SignUp() {
+export function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { setCurrentUser } = useCurrentUser();
+  const { register: registerUser } = useAuth();
 
   const { register, handleSubmit } = useForm<IFormSignUpInputs>();
 
   const onFormSubmit = async (formAttributes: IFormSignUpInputs) => {
     try {
       setIsLoading(true);
-      const user = await registerUser({
+      await registerUser({
         email: formAttributes.email,
         password: formAttributes.password,
         profile: { ...formAttributes.profile, userType: EUserType.representante },
       });
-      setCurrentUser(user);
       console.log("Logged with sucess");
     } catch (error) {
       console.log('Error while saving user', error);
@@ -54,7 +52,7 @@ export default function SignUp() {
   };
 
   return (
-    <Layout>
+    <OnboardingLayout>
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <FormCard title='Cadastre-se'>
           <HStack>
@@ -113,6 +111,6 @@ export default function SignUp() {
           </Stack>
         </FormCard>
       </form>
-    </Layout >
+    </OnboardingLayout >
   )
 }
