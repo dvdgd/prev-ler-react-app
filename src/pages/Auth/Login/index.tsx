@@ -31,7 +31,7 @@ export function Login() {
     try {
       setIsLoading(true);
       await login(loginFormAttributes);
-      navigate("/company/dashboard");
+      navigate("/check/login");
     } catch (error) {
       console.log("Got an error while logging a user", error);
     } finally {

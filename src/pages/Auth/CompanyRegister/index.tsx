@@ -2,6 +2,7 @@ import { Box, Button, FormControl, FormLabel, HStack, Input, Stack } from "@chak
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useCurrentUser";
 import { OnboardingLayout } from "../../../shared/components/OnboardingLayout";
+import { CheckCompanyComplete } from "../../../shared/functions/CheckCompanyComplete";
 import { FormCard } from "../components/FormCard";
 import { useCompanyForm } from "./hooks/useCompanyForm";
 import { useGetCompanyApi } from "./hooks/useGetCompanyApi";
@@ -18,8 +19,8 @@ export function CompanyRegister() {
   const { getCompanyByCnpjApi } = useGetCompanyApi({ setValue, getValues });
 
   const { userSession } = useAuth();
-  const cnpj = userSession?.user?.company?.cnpj
-  if (!cnpj) {
+  const registerComplete = CheckCompanyComplete(userSession?.user);
+  if (registerComplete) {
     return (
       <Navigate to="/auth/company/dashboard" />
     );

@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 import { EUserType } from '../../../@types/profile';
 import { useAuth } from '../../../hooks/useCurrentUser';
 import { OnboardingLayout } from '../../../shared/components/OnboardingLayout';
@@ -32,6 +33,7 @@ export function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { register: registerUser } = useAuth();
+  const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm<IFormSignUpInputs>();
 
@@ -43,7 +45,7 @@ export function SignUp() {
         password: formAttributes.password,
         profile: { ...formAttributes.profile, userType: EUserType.representante },
       });
-      console.log("Logged with sucess");
+      navigate("/check/login");
     } catch (error) {
       console.log('Error while saving user', error);
     } finally {

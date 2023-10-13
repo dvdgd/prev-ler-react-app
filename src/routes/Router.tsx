@@ -10,7 +10,7 @@ import { NotFound } from "../pages/Errors/NotFound";
 import { Unauthorized } from "../pages/Errors/Unauthorized";
 import { LandingPage } from "../pages/LandingPage";
 import { Auth } from "./Auth";
-import { CheckUserOnboarding } from "./CheckUserOnboarding";
+import { RedirectLoginRoute } from "./RedirectLoginRoute";
 import { RequireRole } from "./RequireRole";
 
 export const Router = () => {
@@ -20,7 +20,7 @@ export const Router = () => {
       <Route path="unauthorized" element={<Unauthorized />} />
       <Route index element={<LandingPage />} />
       <Route path="logout" element={<Logout />} />
-      <Route path="check" element={<CheckUserOnboarding />} >
+      <Route path="check" element={<RedirectLoginRoute />} >
         <Route path="login" element={<Login />} />
         <Route path="sign-up" element={<SignUp />} />
       </Route>
