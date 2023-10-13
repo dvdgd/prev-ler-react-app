@@ -21,7 +21,7 @@ export const Unauthorized = () => {
       p="10px 30px"
     >
       <WarningTwoIcon boxSize="100px" marginY="12px" color={"red.500"} />
-      <Heading>Ops... Você não possui permissão suficiente para acessa essa tela.</Heading>
+      <Heading textAlign="center">Ops... Você não possui permissão suficiente para acessa essa tela.</Heading>
       <Link
         fontWeight="semibold"
         fontSize={"18px"}
