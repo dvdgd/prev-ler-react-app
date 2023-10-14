@@ -4,7 +4,6 @@ import { TUserSession } from "../@types/user";
 import { supabaseClient } from "../config/supabase";
 import { ILoginAttributes, Login } from "../shared/services/auth/LoginSerivce";
 import { IRegisterUserAttributes, Register } from "../shared/services/auth/RegisterService";
-import { getUserProfile } from "../shared/services/auth/utils/supabase";
 
 interface TCurrentUserContextValues {
   userSession: TUserSession | undefined;
@@ -27,25 +26,7 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
 
     const userSession = JSON.parse(userSessionStr) as TUserSession;
     setUserSession(userSession);
-
-    const subscrtiption = onAuthStateChange();
-
-    return (
-      () => subscrtiption.unsubscribe()
-    );
   }, []);
-
-  const onAuthStateChange = () => {
-    const { data } = supabaseClient.auth.onAuthStateChange(async (_event, session) => {
-      const user = await getUserProfile();
-      setUserSession({
-        user,
-        session: session ?? undefined,
-      });
-    });
-
-    return data.subscription
-  }
 
   const setUserSession = (userSession: TUserSession | undefined) => {
     if (!userSession?.session?.access_token) {
@@ -57,9 +38,9 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
     setStateSession(userSession);
   }
 
-  const logout = () => {
+  const logout = async () => {
+    await supabaseClient.auth.signOut();
     localStorage.removeItem("@userSession");
-    supabaseClient.auth.signOut();
     setStateSession(undefined);
   }
 
