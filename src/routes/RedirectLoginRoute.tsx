@@ -27,7 +27,7 @@ export const RedirectLoginRoute = () => {
     return <Navigate to="/auth/complete-register" />
   }
 
-  const redirectRoute = getRouteRedirectByUserType(user?.profile.userType);
+  const redirectRoute = getRouteRedirectByUserType(user?.profile?.userType);
   return (
     redirectRoute
       ? <Navigate to={redirectRoute} />

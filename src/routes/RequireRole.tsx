@@ -11,7 +11,7 @@ export const RequireRole = ({ allowedRoles }: IRequireRoleProps) => {
   const location = useLocation();
   const { userSession: currentUser } = useAuth();
 
-  const userType = currentUser?.user?.profile.userType || "";
+  const userType = currentUser?.user?.profile?.userType || "";
   const ableToAccess = CheckCompanyComplete(currentUser?.user);
   if (!userType || !ableToAccess) return <Navigate to="/unauthorized" state={{ from: location }} replace />
 
