@@ -1,22 +1,22 @@
 import { Box, Spacer } from "@chakra-ui/react";
+import { OnboardingLayout } from "../../shared/components/OnboardingLayout";
 import FeaturesSection from "./components/FeaturesSection";
 import { Footer } from "./components/Footer";
 import { HeroSection } from "./components/HeroSection";
-import { Layout } from "./components/Layout";
 import PricingSection from "./components/PricingSection";
 
-export default function LandingPage() {
+export function LandingPage() {
   return (
     <>
-      <Layout>
+      <OnboardingLayout>
         <Box bg="grey.50">
           <HeroSection />
-          <PricingSection />
           <FeaturesSection />
+          <PricingSection />
           <Spacer />
           <Footer />
         </Box>
-      </Layout>
+      </OnboardingLayout>
     </>
   );
 }

@@ -12,12 +12,6 @@ export const features = [
     icon: "🎉",
   },
   {
-    id: 3,
-    title: "Análise de dados",
-    description: "Obtenha insights sobre as tendências de saúde dos seus funcionários com poderosas ferramentas de análise",
-    icon: "📊"
-  },
-  {
     id: 4,
     title: "Geração de relatórios gerenciais",
     description: "Extraia informações preciosas para a tomada de decisão com base nos dados do seu sistema",
