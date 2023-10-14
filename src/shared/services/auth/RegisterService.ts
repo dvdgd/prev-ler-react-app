@@ -1,4 +1,4 @@
-import { TUserProfile, TUserProfileSupabase } from "../../../@types/profile";
+import { TUserProfile, TUserProfileSupabaseInsert } from "../../../@types/profile";
 import { TUserSession } from "../../../@types/user";
 import { supabaseClient } from "../../../config/supabase";
 import { getUserProfile } from "./utils/supabase";
@@ -22,7 +22,7 @@ export async function Register({
         first_name: profile.firstName,
         last_name: profile.lastName,
         id_tipo_usuario: profile.userType,
-      } as TUserProfileSupabase
+      } as TUserProfileSupabaseInsert
     }
   });
 

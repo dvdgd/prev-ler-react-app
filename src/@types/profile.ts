@@ -1,3 +1,7 @@
+import { Database } from "./database.types";
+
+type ProfileSupabase = Database["public"]["Tables"]["profiles"]
+
 export enum EUserType {
   representante = "representante",
   funcionario = "funcionario",
@@ -5,15 +9,13 @@ export enum EUserType {
   administrador = "administrador"
 }
 
+export type EProfileType = Database["public"]["Enums"]["tipo_usuario"]
+
 export type TUserProfile = {
   firstName: string;
   lastName: string;
   userType: EUserType;
 }
 
-export type TUserProfileSupabase = {
-  id_usuario?: string;
-  first_name: string,
-  last_name: string,
-  id_tipo_usuario: EUserType;
-}
+export type TUserProfileSupabaseInsert = ProfileSupabase["Insert"]
+export type TUserProfileSupabaseRow = ProfileSupabase["Row"]

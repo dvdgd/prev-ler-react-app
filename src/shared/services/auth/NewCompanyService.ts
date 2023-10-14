@@ -6,8 +6,8 @@ export async function NewCompany(company: TCompany): Promise<TCompany | undefine
   const companySupabase = CompanyToSupabase(company);
 
   await supabaseClient.from("empresa").insert(companySupabase);
-  await supabaseClient.from("profiles").upsert({
-    id_empresa: company.cnpj.replace(/[^0-9]/g, '')
+  await supabaseClient.from("profiles").update({
+    id_empresa: companySupabase.id_cnpj
   });
 
   return company;

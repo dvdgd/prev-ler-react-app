@@ -1,5 +1,5 @@
 
-export function DateonlyPtBrToISO(dateString: string): Date | undefined {
+export function DateonlyPtBrToISO(dateString: string): string | undefined {
   const dateParts = dateString.split('/');
   if (dateParts.length !== 3) return;
 
@@ -8,5 +8,5 @@ export function DateonlyPtBrToISO(dateString: string): Date | undefined {
   const year = parseInt(dateParts[2], 10);
 
   if (isNaN(day) || isNaN(month) || isNaN(year)) return;
-  return new Date(year, month, day);
+  return new Date(year, month, day).toISOString();
 }

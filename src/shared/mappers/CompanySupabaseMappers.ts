@@ -1,7 +1,7 @@
-import { TCompany, TCompanySupabase } from "../../@types/company";
+import { TCompany, TCompanySupabaseInsert, TCompanySupabaseRow } from "../../@types/company";
 import { DateonlyPtBrToISO } from "./DatePtBrMapper";
 
-export function CompanyFromSupabase(company: TCompanySupabase): TCompany {
+export function CompanyFromSupabase(company: TCompanySupabaseRow): TCompany {
   return {
     adress: {
       cep: company.cep,
@@ -20,7 +20,7 @@ export function CompanyFromSupabase(company: TCompanySupabase): TCompany {
   }
 }
 
-export function CompanyToSupabase(company: TCompany): TCompanySupabase {
+export function CompanyToSupabase(company: TCompany): TCompanySupabaseInsert {
   return {
     cep: company.adress.cep,
     municipio: company.adress.city,

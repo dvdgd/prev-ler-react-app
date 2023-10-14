@@ -1,6 +1,6 @@
-import { TUserProfile, TUserProfileSupabase } from "../../@types/profile";
+import { EUserType, TUserProfile, TUserProfileSupabaseInsert, TUserProfileSupabaseRow } from "../../@types/profile";
 
-export function UserProfileToSupabase(userProfile: TUserProfile): TUserProfileSupabase {
+export function UserProfileToSupabase(userProfile: TUserProfile): TUserProfileSupabaseInsert {
   return {
     first_name: userProfile.firstName,
     last_name: userProfile.lastName,
@@ -8,10 +8,10 @@ export function UserProfileToSupabase(userProfile: TUserProfile): TUserProfileSu
   }
 }
 
-export function UserProfileFromSupabase(userProfileSupabase: TUserProfileSupabase): TUserProfile {
+export function UserProfileFromSupabase(userProfileSupabase: TUserProfileSupabaseRow): TUserProfile {
   return {
     firstName: userProfileSupabase.first_name,
     lastName: userProfileSupabase.last_name,
-    userType: userProfileSupabase.id_tipo_usuario,
+    userType: userProfileSupabase.id_tipo_usuario as EUserType,
   }
 }

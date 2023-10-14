@@ -1,19 +1,11 @@
 import { TAdress } from "./adress";
+import { Database } from "./database.types";
 import { TPhone } from "./phone";
 
-export type TCompanySupabase = {
-  id_cnpj: string;
-  created_at?: string;
-  nome_fantasia: string;
-  razao_social: string;
-  cep: string;
-  data_abertura: string | Date;
-  ddd: number;
-  telefone: string;
-  email: string;
-  municipio: string;
-  uf: string;
-};
+type CompanySupabase = Database["public"]["Tables"]["empresa"];
+
+export type TCompanySupabaseInsert = CompanySupabase["Insert"];
+export type TCompanySupabaseRow = CompanySupabase["Row"];
 
 export type TCompany = {
   fantasyName: string;
