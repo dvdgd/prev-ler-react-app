@@ -87,7 +87,7 @@ export function CompanyRegister() {
           </HStack>
           <Stack spacing={10} pt={2}>
             <Button
-              loadingText="Submitting"
+              loadingText="Aguarde..."
               colorScheme='brand'
               size="lg"
               type="submit"
