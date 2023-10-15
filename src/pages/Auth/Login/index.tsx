@@ -68,7 +68,7 @@ export function Login() {
             <Stack pt={6}>
               <Text align={"center"}>
                 Ainda não é usuário? {" "}
-                <Link color={"blue.500"} href="/sign-up">
+                <Link color={"blue.500"} href="/check/sign-up">
                   Cadastre-se
                 </Link>
               </Text>
