@@ -27,7 +27,7 @@ export function CompanyToSupabase(company: TCompany): TCompanySupabaseInsert {
     uf: company.adress.uf,
     telefone: company.phone.number,
     ddd: company.phone.ddd,
-    id_cnpj: company.cnpj,
+    id_cnpj: company.cnpj.replace(/\D/g, ''),
     razao_social: company.companyName,
     nome_fantasia: company.fantasyName,
     email: company.email,
