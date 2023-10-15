@@ -7,8 +7,8 @@ import { IRegisterUserAttributes, Register } from "../shared/services/auth/Regis
 
 interface TCurrentUserContextValues {
   userSession: TUserSession | undefined;
-  login: (props: ILoginAttributes) => Promise<void>;
-  register: (props: IRegisterUserAttributes) => Promise<void>;
+  login: (props: ILoginAttributes) => Promise<TUserSession>;
+  register: (props: IRegisterUserAttributes) => Promise<TUserSession>;
   logout: () => void;
   setUserSession: (userSession: TUserSession | undefined) => void;
 }
@@ -44,9 +44,15 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
     setStateSession(undefined);
   }
 
-  const login = (props: ILoginAttributes) => Login(props).then((session) => setUserSession(session));
+  const login = (props: ILoginAttributes) => Login(props).then((session) => {
+    setUserSession(session);
+    return session;
+  });
 
-  const register = (props: IRegisterUserAttributes) => Register(props).then((session) => setUserSession(session));
+  const register = (props: IRegisterUserAttributes) => Register(props).then((session) => {
+    setUserSession(session);
+    return session;
+  });
 
   return (
     <CurrentUserContext.Provider value={{ userSession, login, logout, register, setUserSession }}>

@@ -6,7 +6,8 @@ import {
   Input,
   Link,
   Stack,
-  Text
+  Text,
+  useToast
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -22,6 +23,7 @@ interface IFormLoginInputs {
 }
 
 export function Login() {
+  const toast = useToast();
   const { register, handleSubmit, ...rest } = useForm<IFormLoginInputs>();
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
@@ -30,10 +32,24 @@ export function Login() {
   const onFormSubmit = async (loginFormAttributes: IFormLoginInputs) => {
     try {
       setIsLoading(true);
-      await login(loginFormAttributes);
-      navigate("/check/login");
+      const userSession = await login(loginFormAttributes);
+      toast({
+        title: "Bem vindo!",
+        description: "Login efetuado com sucesso, seja bem-vindo " + userSession?.user?.profile?.firstName,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      return navigate("/check/login");
     } catch (error) {
-      console.log("Got an error while logging a user", error);
+      toast.closeAll();
+      return toast({
+        title: "Usuario não encontrado",
+        description: "O usuário não existe os as credencias estão incorretas.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     } finally {
       setIsLoading(false);
     }
