@@ -12,14 +12,22 @@ async function getUser() {
 }
 
 export async function getProfile(): Promise<TUserProfile | undefined> {
-  const { data, error } = await supabaseClient.from('profiles').select().limit(1).single();
+  const { data, error } = await supabaseClient
+    .from('profiles')
+    .select("*")
+    .limit(1)
+    .single();
   if (!data || error) return;
   return UserProfileFromSupabase(data);
 }
 
 export async function getUserCompany(userType: EUserType): Promise<TCompany | undefined> {
-  if (userType !== EUserType.profissional_saude) return;
-  const { data, error } = await supabaseClient.from("empresa").select().limit(1).single();
+  if (userType !== EUserType.representante) return;
+  const { data, error } = await supabaseClient.from("empresa")
+    .select("*")
+    .limit(1)
+    .single();
+
   if (!data || error) return;
   return CompanyFromSupabase(data);
 }
