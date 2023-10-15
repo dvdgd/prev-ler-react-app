@@ -1,10 +1,11 @@
 import { UseToastOptions, useToast } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { TCompany } from "../../../../@types/company";
 import { useAuth } from "../../../../hooks/useCurrentUser";
 import { NewCompany } from "../../../../shared/services/auth/NewCompanyService";
+import { BaseError } from "../../../../shared/errors/BaseError";
 
 export function useCompanyForm() {
   const toast = useToast();
@@ -14,13 +15,13 @@ export function useCompanyForm() {
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, setValue, getValues } = useForm<TCompany>();
 
-  const toastErrorAttributes: UseToastOptions = useMemo(() => ({
+  const toastErrorAttributes: UseToastOptions = {
     title: "Erro ao salvar",
     description: "Não foi possível recuperar a sessão do usuario, tente novamente mais tarde.",
     status: "error",
     duration: 5000,
     isClosable: true
-  }), []);
+  };
 
   const handleNewCompany: SubmitHandler<TCompany> = async (formAttributes) => {
     try {
@@ -37,7 +38,6 @@ export function useCompanyForm() {
           company: newCompany
         },
       });
-
       setUserSession(user);
 
       toast({
@@ -51,6 +51,15 @@ export function useCompanyForm() {
       navigate("/check/login");
     } catch (error) {
       toast.closeAll();
+
+      if (error instanceof BaseError) {
+        return toast({
+          ...toastErrorAttributes,
+          title: error.title,
+          description: error.descripion,
+        });
+      }
+
       return toast({ ...toastErrorAttributes, description: "Ocorreu um erro inesperado.", });
     } finally {
       setIsLoading(false);
