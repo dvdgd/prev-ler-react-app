@@ -5,6 +5,7 @@ export function UserProfileToSupabase(userProfile: Partial<TUserProfile>): TUser
     first_name: userProfile.firstName,
     last_name: userProfile.lastName,
     id_tipo_usuario: userProfile.userType,
+    id_empresa: userProfile.idCompany,
   }
 }
 
@@ -13,5 +14,6 @@ export function UserProfileFromSupabase(userProfileSupabase: TUserProfileSupabas
     firstName: userProfileSupabase.first_name,
     lastName: userProfileSupabase.last_name,
     userType: userProfileSupabase.id_tipo_usuario as EUserType,
+    idCompany: userProfileSupabase.id_empresa,
   }
 }

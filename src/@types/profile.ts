@@ -18,6 +18,7 @@ export type TUserProfile = {
   firstName: string;
   lastName: string;
   userType: EUserType;
+  idCompany?: string | null;
 }
 
 
