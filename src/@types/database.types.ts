@@ -247,7 +247,7 @@ export interface Database {
         }
         Relationships: []
       }
-      "exercicio_enfermidade ": {
+      exercicio_enfermidade: {
         Row: {
           id_enfermidade: number
           id_exercicio: number
