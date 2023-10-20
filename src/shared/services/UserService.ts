@@ -34,7 +34,6 @@ export class UserService {
     const { data, error } = await supabaseClient
       .from('profiles')
       .select("*")
-      .limit(1)
       .single();
     if (!data || error) return;
     return UserProfileFromSupabase(data);

@@ -1,7 +1,8 @@
 import { CheckCircleIcon } from "@chakra-ui/icons";
-import { Box, Button, Container, HStack, List, ListIcon, ListItem, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Container, HStack, List, ListIcon, ListItem, SimpleGrid, Text, UseToastOptions, VStack, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { supabaseClient } from "../../../config/supabase";
+import { BaseError } from "../../../shared/errors/BaseError";
+import { PlanService } from "../../../shared/services/PlanService";
 
 interface PricingCardProps {
   id: number;
@@ -10,15 +11,6 @@ interface PricingCardProps {
   price: number;
   periodicy: string;
   maxUsers: number;
-}
-
-type PlanoResponse = {
-  id_plano: number;
-  titulo: string;
-  descricao: string;
-  valor_plano: number;
-  periodicidade: string;
-  qtd_max_usuarios: number;
 }
 
 function PricingCard(props: PricingCardProps) {
@@ -71,30 +63,45 @@ function PricingCard(props: PricingCardProps) {
 
 export default function PricingSection() {
   const [pricings, setPrincings] = useState<PricingCardProps[]>([]);
+  const toast = useToast();
+
+  const toastErrorAttributes: UseToastOptions = {
+    title: "Erro ao buscar informações dos planos.",
+    description: "Desculpe, tente novamente mais tarde ou entre em contato com os administradores.",
+    status: "error",
+    duration: 3000,
+    isClosable: true,
+  };
 
   useEffect(() => {
     fetchPlans();
   }, []);
 
   const fetchPlans = async () => {
-    const { data } = await supabaseClient
-      .from('plano')
-      .select()
-      .order('valor_plano', { ascending: true });
+    try {
+      const plans = await new PlanService().getAllPlans();
+      const pricings: PricingCardProps[] = plans.map(p => {
+        return {
+          id: p.planId || '',
+          title: p.title,
+          price: p.value,
+          description: p.description,
+          periodicy: p.periodicy,
+          maxUsers: p.maxUsers,
+        } as PricingCardProps;
+      });
 
-    const pricings: PricingCardProps[] | undefined = data?.map((p: PlanoResponse) => {
-      return {
-        id: p.id_plano,
-        title: p.titulo,
-        price: p.valor_plano,
-        description: p.descricao,
-        periodicy: p.periodicidade,
-        maxUsers: p.qtd_max_usuarios,
-      };
-    });
-
-    if (pricings) {
       setPrincings([...pricings]);
+    } catch (error) {
+      if (error instanceof BaseError) {
+        return toast({
+          ...toastErrorAttributes,
+          title: error.title,
+          description: error.descripion,
+        });
+      }
+
+      return toast(toastErrorAttributes);
     }
   }
 

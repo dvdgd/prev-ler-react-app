@@ -20,5 +20,3 @@ export type TUserProfile = {
   userType: EUserType;
   idCompany?: string | null;
 }
-
-
