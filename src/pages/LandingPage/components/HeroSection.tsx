@@ -30,7 +30,6 @@ export const HeroSection: FunctionComponent<HeroSectionProps> = () => {
             <Button
               mt={8}
               colorScheme="brand"
-              // TODO: ir para pagina de cadastro
               onClick={() => navigate("/check/sign-up")}
             >
               Comece Já
