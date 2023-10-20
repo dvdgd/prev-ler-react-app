@@ -28,13 +28,14 @@ export class CompanyService {
   }
 
   private async checkIfCompanyAlreadyExists(companyId: string) {
-    const { data: companyAlreadyExists, error: companyAlreadyExistsError } =
+    const { data: companyAlreadyExists } =
       await supabaseClient
         .from("empresa")
         .select("id_cnpj")
-        .eq("id_cnpj", companyId);
+        .eq("id_cnpj", companyId)
+        .single();
 
-    if (companyAlreadyExists || companyAlreadyExistsError) {
+    if (companyAlreadyExists) {
       throw new BaseError({
         title: "Empresa já existente",
         description: "Desculpe, mas essa empresa já existe em nosso sistema.",
