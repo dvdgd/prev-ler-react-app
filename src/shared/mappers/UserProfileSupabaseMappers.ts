@@ -1,6 +1,6 @@
 import { EUserType, TUserProfile, TUserProfileSupabaseInsert, TUserProfileSupabaseRow } from "../../@types/profile";
 
-export function UserProfileToSupabase(userProfile: TUserProfile): TUserProfileSupabaseInsert {
+export function UserProfileToSupabase(userProfile: Partial<TUserProfile>): TUserProfileSupabaseInsert {
   return {
     first_name: userProfile.firstName,
     last_name: userProfile.lastName,

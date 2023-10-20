@@ -4,8 +4,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { TCompany } from "../../../../@types/company";
 import { useAuth } from "../../../../hooks/useCurrentUser";
-import { NewCompany } from "../../../../shared/services/auth/NewCompanyService";
 import { BaseError } from "../../../../shared/errors/BaseError";
+import { CompanyService } from "../../../../shared/services/CompanyService";
 
 export function useCompanyForm() {
   const toast = useToast();
@@ -30,7 +30,8 @@ export function useCompanyForm() {
         return toast(toastErrorAttributes);
       }
 
-      const newCompany = await NewCompany(formAttributes, userSession?.user?.id);
+      const companyService = new CompanyService();
+      const newCompany = await companyService.create(formAttributes, userSession?.user?.id);
       const user = Object.assign({}, {
         ...userSession,
         user: {

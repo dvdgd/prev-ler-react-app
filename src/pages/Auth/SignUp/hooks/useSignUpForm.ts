@@ -1,9 +1,9 @@
+import { UseToastOptions, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { EUserType } from "../../../../@types/profile";
 import { useAuth } from "../../../../hooks/useCurrentUser";
-import { UseToastOptions, useToast } from "@chakra-ui/react";
 import { BaseError } from "../../../../shared/errors/BaseError";
 
 interface IFormSignUpInputs {
@@ -18,7 +18,7 @@ interface IFormSignUpInputs {
 export function useSignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register: registerUser } = useAuth();
+  const { signUp } = useAuth();
   const { register, handleSubmit } = useForm<IFormSignUpInputs>();
 
   const toast = useToast();
@@ -35,7 +35,7 @@ export function useSignUpForm() {
   const onFormSubmit = async (formAttributes: IFormSignUpInputs) => {
     try {
       setIsLoading(true);
-      await registerUser({
+      await signUp({
         email: formAttributes.email,
         password: formAttributes.password,
         profile: {
