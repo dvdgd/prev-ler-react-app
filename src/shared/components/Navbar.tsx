@@ -1,18 +1,18 @@
 import {
-  Box,
-  Flex,
   Avatar,
+  Box,
   Button,
+  Flex,
   Menu,
   MenuButton,
   Stack,
 } from "@chakra-ui/react";
-import { MenuSidebar } from "./MenuSideBar";
 import { MenuAvatar } from "./MenuAvatar";
+import { MenuSidebar } from "./MenuSideBar";
 
 export const Navbar = () => {
   return (
-    <Box bg={"black"} px={4}>
+    <Box bg={"purple"} px={4}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <MenuSidebar />
 

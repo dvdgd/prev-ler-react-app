@@ -15,8 +15,4 @@ export const chakraTheme = extendTheme({
       900: "#1D4044",
     },
   },
-  fonts: {
-    heading: `'Inter', sans-serif`,
-    body: `'Inter', sans-serif`,
-  },
 });
