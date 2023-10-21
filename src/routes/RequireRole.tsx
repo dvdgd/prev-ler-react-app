@@ -2,6 +2,8 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { EUserType } from "../@types/profile";
 import { useAuth } from "../hooks/useCurrentUser";
 import { ReturnTrueIfCompanyComplete } from "../shared/functions/ReturnTrueIfCompanyComplete";
+import { Box } from "@chakra-ui/react";
+import { Navbar } from "../shared/components/Navbar";
 
 interface IRequireRoleProps {
   allowedRoles: EUserType[];
@@ -19,7 +21,12 @@ export const RequireRole = ({ allowedRoles }: IRequireRoleProps) => {
   }
 
   const allowedRole = allowedRoles.includes(userType);
-  if (allowedRole) return <Outlet />
+  if (!allowedRole) return <Navigate to="/unauthorized" state={{ from: location }} replace />
 
-  return <Navigate to="/unauthorized" state={{ from: location }} replace />
+  return (
+    <Box minH="100vh" fontFamily={"Inter"}>
+      <Navbar />
+      <Outlet />
+    </Box>
+  );
 };

@@ -6,18 +6,19 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useAuth } from "../../hooks/useCurrentUser";
 import { TbLogout } from "react-icons/tb";
-import { logout } from "../../services/http/Api/axios";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useCurrentUser";
 
 export const MenuAvatar = () => {
-  const { currentUser } = useCurrentUser();
-  const [isLoading, setIsLoading] = useState(false);
+  const { userSession } = useAuth();
+  const [ isLoading ] = useState(false);
+  const navigate = useNavigate();
 
-  const handleClickLogout = () => {
-    setIsLoading(true);
-    logout().finally(() => setIsLoading(false));
+  const handleLogout = ()=>{
+    navigate("/logout");
   };
+
   return (
     <MenuList alignItems={"center"} pt="5px" mt="8px">
       <Center>
@@ -27,7 +28,7 @@ export const MenuAvatar = () => {
         />
       </Center>
       <Center>
-        <p>{currentUser.name}</p>
+        <p>{userSession?.user?.profile?.firstName}</p>
       </Center>
       <MenuDivider />
       <Button
@@ -44,7 +45,7 @@ export const MenuAvatar = () => {
         variant={"ghost"}
         width={"100%"}
         isLoading={isLoading}
-        onClick={handleClickLogout}
+        onClick={handleLogout}
         rightIcon={<TbLogout color="red" size={20} />}
       >
         Sair

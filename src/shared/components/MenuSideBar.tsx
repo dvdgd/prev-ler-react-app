@@ -1,12 +1,11 @@
 import {
   Box,
-  Button,
   Drawer,
   DrawerBody,
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
 import {
   TbBarbell,
@@ -16,46 +15,29 @@ import {
   TbFileInvoice,
   TbGenderAndrogyne,
   TbLockOpen,
+  TbLogout,
   TbMenu2,
   TbPigMoney,
   TbTrophy,
   TbUser,
-  TbUsers,
-  TbLogout
+  TbUsers
 } from "react-icons/tb";
-import { SidebarItem } from "./SideBarItem";
-import { useAuth } from "../../hooks/useCurrentUser";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { logout } from "../../services/http/Api/axios";
+import { EUserType } from "../../@types/profile";
+import { useAuth } from "../../hooks/useCurrentUser";
+import { SidebarItem } from "./SideBarItem";
 
 export const MenuSidebar = () => {
-  const { isAdmin, currentUser } = useAuth();
+  const { userSession } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
-  const handleGoHome = () => {
-    if (isAdmin) {
-      navigate("/admin/dashboard");
-    } else {
-      navigate("/student/home");
-    }
-  };
-
-  const handleGoPage = (route: string) => {
-    navigate(
-      `/${currentUser.profile.normalizedName.toLocaleLowerCase()}/${route}`
-    );
-    onClose();
-  };
-
-  const handleClickLogout = () => {
-    setIsLoading(true);
-    logout().finally(() => setIsLoading(false));
-  };
+  const isAdmin = userSession?.user?.profile?.userType === EUserType.administrador;
   
+  const handleLogout = ()=>{
+    navigate("/logout");
+  }
+
   return (
     <Box>
       <TbMenu2
@@ -69,10 +51,10 @@ export const MenuSidebar = () => {
         <DrawerContent>
           <DrawerHeader
             borderBottomWidth="1px"
-            onClick={handleGoHome}
+            onClick={() =>{}}
             cursor={"pointer"}
           >
-            Gladius Crossfit
+            Prevler
           </DrawerHeader>
           <DrawerBody
             p="0"
@@ -86,49 +68,49 @@ export const MenuSidebar = () => {
                   icon={TbCalendar}
                   title="Aulas"
                   active={pathname.includes("class")}
-                  onClick={() => handleGoPage("class")}
+                  onClick={() =>{}}
                 />
                 <SidebarItem
                   icon={TbUsers}
                   title="Usuários"
                   active={pathname.includes("user")}
-                  onClick={() => handleGoPage("user")}
+                  onClick={() =>{}}
                 />
                 <SidebarItem
                   icon={TbFileInvoice}
                   title="Pagamentos"
                   active={pathname.includes("payment")}
-                  onClick={() => handleGoPage("payment")}
+                  onClick={() =>{}}
                 />
                 <SidebarItem
                   icon={TbBarbell}
                   title="Exercícios"
+                  onClick={() =>{}}
                   active={pathname.includes("exercise")}
-                  onClick={() => handleGoPage("exercise")}
                 />
                 <SidebarItem
                   icon={TbCircleDashed}
                   title="Status"
+                  onClick={() =>{}}
                   active={pathname.includes("status")}
-                  onClick={() => handleGoPage("status")}
                 />
                 <SidebarItem
                   icon={TbLockOpen}
                   title="Perfis"
+                  onClick={() =>{}}
                   active={pathname.includes("profile")}
-                  onClick={() => handleGoPage("profile")}
                 />
                 <SidebarItem
                   icon={TbGenderAndrogyne}
                   title="Gêneros"
+                  onClick={() =>{}}
                   active={pathname.includes("gender")}
-                  onClick={() => handleGoPage("gender")}
                 />
                 <SidebarItem
                   icon={TbPigMoney}
                   title="Tipo de Pagamento"
+                  onClick={() =>{}}
                   active={pathname.includes("paymentType")}
-                  onClick={() => handleGoPage("paymentType")}
                 />
                 <SidebarItem
                   icon={TbDeviceImac}
@@ -139,7 +121,7 @@ export const MenuSidebar = () => {
                   icon={TbLogout}
                   title="Sair"
                   active={pathname.includes("logout")}
-                  onClick={() => handleClickLogout()}
+                  onClick={() => handleLogout()}
                 />
               </>
             ) : (
@@ -168,7 +150,7 @@ export const MenuSidebar = () => {
                   icon={TbLogout}
                   title="Sair"
                   active={pathname.includes("logout")}
-                  onClick={() => handleClickLogout()}
+                  onClick={() => handleLogout()}
                 />
               </>
             )}

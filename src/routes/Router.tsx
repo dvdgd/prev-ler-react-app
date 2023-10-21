@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { EUserType } from "../@types/profile";
-import { AdminDashboard } from "../pages/Admin/Dashboard/Dashboard";
+import { AdminDashboard } from "../pages/Admin/Dashboard/index";
 import { CompanyRegister } from "../pages/Auth/CompanyRegister";
 import { Login } from "../pages/Auth/Login";
 import { Logout } from "../pages/Auth/Logout";
