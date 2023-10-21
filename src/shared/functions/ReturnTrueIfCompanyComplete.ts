@@ -1,7 +1,7 @@
 import { EUserType } from "../../@types/profile";
 import { TUser } from "../../@types/user";
 
-export function CheckCompanyComplete(user: TUser | undefined): boolean {
+export function ReturnTrueIfCompanyComplete(user: TUser | undefined): boolean {
   const isRepresentante = user?.profile?.userType === EUserType.representante;
   const cnpjExists = !!user?.company?.cnpj;
 
