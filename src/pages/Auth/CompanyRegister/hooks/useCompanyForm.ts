@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { TCompany } from "../../../../@types/company";
 import { useAuth } from "../../../../hooks/useCurrentUser";
-import { BaseError } from "../../../../shared/errors/BaseError";
+import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
 import { CompanyService } from "../../../../shared/services/CompanyService";
 
 export function useCompanyForm() {
@@ -14,6 +14,7 @@ export function useCompanyForm() {
   const { userSession, setUserSession } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, setValue, getValues } = useForm<TCompany>();
+  const { showErrorToast } = useShowToastErrorHandler();
 
   const toastErrorAttributes: UseToastOptions = {
     title: "Erro ao salvar",
@@ -52,16 +53,10 @@ export function useCompanyForm() {
       navigate("/check/login");
     } catch (error) {
       toast.closeAll();
-
-      if (error instanceof BaseError) {
-        return toast({
-          ...toastErrorAttributes,
-          title: error.title,
-          description: error.descripion,
-        });
-      }
-
-      return toast({ ...toastErrorAttributes, description: "Ocorreu um erro inesperado.", });
+      showErrorToast({
+        error,
+        toastAttributes: toastErrorAttributes
+      });
     } finally {
       setIsLoading(false);
     }

@@ -1,7 +1,10 @@
 import { CheckCircleIcon } from "@chakra-ui/icons";
-import { Box, Button, Container, HStack, List, ListIcon, ListItem, SimpleGrid, Text, UseToastOptions, VStack, useToast } from "@chakra-ui/react";
+import { Box, Center, Container, HStack, List, ListIcon, ListItem, SimpleGrid, Text, UseToastOptions, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { BaseError } from "../../../shared/errors/BaseError";
+import { useNavigate } from "react-router-dom";
+import { TPlan } from "../../../@types/plan";
+import { useShowToastErrorHandler } from "../../../hooks/useShowToastErrorHandler";
+import { ClickMeButton } from "../../../shared/components/ClickMeButton";
 import { PlanService } from "../../../shared/services/PlanService";
 
 interface PricingCardProps {
@@ -38,11 +41,6 @@ function PricingCard(props: PricingCardProps) {
         </Box>
 
         <Text>{props.description}</Text>
-        <VStack>
-          <Button size="sm" colorScheme="brand">
-            Saiba mais →
-          </Button>
-        </VStack>
 
         <VStack pt={8} spacing={4} align="flex-start">
           <List spacing={3}>
@@ -62,47 +60,42 @@ function PricingCard(props: PricingCardProps) {
 }
 
 export default function PricingSection() {
+  const navigate = useNavigate();
   const [pricings, setPrincings] = useState<PricingCardProps[]>([]);
-  const toast = useToast();
-
-  const toastErrorAttributes: UseToastOptions = {
-    title: "Erro ao buscar informações dos planos.",
-    description: "Desculpe, tente novamente mais tarde ou entre em contato com os administradores.",
-    status: "error",
-    duration: 3000,
-    isClosable: true,
-  };
+  const { showErrorToast } = useShowToastErrorHandler();
 
   useEffect(() => {
-    fetchPlans();
-  }, []);
+    const toastErrorAttributes: UseToastOptions = {
+      title: "Erro ao buscar informações dos planos.",
+      description: "Desculpe, tente novamente mais tarde ou entre em contato com os administradores.",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+    };
 
-  const fetchPlans = async () => {
-    try {
-      const plans = await new PlanService().getAllPlans();
-      const pricings: PricingCardProps[] = plans.map(p => {
-        return {
-          id: p.planId || '',
-          title: p.title,
-          price: p.value,
-          description: p.description,
-          periodicy: p.periodicy,
-          maxUsers: p.maxUsers,
-        } as PricingCardProps;
-      });
-
-      setPrincings([...pricings]);
-    } catch (error) {
-      if (error instanceof BaseError) {
-        return toast({
-          ...toastErrorAttributes,
-          title: error.title,
-          description: error.descripion,
+    const fetchPlans = async () => {
+      try {
+        const plans = await new PlanService().getAllPlans();
+        const pricings: PricingCardProps[] = plans.map(planToPricingCard);
+        setPrincings([...pricings]);
+      } catch (error) {
+        showErrorToast({
+          error,
+          toastAttributes: toastErrorAttributes,
         });
       }
-
-      return toast(toastErrorAttributes);
     }
+
+    fetchPlans();
+  }, [pricings, showErrorToast]);
+
+  const planToPricingCard = (plan: TPlan): PricingCardProps => {
+    const { planId, value, ...planProps } = plan;
+    return {
+      id: planId || 0,
+      price: value,
+      ...planProps
+    };
   }
 
   return (
@@ -115,6 +108,12 @@ export default function PricingSection() {
             )) : []
           }
         </SimpleGrid>
+        <Center margin={8}>
+          <ClickMeButton
+            onClick={() => navigate("/check/sign-up")}
+            text={"Começar"}
+          />
+        </Center>
       </Container >
     </>
   );
