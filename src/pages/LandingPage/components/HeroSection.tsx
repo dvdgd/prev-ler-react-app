@@ -1,13 +1,13 @@
 import {
-  Button,
   Center,
   Container,
   Heading,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
+import { ClickMeButton } from "../../../shared/components/ClickMeButton";
 
 interface HeroSectionProps { }
 
@@ -27,13 +27,11 @@ export const HeroSection: FunctionComponent<HeroSectionProps> = () => {
               Nosso sistema auxilia sua empresa a melhorar a saúde dos funcionários, permitindo que eles criem rotinas de exercícios para promover um ambiente de trabalho mais saudável.
             </Text>
 
-            <Button
-              mt={8}
-              colorScheme="brand"
+            <ClickMeButton
               onClick={() => navigate("/check/sign-up")}
-            >
-              Comece Já
-            </Button>
+              text="Comece Já"
+              mt={8}
+            />
           </Container>
         </VStack>
       </Center>

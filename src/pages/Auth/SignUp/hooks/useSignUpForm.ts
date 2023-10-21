@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { EUserType } from "../../../../@types/profile";
 import { useAuth } from "../../../../hooks/useCurrentUser";
-import { BaseError } from "../../../../shared/errors/BaseError";
+import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
 
 interface IFormSignUpInputs {
   email: string;
@@ -22,6 +22,7 @@ export function useSignUpForm() {
   const { register, handleSubmit } = useForm<IFormSignUpInputs>();
 
   const toast = useToast();
+  const { showErrorToast } = useShowToastErrorHandler();
   const navigate = useNavigate();
 
   const toastErrorAttributes: UseToastOptions = {
@@ -54,16 +55,10 @@ export function useSignUpForm() {
       navigate("/check/login");
     } catch (error) {
       toast.closeAll();
-
-      if (error instanceof BaseError) {
-        return toast({
-          ...toastErrorAttributes,
-          title: error.title,
-          description: error.descripion,
-        });
-      }
-
-      return toast(toastErrorAttributes);
+      showErrorToast({
+        error,
+        toastAttributes: toastErrorAttributes
+      });
     } finally {
       setIsLoading(false);
     }

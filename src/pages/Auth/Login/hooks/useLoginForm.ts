@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../hooks/useCurrentUser";
-import { BaseError } from "../../../../shared/errors/BaseError";
+import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
 
 interface IFormLoginInputs {
   email: string;
@@ -16,6 +16,7 @@ export function useLogin() {
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { showErrorToast } = useShowToastErrorHandler();
 
   const toastErrorAttributes: UseToastOptions = {
     title: "Usuario não encontrado",
@@ -41,16 +42,10 @@ export function useLogin() {
       return navigate("/check/login");
     } catch (error) {
       toast.closeAll();
-
-      if (error instanceof BaseError) {
-        return toast({
-          ...toastErrorAttributes,
-          title: error.title,
-          description: error.descripion,
-        });
-      }
-
-      return toast(toastErrorAttributes);
+      showErrorToast({
+        error,
+        toastAttributes: toastErrorAttributes
+      });
     } finally {
       setIsLoading(false);
     }

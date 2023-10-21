@@ -1,23 +1,34 @@
+import { Center, Text, useToast } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useCurrentUser";
-import { useToast } from "@chakra-ui/react";
 
 export function Logout() {
+  const navigate = useNavigate();
   const { logout } = useAuth();
   const toast = useToast();
+  const toastId = 'logout-toast'
 
   useEffect(() => {
     logout();
-    toast({
-      title: "Deslogado",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
-  }, []);
+    if (!toast.isActive(toastId)) {
+      toast.closeAll();
+      toast({
+        id: toastId,
+        title: "Deslogado",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+    navigate('/');
+  }, [logout, navigate, toast]);
 
   return (
-    <Navigate to={"/"} replace />
+    <>
+      <Center>
+        <Text>Deslogando...</Text>
+      </Center>
+    </>
   )
 }
