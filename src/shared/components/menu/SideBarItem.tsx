@@ -1,10 +1,10 @@
 import {
   Flex,
+  Icon,
   Link,
   Menu,
   MenuButton,
   Text,
-  Icon,
   TextProps,
 } from "@chakra-ui/react";
 import { IconType } from "react-icons";
@@ -20,16 +20,16 @@ const SidebarItem = ({
   title,
   icon,
   active = false,
-  onClick = () => {},
+  onClick = () => { },
   ...props
 }: TSidebarItem) => {
   return (
     <Flex flexDir="column" w="100%" alignItems={"flex-start"} onClick={onClick}>
       <Menu placement="right">
         <Link
-          backgroundColor={active ? "#FFD700" : ""}
+          backgroundColor={active ? "brand.200" : ""}
           p={3}
-          _hover={{ textDecor: "none", backgroundColor: "#FFD700" }}
+          _hover={{ textDecor: "none", backgroundColor: "brand.300" }}
           w={"100%"}
         >
           <MenuButton w="100%">
@@ -47,3 +47,4 @@ const SidebarItem = ({
 };
 
 export { SidebarItem };
+
