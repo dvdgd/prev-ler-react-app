@@ -7,14 +7,26 @@ import {
   MenuButton,
   Stack,
 } from "@chakra-ui/react";
+import { EUserType } from "../../../@types/profile";
+import { useAuth } from "../../../hooks/useCurrentUser";
+import { LogoButton } from "../LogoButton";
+import { AdminSideBarItems } from "./AdminSideBarItems";
+import { CompanySideBarItems } from "./CompanySidebarItems";
 import { MenuAvatar } from "./MenuAvatar";
 import { MenuSidebar } from "./MenuSideBar";
 
 export const Navbar = () => {
+  const { userSession } = useAuth();
+
+  const isAdmin = userSession?.user?.profile?.userType === EUserType.administrador;
+
   return (
-    <Box bg={"purple"} px={4}>
-      <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-        <MenuSidebar />
+    <Box p={4} marginBottom={8}>
+      <Flex alignItems={"center"} justifyContent={"space-between"}>
+        <MenuSidebar>
+          {isAdmin ? <AdminSideBarItems /> : <CompanySideBarItems />}
+        </MenuSidebar>
+        <LogoButton />
 
         <Flex alignItems={"center"}>
           <Stack direction={"row"} spacing={7}>

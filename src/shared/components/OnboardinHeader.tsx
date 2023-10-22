@@ -3,12 +3,12 @@ import {
   Button,
   Container,
   HStack,
-  Image,
   Spacer,
   chakra
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useCurrentUser";
+import { LogoButton } from "./LogoButton";
 
 type ActionButton = {
   name: string;
@@ -16,26 +16,7 @@ type ActionButton = {
   colorScheme: string;
 };
 
-interface HeaderProps {
-  title: string;
-}
-
-const LogoButton = ({ title }: HeaderProps) => {
-  const navigate = useNavigate();
-
-  return (
-    <Box onClick={() => navigate("/")} cursor="pointer">
-      <Image
-        height={39}
-        width={36}
-        src="prev_ler_logo.svg"
-        alt={title}
-      />
-    </Box>
-  );
-}
-
-const DesktopSidebarContents = ({ title: name }: HeaderProps) => {
+const DesktopSidebarContents = () => {
   const navigate = useNavigate();
   const { userSession: currentUser } = useAuth();
   const navLink: ActionButton = currentUser
@@ -43,9 +24,9 @@ const DesktopSidebarContents = ({ title: name }: HeaderProps) => {
     : { name: "Entrar", link: "/check/login", colorScheme: "brand" }
 
   return (
-    <Container maxW={["full", "container.lg"]} p={5} marginBottom={12}>
+    <Container maxW={["full", "container.lg"]} p={4} marginBottom={12}>
       <HStack justify="space-between" w="full" alignItems="end">
-        <LogoButton title={name} />
+        <LogoButton />
         <Spacer />
         <Button
           onClick={() => navigate(navLink.link)}
@@ -59,12 +40,12 @@ const DesktopSidebarContents = ({ title: name }: HeaderProps) => {
   );
 };
 
-export const OnboardingHeader = ({ title }: HeaderProps) => {
+export const OnboardingHeader = () => {
   return (
     <Box w="full" >
       <chakra.header id="header">
         <Box bg="gray.50">
-          <DesktopSidebarContents title={title} />
+          <DesktopSidebarContents />
         </Box>
       </chakra.header>
     </Box>

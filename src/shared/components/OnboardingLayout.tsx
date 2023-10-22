@@ -12,7 +12,7 @@ export const OnboardingLayout: FunctionComponent<LayoutProps> = ({
   return (
     <HStack bg="gray.50" h="full" minH="100vh">
       <VStack w="full" minH="100vh" align="center">
-        <OnboardingHeader title="PrevLer" />
+        <OnboardingHeader />
         {children}
       </VStack>
     </HStack>
