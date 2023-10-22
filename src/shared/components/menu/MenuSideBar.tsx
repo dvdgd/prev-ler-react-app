@@ -5,15 +5,15 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  useDisclosure
 } from "@chakra-ui/react";
 import {
   TbMenu2,
 } from "react-icons/tb";
 import { IChildrenProps } from "../../../@types/react-base-props";
+import { useAuthDrawner } from "../../../hooks/useAuthDrawner";
 
 export const MenuSidebar = ({ children }: IChildrenProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useAuthDrawner();
 
   return (
     <Box>

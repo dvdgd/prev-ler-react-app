@@ -1,10 +1,12 @@
 import { TbDashboard, TbLogout } from "react-icons/tb";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuthDrawner } from "../../../hooks/useAuthDrawner";
 import { SidebarItem } from "./SideBarItem";
 
 export function AdminSideBarItems() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { handleGoPage } = useAuthDrawner();
 
   return (
     <>
@@ -12,7 +14,7 @@ export function AdminSideBarItems() {
         icon={TbDashboard}
         title="Dashboard"
         active={pathname.includes("dashboard")}
-        onClick={() => navigate("/auth/admin/dashboard")}
+        onClick={() => handleGoPage("/auth/admin/dashboard")}
       />
       <SidebarItem
         icon={TbLogout}
