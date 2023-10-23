@@ -9,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { FormProvider } from "react-hook-form";
-import { OnboardingLayout } from "../../../shared/components/OnboardingLayout";
+import { OnboardingLayout } from "../../../layouts/UserOnboardingLayout/UserOnboardingLayout";
 import { PasswordInput } from "../../../shared/components/PasswordInput";
 import { FormCard } from "../components/FormCard";
 import { useLogin } from "./hooks/useLoginForm";

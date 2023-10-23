@@ -1,5 +1,5 @@
 import { Box, Spacer } from "@chakra-ui/react";
-import { OnboardingLayout } from "../../shared/components/OnboardingLayout";
+import { OnboardingLayout } from "../../layouts/UserOnboardingLayout/UserOnboardingLayout";
 import FeaturesSection from "./components/FeaturesSection";
 import { Footer } from "./components/Footer";
 import { HeroSection } from "./components/HeroSection";

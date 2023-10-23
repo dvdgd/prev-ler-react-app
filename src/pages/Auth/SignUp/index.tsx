@@ -13,7 +13,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { OnboardingLayout } from "../../../shared/components/OnboardingLayout";
+import { OnboardingLayout } from "../../../layouts/UserOnboardingLayout/UserOnboardingLayout";
 import { FormCard } from "../components/FormCard";
 import { useSignUpForm } from "./hooks/useSignUpForm";
 

@@ -7,8 +7,8 @@ import {
   chakra
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/useCurrentUser";
-import { LogoButton } from "./LogoButton";
+import { useAuth } from "../../../hooks/useCurrentUser";
+import { LogoButton } from "../../../shared/components/LogoButton";
 
 type ActionButton = {
   name: string;

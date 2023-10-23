@@ -12,7 +12,7 @@ import {
 import { IChildrenProps } from "../../../@types/react-base-props";
 import { useAuthDrawner } from "../../../hooks/useAuthDrawner";
 
-export const MenuSidebar = ({ children }: IChildrenProps) => {
+export const HamburguerMenu = ({ children }: IChildrenProps) => {
   const { isOpen, onOpen, onClose } = useAuthDrawner();
 
   return (

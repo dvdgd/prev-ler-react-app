@@ -1,11 +1,11 @@
 import { TbDashboard, TbLogout } from "react-icons/tb";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthDrawner } from "../../../hooks/useAuthDrawner";
-import { SidebarItem } from "./SideBarItem";
+import { SidebarItem } from "./BaseMenuItem";
 
-export function CompanySideBarItems() {
-  const navigate = useNavigate();
+export function AdminMenuContents() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const { handleGoPage } = useAuthDrawner();
 
   return (
@@ -14,13 +14,13 @@ export function CompanySideBarItems() {
         icon={TbDashboard}
         title="Dashboard"
         active={pathname.includes("dashboard")}
-        onClick={() => handleGoPage("/auth/company/dashboard")}
+        onClick={() => handleGoPage("/auth/admin/dashboard")}
       />
       <SidebarItem
         icon={TbLogout}
         title="Sair"
         active={pathname.includes("logout")}
-        onClick={() => navigate('/logout')}
+        onClick={() => navigate("/logout")}
       />
     </>
   )
