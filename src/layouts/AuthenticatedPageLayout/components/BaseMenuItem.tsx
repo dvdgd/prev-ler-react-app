@@ -16,7 +16,7 @@ type TSidebarItem = {
   onClick?: () => void;
 } & TextProps;
 
-const SidebarItem = ({
+const BaseMenuItem = ({
   title,
   icon,
   active = false,
@@ -46,5 +46,5 @@ const SidebarItem = ({
   );
 };
 
-export { SidebarItem };
+export { BaseMenuItem as SidebarItem };
 

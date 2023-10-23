@@ -9,13 +9,13 @@ import {
 } from "@chakra-ui/react";
 import { EUserType } from "../../../@types/profile";
 import { useAuth } from "../../../hooks/useCurrentUser";
-import { LogoButton } from "../LogoButton";
-import { AdminSideBarItems } from "./AdminSideBarItems";
-import { CompanySideBarItems } from "./CompanySidebarItems";
+import { LogoButton } from "../../../shared/components/LogoButton";
+import { AdminMenuContents } from "./AdminMenuContents";
+import { CompanyMenuContents } from "./CompanyMenuContents";
+import { HamburguerMenu } from "./HamburguerMenu";
 import { MenuAvatar } from "./MenuAvatar";
-import { MenuSidebar } from "./MenuSideBar";
 
-export const Navbar = () => {
+export const AuthHeader = () => {
   const { userSession } = useAuth();
 
   const isAdmin = userSession?.user?.profile?.userType === EUserType.administrador;
@@ -23,9 +23,9 @@ export const Navbar = () => {
   return (
     <Box p={4} marginBottom={8}>
       <Flex alignItems={"center"} justifyContent={"space-between"}>
-        <MenuSidebar>
-          {isAdmin ? <AdminSideBarItems /> : <CompanySideBarItems />}
-        </MenuSidebar>
+        <HamburguerMenu>
+          {isAdmin ? <AdminMenuContents /> : <CompanyMenuContents />}
+        </HamburguerMenu>
         <LogoButton />
 
         <Flex alignItems={"center"}>

@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { chakraTheme } from './config/chakraTheme';
 import { AuthProvider } from './context/AuthProvider';
-import { AuthDrawnerProvider } from './context/DrawnerProvider';
 import { Router } from './routes/Router';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -12,11 +11,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ChakraProvider theme={chakraTheme} resetCSS>
       <BrowserRouter>
         <AuthProvider>
-          <AuthDrawnerProvider>
-            <Routes>
-              <Route path="/*" element={<Router />} />
-            </Routes>
-          </AuthDrawnerProvider>
+          <Routes>
+            <Route path="/*" element={<Router />} />
+          </Routes>
         </AuthProvider>
       </BrowserRouter>
     </ChakraProvider>

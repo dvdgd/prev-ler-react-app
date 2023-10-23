@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, FormLabel, HStack, Input, Stack } from "@chakra-ui/react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useCurrentUser";
-import { OnboardingLayout } from "../../../shared/components/OnboardingLayout";
+import { OnboardingLayout } from "../../../layouts/UserOnboardingLayout/UserOnboardingLayout";
 import { ReturnTrueIfCompanyComplete } from "../../../shared/functions/ReturnTrueIfCompanyComplete";
 import { FormCard } from "../components/FormCard";
 import { useCompanyForm } from "./hooks/useCompanyForm";
