@@ -5,6 +5,7 @@ import { CompanyRegister } from "../pages/Auth/CompanyRegister";
 import { Login } from "../pages/Auth/Login";
 import { Logout } from "../pages/Auth/Logout";
 import { SignUp } from "../pages/Auth/SignUp";
+import { CompanyPlanDetailsPage } from "../pages/Company/CompanyPlanDetails/CompanyPlanDetails";
 import { CompanyDashboard } from "../pages/Company/Dashboard/CompanyDashboard";
 import { NotFound } from "../pages/Errors/NotFound";
 import { Unauthorized } from "../pages/Errors/Unauthorized";
@@ -29,6 +30,7 @@ export const Router = () => {
         <Route path="complete-register" element={<CompanyRegister />} />
         <Route path="company" element={<RequireRole allowedRoles={[EUserType.representante]} />} >
           <Route path="dashboard" element={<CompanyDashboard />} />
+          <Route path="company-plan-details" element={<CompanyPlanDetailsPage />} />
         </Route>
         <Route path="admin" element={<RequireRole allowedRoles={[EUserType.administrador]} />} >
           <Route path="dashboard" element={<AdminDashboard />} />
