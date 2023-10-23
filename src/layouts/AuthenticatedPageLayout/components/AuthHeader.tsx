@@ -21,7 +21,7 @@ export const AuthHeader = () => {
   const isAdmin = userSession?.user?.profile?.userType === EUserType.administrador;
 
   return (
-    <Box p={4} marginBottom={8}>
+    <Box p={4}>
       <Flex alignItems={"center"} justifyContent={"space-between"}>
         <HamburguerMenu>
           {isAdmin ? <AdminMenuContents /> : <CompanyMenuContents />}
