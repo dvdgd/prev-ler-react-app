@@ -30,7 +30,7 @@ export const Router = () => {
         <Route path="complete-register" element={<CompanyRegister />} />
         <Route path="company" element={<RequireRole allowedRoles={[EUserType.representante]} />} >
           <Route path="dashboard" element={<CompanyDashboard />} />
-          <Route path="company-plan-details" element={<CompanyPlanDetailsPage />} />
+          <Route path="plan-details" element={<CompanyPlanDetailsPage />} />
         </Route>
         <Route path="admin" element={<RequireRole allowedRoles={[EUserType.administrador]} />} >
           <Route path="dashboard" element={<AdminDashboard />} />
