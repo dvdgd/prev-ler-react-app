@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { EUserType } from "../@types/profile";
 import { AdminDashboard } from "../pages/Admin/Dashboard/index";
+import { AdminPlans } from "../pages/Admin/Plans";
 import { CompanyRegister } from "../pages/Auth/CompanyRegister";
 import { Login } from "../pages/Auth/Login";
 import { Logout } from "../pages/Auth/Logout";
@@ -33,6 +34,7 @@ export const Router = () => {
           <Route path="plan-details" element={<CompanyPlanDetailsPage />} />
         </Route>
         <Route path="admin" element={<RequireRole allowedRoles={[EUserType.administrador]} />} >
+          <Route path="plans" element={<AdminPlans />} />
           <Route path="dashboard" element={<AdminDashboard />} />
         </Route>
       </Route>
