@@ -1,4 +1,4 @@
-import { TbDashboard, TbLogout } from "react-icons/tb";
+import { TbBusinessplan, TbDashboard, TbLogout } from "react-icons/tb";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthDrawner } from "../../../hooks/useAuthDrawner";
 import { SidebarItem } from "./BaseMenuItem";
@@ -15,6 +15,12 @@ export function AdminMenuContents() {
         title="Dashboard"
         active={pathname.includes("dashboard")}
         onClick={() => handleGoPage("/auth/admin/dashboard")}
+      />
+      <SidebarItem
+        icon={TbBusinessplan}
+        title="Planos"
+        active={pathname.includes("plans")}
+        onClick={() => handleGoPage("/auth/admin/plans")}
       />
       <SidebarItem
         icon={TbLogout}

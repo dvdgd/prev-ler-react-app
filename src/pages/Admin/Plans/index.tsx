@@ -1,11 +1,15 @@
-import { Text } from "@chakra-ui/react"
+import { Button, VStack } from "@chakra-ui/react"
+import { PlansTableAntd } from "./components/PlansTableAntd"
 
 export function AdminPlans() {
   return (
     <>
-      <Text>
-        Plans page.
-      </Text>
+      <VStack>
+        <PlansTableAntd />
+        <Button colorScheme="brand" size={"lg"}>
+          Novo
+        </Button>
+      </VStack>
     </>
   )
 }

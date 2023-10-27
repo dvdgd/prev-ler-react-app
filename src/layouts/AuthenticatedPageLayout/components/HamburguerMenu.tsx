@@ -20,7 +20,7 @@ export const HamburguerMenu = ({ children }: IChildrenProps) => {
       <TbMenu2
         size={28}
         onClick={onOpen}
-        style={{ cursor: "pointer" }}
+        cursor="pointer"
       />
       <Drawer placement={"left"} onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
