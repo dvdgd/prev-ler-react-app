@@ -1,6 +1,7 @@
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Box, HStack, List, ListIcon, ListItem, Text, VStack } from "@chakra-ui/react";
 import { MyCard } from "../../../shared/components/MyCard";
+import { CompanyPaymentsTableAntd } from "./components/CompanyPaymentsTableAntd";
 
 export function CompanyPlanDetailsPage() {
   return (
@@ -65,6 +66,7 @@ export function CompanyPlanDetailsPage() {
       <Text fontSize="3xl" fontWeight="medium">
         R$ {"R$ 2000,00"} {"MENSAL"}
       </Text>
+      <CompanyPaymentsTableAntd />
     </VStack>
   );
 }
