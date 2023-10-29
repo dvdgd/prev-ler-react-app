@@ -1,13 +1,15 @@
-import { DeleteIcon, IconProps } from "@chakra-ui/icons";
+import { DeleteIcon } from "@chakra-ui/icons";
+import { IconButton, IconButtonProps } from "@chakra-ui/react";
 
 type EditIconProps = {
   onClick: () => void;
-} & IconProps;
+} & IconButtonProps;
 
 export function DeleteIconAction({ onClick, ...props }: EditIconProps) {
   return (
     <>
-      <DeleteIcon
+      <IconButton
+        icon={<DeleteIcon />}
         color={"red.600"}
         onClick={onClick}
         cursor="pointer"

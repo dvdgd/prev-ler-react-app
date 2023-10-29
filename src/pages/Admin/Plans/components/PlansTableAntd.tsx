@@ -1,12 +1,11 @@
-import { HStack } from "@chakra-ui/react";
+import { HStack, Tag } from "@chakra-ui/react";
 import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { useEffect, useState } from "react";
 import { TPlan } from "../../../../@types/plan";
 import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
-import { DeleteIconAction } from "../../../../shared/components/DeleteIconAction";
-import { EditIconAction } from "../../../../shared/components/EditIconAction";
 import { PlanService } from "../../../../shared/services/PlanService";
+import { PlansTableOptions } from "./PlansTableOptions";
 
 const columns = (): ColumnsType<TPlan> => {
   return [
@@ -22,20 +21,21 @@ const columns = (): ColumnsType<TPlan> => {
       key: "title",
     },
     {
-      title: "Descrição",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Usuários máximos",
+      title: "Qtd. usuários",
       dataIndex: "maxUsers",
       key: "maxUsers",
-      width: "20%",
+      width: "120%",
     },
     {
       title: "Periodicidade",
       dataIndex: "periodicy",
       key: "periodicy",
+      render(_value, plan) {
+        const periodicy = plan.periodicy === "mensais" ? "Mensal" : "Anual";
+        return (
+          <>{periodicy}</>
+        )
+      }
     },
     {
       title: "Valor",
@@ -46,25 +46,28 @@ const columns = (): ColumnsType<TPlan> => {
       title: "Ativo",
       dataIndex: "active",
       key: "active",
+      responsive: ["md"],
+      render(_value, { active }) {
+        const activeStr = active ? "SIM" : "NÃO";
+        const color = active ? "green" : "red";
+        return (
+          <Tag color={color}>
+            {activeStr}
+          </Tag>
+        )
+      },
     },
     {
       title: "Opções",
       dataIndex: "",
       key: "",
       align: "center",
-      render: () => {
+      render: (_value, record) => {
         return (
           <>
-            <HStack alignContent={"space-between"} w="full" paddingX={10}>
-              <EditIconAction
-                color={"blue.600"}
-                onClick={() => { }}
-                cursor="pointer"
-              />
-              <DeleteIconAction
-                color={"red.600"}
-                cursor="pointer"
-                onClick={() => { }}
+            <HStack alignContent={"space-around"} paddingX={3}>
+              <PlansTableOptions
+                plan={record}
               />
             </HStack>
           </>
@@ -83,9 +86,8 @@ export const PlansTableAntd = () => {
     const fetchPlans = async () => {
       try {
         setIsloading(true);
-        const newPlans = await new PlanService().getAllPlans();
-
-        setPlans([...newPlans]);
+        const allPlans = await new PlanService().getAllPlans();
+        setPlans(allPlans);
       } catch (error) {
         showErrorToast({
           error, toastAttributes: {
