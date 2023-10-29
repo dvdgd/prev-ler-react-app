@@ -4,7 +4,7 @@ import { PlansTableAntd } from "./components/PlansTableAntd"
 export function AdminPlans() {
   return (
     <>
-      <VStack>
+      <VStack w={"full"} >
         <PlansTableAntd />
         <Button colorScheme="brand" size={"lg"}>
           Novo

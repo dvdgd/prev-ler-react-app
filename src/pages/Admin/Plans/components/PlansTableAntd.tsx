@@ -1,6 +1,5 @@
-import { Box, HStack } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
 import { Table } from "antd";
-import Column from "antd/es/table/Column";
 import { ColumnsType } from "antd/lib/table";
 import { useEffect, useState } from "react";
 import { TPlan } from "../../../../@types/plan";
@@ -103,15 +102,16 @@ export const PlansTableAntd = () => {
   }, []);
 
   return (
-    <Box m="20px" mt="100px">
-      <Table
-        loading={isLoading}
-        dataSource={plans}
-        columns={columns()}
-        rowKey={(data) => data.planId || 0}
-      >
-        <Column title="" />
-      </Table>
-    </Box>
+    <Table
+      virtual
+      bordered={true}
+      loading={isLoading}
+      dataSource={plans}
+      columns={columns()}
+      rowKey="planId"
+      pagination={{
+        position: ["bottomRight"]
+      }}
+    />
   );
 };
