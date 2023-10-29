@@ -1,4 +1,4 @@
-import { HStack, Tag } from "@chakra-ui/react";
+import { Tag } from "@chakra-ui/react";
 import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { useEffect, useState } from "react";
@@ -68,9 +68,7 @@ const columns = (): ColumnsType<TPlan> => {
       render: (_value, record) => {
         return (
           <>
-            <HStack alignContent={"space-around"} paddingX={3}>
-              <PlansTableOptions plan={record} />
-            </HStack>
+            <PlansTableOptions plan={record} />
           </>
         );
       },
