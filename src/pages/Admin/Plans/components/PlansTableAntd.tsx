@@ -16,12 +16,8 @@ const columns = (): ColumnsType<TPlan> => {
       width: 50,
       render(_value, record) {
         const planId = record.planId?.toString().padStart(2, "0");
-        return (
-          <>
-            {planId}
-          </>
-        )
-      }
+        return <>{planId}</>;
+      },
     },
     {
       title: "Título",
@@ -42,10 +38,8 @@ const columns = (): ColumnsType<TPlan> => {
       width: 100,
       render(_value, plan) {
         const periodicy = plan.periodicy === "mensais" ? "Mensal" : "Anual";
-        return (
-          <>{periodicy}</>
-          )
-      }
+        return <>{periodicy}</>;
+      },
     },
     {
       title: "Valor",
@@ -62,11 +56,7 @@ const columns = (): ColumnsType<TPlan> => {
       render(_value, { active }) {
         const activeStr = active ? "SIM" : "NÃO";
         const color = active ? "green" : "red";
-        return (
-          <Tag color={color}>
-            {activeStr}
-          </Tag>
-        )
+        return <Tag color={color}>{activeStr}</Tag>;
       },
     },
     {
@@ -79,9 +69,7 @@ const columns = (): ColumnsType<TPlan> => {
         return (
           <>
             <HStack alignContent={"space-around"} paddingX={3}>
-              <PlansTableOptions
-                plan={record}
-              />
+              <PlansTableOptions plan={record} />
             </HStack>
           </>
         );
@@ -103,16 +91,17 @@ export const PlansTableAntd = () => {
         setPlans(allPlans);
       } catch (error) {
         showErrorToast({
-          error, toastAttributes: {
-            title: 'Desculpe, ocorreu um erro ao buscar os planos',
-            status: 'error',
+          error,
+          toastAttributes: {
+            title: "Desculpe, ocorreu um erro ao buscar os planos",
+            status: "error",
             duration: 3000,
-          }
+          },
         });
       } finally {
         setIsloading(false);
       }
-    }
+    };
     fetchPlans();
   }, []);
 
@@ -120,7 +109,7 @@ export const PlansTableAntd = () => {
     <Table
       scroll={{
         x: 800,
-        y: 300
+        y: 300,
       }}
       bordered={true}
       loading={isLoading}
@@ -128,7 +117,7 @@ export const PlansTableAntd = () => {
       columns={columns()}
       rowKey="planId"
       pagination={{
-        position: ["bottomRight"]
+        position: ["bottomRight"],
       }}
     />
   );
