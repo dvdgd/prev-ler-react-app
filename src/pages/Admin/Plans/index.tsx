@@ -7,12 +7,12 @@ export function AdminPlans() {
 
   return (
     <>
-      <VStack w={"full"} >
+      <VStack w={"full"} p={8}>
         <PlansTableAntd />
-        <Button colorScheme="brand" size={"lg"} onClick={() => navigate('create')}>
+        <Button colorScheme="brand" size={"lg"} onClick={() => navigate("create")}>
           Novo
         </Button>
       </VStack>
     </>
-  )
+  );
 }

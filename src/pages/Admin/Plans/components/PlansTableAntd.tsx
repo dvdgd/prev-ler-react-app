@@ -10,43 +10,55 @@ import { PlansTableOptions } from "./PlansTableOptions";
 const columns = (): ColumnsType<TPlan> => {
   return [
     {
-      title: "#",
+      title: "# ID",
       dataIndex: "planId",
       key: "planId",
-      width: "5%",
+      width: 50,
+      render(_value, record) {
+        const planId = record.planId?.toString().padStart(2, "0");
+        return (
+          <>
+            {planId}
+          </>
+        )
+      }
     },
     {
       title: "Título",
       dataIndex: "title",
       key: "title",
+      width: 100,
     },
     {
       title: "Qtd. usuários",
       dataIndex: "maxUsers",
       key: "maxUsers",
-      width: "120%",
+      width: 120,
     },
     {
       title: "Periodicidade",
       dataIndex: "periodicy",
       key: "periodicy",
+      width: 100,
       render(_value, plan) {
         const periodicy = plan.periodicy === "mensais" ? "Mensal" : "Anual";
         return (
           <>{periodicy}</>
-        )
+          )
       }
     },
     {
       title: "Valor",
       dataIndex: "value",
       key: "value",
+      width: 100,
     },
     {
       title: "Ativo",
       dataIndex: "active",
       key: "active",
       responsive: ["md"],
+      width: 100,
       render(_value, { active }) {
         const activeStr = active ? "SIM" : "NÃO";
         const color = active ? "green" : "red";
@@ -62,6 +74,7 @@ const columns = (): ColumnsType<TPlan> => {
       dataIndex: "",
       key: "",
       align: "center",
+      width: 150,
       render: (_value, record) => {
         return (
           <>
@@ -105,7 +118,10 @@ export const PlansTableAntd = () => {
 
   return (
     <Table
-      virtual
+      scroll={{
+        x: 800,
+        y: 300
+      }}
       bordered={true}
       loading={isLoading}
       dataSource={plans}
