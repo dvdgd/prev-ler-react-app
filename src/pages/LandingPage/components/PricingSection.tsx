@@ -64,30 +64,30 @@ export default function PricingSection() {
   const [pricings, setPrincings] = useState<PricingCardProps[]>([]);
   const { showErrorToast } = useShowToastErrorHandler();
 
-  useEffect(() => {
-    const toastErrorAttributes: UseToastOptions = {
-      title: "Erro ao buscar informações dos planos.",
-      description: "Desculpe, tente novamente mais tarde ou entre em contato com os administradores.",
-      status: "error",
-      duration: 3000,
-      isClosable: true,
-    };
+  const toastErrorAttributes: UseToastOptions = {
+    title: "Erro ao buscar informações dos planos.",
+    description: "Desculpe, tente novamente mais tarde ou entre em contato com os administradores.",
+    status: "error",
+    duration: 3000,
+    isClosable: true,
+  };
 
-    const fetchPlans = async () => {
-      try {
-        const plans = await new PlanService().getAllPlans();
-        const pricings: PricingCardProps[] = plans.map(planToPricingCard);
-        setPrincings([...pricings]);
-      } catch (error) {
-        showErrorToast({
-          error,
-          toastAttributes: toastErrorAttributes,
-        });
-      }
+  const fetchPlans = async () => {
+    try {
+      const plans = await new PlanService().getAllPlans();
+      const pricings: PricingCardProps[] = plans.map(planToPricingCard);
+      setPrincings(pricings);
+    } catch (error) {
+      showErrorToast({
+        error,
+        toastAttributes: toastErrorAttributes,
+      });
     }
+  }
 
+  useEffect(() => {
     fetchPlans();
-  }, [pricings, showErrorToast]);
+  }, []);
 
   const planToPricingCard = (plan: TPlan): PricingCardProps => {
     const { planId, value, ...planProps } = plan;
