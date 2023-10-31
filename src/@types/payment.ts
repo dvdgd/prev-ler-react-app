@@ -16,7 +16,7 @@ export enum EPaymentStatus {
 export type TPayment = {
   paymentId?: number;
   subscriptionId: number;
-  title: TPlan;
+  plan?: Partial<TPlan>;
   status: EPaymentStatus;
   value: number;
   paymentDate?: string;

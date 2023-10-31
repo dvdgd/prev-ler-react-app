@@ -1,5 +1,4 @@
 import { EPaymentStatus, TPayment, TPaymentSupabaseInsert } from "../../@types/payment";
-import { PlanFromSupabase } from "./PlanSupabaseMapper";
 
 function formatDate(dateStr: string | undefined): string | undefined {
   if (dateStr) {
@@ -29,7 +28,6 @@ export function paymentFromSupabase(paymentSupabaseInsert: TPaymentSupabaseInser
     paymentId: paymentSupabaseInsert.id_pagamento || undefined,
     subscriptionId: paymentSupabaseInsert.id_assinatura,
     status: paymentSupabaseInsert.status_pagamento as EPaymentStatus,
-    plan: PlanFromSupabase(planSupabase: TPlanSupabaseRow).title paymentSupabaseInsert.id_assinatura,
     value: paymentSupabaseInsert.valor_pagamento,
     paymentDate: formattedDate
   };
