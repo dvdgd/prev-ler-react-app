@@ -21,7 +21,7 @@ export const MenuAvatar = () => {
   };
 
   return (
-    <MenuList alignItems={"center"} pt="5px" mt="8px">
+    <MenuList alignItems={"center"} pt="5px" mt="8px" shadow={"2xl"}>
       <Center p={2}>
         <Avatar
           size={"2xl"}

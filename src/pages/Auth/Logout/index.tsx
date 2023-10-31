@@ -7,7 +7,7 @@ export function Logout() {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const toast = useToast();
-  const toastId = 'logout-toast'
+  const toastId = "logout-toast";
 
   useEffect(() => {
     logout();
@@ -21,7 +21,7 @@ export function Logout() {
         isClosable: true,
       });
     }
-    navigate('/');
+    navigate("/");
   }, [logout, navigate, toast]);
 
   return (
@@ -30,5 +30,5 @@ export function Logout() {
         <Text>Deslogando...</Text>
       </Center>
     </>
-  )
+  );
 }
