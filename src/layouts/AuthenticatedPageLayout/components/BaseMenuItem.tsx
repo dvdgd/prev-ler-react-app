@@ -1,4 +1,5 @@
 import {
+  BackgroundProps,
   Flex,
   Icon,
   Link,
@@ -13,12 +14,16 @@ type TSidebarItem = {
   title: string;
   icon: IconType;
   active?: boolean;
+  activeColor?: BackgroundProps["backgroundColor"];
+  hoverColor?: BackgroundProps["backgroundColor"];
   onClick?: () => void;
 } & TextProps;
 
 const BaseMenuItem = ({
   title,
   icon,
+  activeColor,
+  hoverColor,
   active = false,
   onClick = () => { },
   ...props
@@ -27,9 +32,10 @@ const BaseMenuItem = ({
     <Flex flexDir="column" w="100%" alignItems={"flex-start"} onClick={onClick}>
       <Menu placement="right">
         <Link
-          backgroundColor={active ? "brand.200" : ""}
+          shadow={active ? "lg" : ""}
+          backgroundColor={active ? (activeColor ?? "blue.500") : ""}
           p={3}
-          _hover={{ textDecor: "none", backgroundColor: "brand.300" }}
+          _hover={{ textDecor: "none", backgroundColor: (hoverColor ?? "blue.400") }}
           w={"100%"}
         >
           <MenuButton w="100%">

@@ -8,26 +8,30 @@ export function AdminMenuContents() {
   const navigate = useNavigate();
   const { handleGoPage } = useAuthDrawner();
 
+  const routes = pathname.split("/");
+
   return (
     <>
       <SidebarItem
         icon={TbDashboard}
         title="Dashboard"
-        active={pathname.includes("dashboard")}
+        active={routes.at(routes.length - 1)?.includes("dashboard")}
         onClick={() => handleGoPage("/auth/admin/dashboard")}
       />
       <SidebarItem
         icon={TbBusinessplan}
         title="Planos"
         active={pathname.includes("plans")}
-        onClick={() => handleGoPage("/auth/admin/plans")}
+        onClick={() => handleGoPage("/auth/admin/dashboard/plans")}
       />
       <SidebarItem
         icon={TbLogout}
         title="Sair"
+        activeColor={"red"}
+        hoverColor={"red.400"}
         active={pathname.includes("logout")}
         onClick={() => navigate("/logout")}
       />
     </>
-  )
+  );
 }
