@@ -1,4 +1,4 @@
-import { Tag } from "@chakra-ui/react";
+import { Box, Tag, useMediaQuery } from "@chakra-ui/react";
 import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { useEffect, useState } from "react";
@@ -13,7 +13,8 @@ const columns = (): ColumnsType<TPlan> => {
       title: "# ID",
       dataIndex: "planId",
       key: "planId",
-      width: 50,
+      width: 55,
+      fixed: true,
       render(_value, record) {
         const planId = record.planId?.toString().padStart(2, "0");
         return <>{planId}</>;
@@ -35,7 +36,7 @@ const columns = (): ColumnsType<TPlan> => {
       title: "Periodicidade",
       dataIndex: "periodicy",
       key: "periodicy",
-      width: 100,
+      width: 110,
       render(_value, plan) {
         const periodicy = plan.periodicy === "mensais" ? "Mensal" : "Anual";
         return <>{periodicy}</>;
@@ -46,6 +47,10 @@ const columns = (): ColumnsType<TPlan> => {
       dataIndex: "value",
       key: "value",
       width: 100,
+      render(_value, { value }) {
+        const price = `R$ ${value}`
+        return <>{price}</>
+      }
     },
     {
       title: "Ativo",
@@ -103,20 +108,23 @@ export const PlansTableAntd = () => {
     fetchPlans();
   }, []);
 
+  const [isLargerThan1600] = useMediaQuery("(min-width: 1600px)");
   return (
-    <Table
-      scroll={{
-        x: 800,
-        y: 300,
-      }}
-      bordered={true}
-      loading={isLoading}
-      dataSource={plans}
-      columns={columns()}
-      rowKey="planId"
-      pagination={{
-        position: ["bottomRight"],
-      }}
-    />
+    <Box w={isLargerThan1600 ? "1600px" : "full"}>
+      <Table
+        scroll={{
+          x: 800,
+          y: 300,
+        }}
+        bordered={true}
+        loading={isLoading}
+        dataSource={plans}
+        columns={columns()}
+        rowKey="planId"
+        pagination={{
+          position: ["none"],
+        }}
+      />
+    </Box>
   );
 };
