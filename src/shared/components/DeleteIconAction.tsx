@@ -5,13 +5,14 @@ import {
   IconButtonProps,
   Modal,
   ModalBody,
-  Text,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
   useDisclosure,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useShowToastErrorHandler } from "../../hooks/useShowToastErrorHandler";
@@ -21,6 +22,7 @@ type DeleteIconProps = {
 } & IconButtonProps;
 
 export function DeleteIconAction({ deleteFn, ...props }: DeleteIconProps) {
+  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
   const { showErrorToast } = useShowToastErrorHandler();
@@ -54,7 +56,7 @@ export function DeleteIconAction({ deleteFn, ...props }: DeleteIconProps) {
         {...props}
       />
 
-      <Modal isCentered size="xs" isOpen={isOpen} onClose={onClose}>
+      <Modal isCentered size={isLargerThan900 ? "lg" : "xs"} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay backdropFilter="blur(9px)" />
         <ModalContent>
           <ModalHeader>Tem certeza?</ModalHeader>
@@ -66,7 +68,7 @@ export function DeleteIconAction({ deleteFn, ...props }: DeleteIconProps) {
           </ModalBody>
           <ModalFooter>
             <Button
-              colorScheme="brand"
+              colorScheme="red"
               loadingText="Excluindo..."
               isLoading={isLoading}
               mr={3}
