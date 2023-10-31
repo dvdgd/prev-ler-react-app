@@ -12,19 +12,14 @@ const columns = (): ColumnsType<TPayment> => {
   return [
     {
       title: "Identificador pagamento",
-      dataIndex: "planId",
-      key: "planId",
+      dataIndex: "paymentId",
+      key: "paymentId",
       width: "5%",
     },
     {
-      title: "Título",
+      title: "Plano",
       dataIndex: "title",
       key: "title",
-    },
-    {
-      title: "Descrição",
-      dataIndex: "description",
-      key: "description",
     },
     {
       title: "Data do pagamento",
@@ -32,9 +27,14 @@ const columns = (): ColumnsType<TPayment> => {
       key: "paymentDate",
     },
     {
+      title: "Valor",
+      dataIndex: "value",
+      key: "value",
+    },
+    {
       title: "Status pagamento",
-      dataIndex: "paymentStatus",
-      key: "paymentStatus",
+      dataIndex: "status",
+      key: "status",
     },
     {
       title: "Detalhes",
