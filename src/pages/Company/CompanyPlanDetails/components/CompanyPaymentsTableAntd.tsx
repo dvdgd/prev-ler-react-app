@@ -43,6 +43,7 @@ const columns = (): ColumnsType<TPayment> => {
           <>
             <HStack alignContent={"space-between"} w="full" paddingX={10}>
               <ViewIconAction
+                aria-label="Detalhes"
                 color={"black"}
                 cursor="pointer"
                 onClick={() => { }}

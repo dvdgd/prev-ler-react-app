@@ -1,14 +1,12 @@
+import { HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
   Drawer,
   DrawerBody,
   DrawerContent,
   DrawerHeader,
-  DrawerOverlay,
+  DrawerOverlay
 } from "@chakra-ui/react";
-import {
-  TbMenu2,
-} from "react-icons/tb";
 import { IChildrenProps } from "../../../@types/react-base-props";
 import { useAuthDrawner } from "../../../hooks/useAuthDrawner";
 
@@ -16,20 +14,19 @@ export const HamburguerMenu = ({ children }: IChildrenProps) => {
   const { isOpen, onOpen, onClose } = useAuthDrawner();
 
   return (
-    <Box>
-      <TbMenu2
-        size={28}
-        onClick={onOpen}
-        cursor="pointer"
-      />
-      <Drawer placement={"left"} onClose={onClose} isOpen={isOpen}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader
-            borderBottomWidth="1px"
-          >
-            Menu
-          </DrawerHeader>
+    <Box >
+      <Box>
+        <HamburgerIcon
+          boxSize={8}
+          aria-label={"Abrir Menu"}
+          onClick={onOpen}
+          cursor={"pointer"}
+        />
+      </Box>
+      <Drawer placement={"left"} onClose={onClose} isOpen={isOpen} >
+        <DrawerOverlay mt={16} />
+        <DrawerContent mt={16} >
+          <DrawerHeader>Menu</DrawerHeader>
           <DrawerBody
             p="0"
             display={"flex"}

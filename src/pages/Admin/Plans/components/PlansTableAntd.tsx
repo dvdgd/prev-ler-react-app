@@ -1,73 +1,79 @@
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, Tag, useMediaQuery } from "@chakra-ui/react";
 import { Table } from "antd";
-import Column from "antd/es/table/Column";
 import { ColumnsType } from "antd/lib/table";
 import { useEffect, useState } from "react";
 import { TPlan } from "../../../../@types/plan";
 import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
-import { DeleteIconAction } from "../../../../shared/components/DeleteIconAction";
-import { EditIconAction } from "../../../../shared/components/EditIconAction";
 import { PlanService } from "../../../../shared/services/PlanService";
+import { PlansTableOptions } from "./PlansTableOptions";
 
 const columns = (): ColumnsType<TPlan> => {
   return [
     {
-      title: "#",
+      title: "# ID",
       dataIndex: "planId",
       key: "planId",
-      width: "5%",
+      width: 55,
+      fixed: true,
+      render(_value, record) {
+        const planId = record.planId?.toString().padStart(2, "0");
+        return <>{planId}</>;
+      },
     },
     {
       title: "Título",
       dataIndex: "title",
       key: "title",
+      width: 100,
     },
     {
-      title: "Descrição",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Usuários máximos",
+      title: "Qtd. usuários",
       dataIndex: "maxUsers",
       key: "maxUsers",
-      width: "20%",
+      width: 120,
     },
     {
       title: "Periodicidade",
       dataIndex: "periodicy",
       key: "periodicy",
+      width: 110,
+      render(_value, plan) {
+        const periodicy = plan.periodicy === "mensais" ? "Mensal" : "Anual";
+        return <>{periodicy}</>;
+      },
     },
     {
       title: "Valor",
       dataIndex: "value",
       key: "value",
+      width: 100,
+      render(_value, { value }) {
+        const price = `R$ ${value}`
+        return <>{price}</>
+      }
     },
     {
       title: "Ativo",
       dataIndex: "active",
       key: "active",
+      responsive: ["md"],
+      width: 100,
+      render(_value, { active }) {
+        const activeStr = active ? "SIM" : "NÃO";
+        const color = active ? "green" : "red";
+        return <Tag color={color}>{activeStr}</Tag>;
+      },
     },
     {
       title: "Opções",
       dataIndex: "",
       key: "",
       align: "center",
-      render: () => {
+      width: 150,
+      render: (_value, record) => {
         return (
           <>
-            <HStack alignContent={"space-between"} w="full" paddingX={10}>
-              <EditIconAction
-                color={"blue.600"}
-                onClick={() => { }}
-                cursor="pointer"
-              />
-              <DeleteIconAction
-                color={"red.600"}
-                cursor="pointer"
-                onClick={() => { }}
-              />
-            </HStack>
+            <PlansTableOptions plan={record} />
           </>
         );
       },
@@ -84,34 +90,41 @@ export const PlansTableAntd = () => {
     const fetchPlans = async () => {
       try {
         setIsloading(true);
-        const newPlans = await new PlanService().getAllPlans();
-
-        setPlans([...newPlans]);
+        const allPlans = await new PlanService().getAllPlans();
+        setPlans(allPlans);
       } catch (error) {
         showErrorToast({
-          error, toastAttributes: {
-            title: 'Desculpe, ocorreu um erro ao buscar os planos',
-            status: 'error',
+          error,
+          toastAttributes: {
+            title: "Desculpe, ocorreu um erro ao buscar os planos",
+            status: "error",
             duration: 3000,
-          }
+          },
         });
       } finally {
         setIsloading(false);
       }
-    }
+    };
     fetchPlans();
   }, []);
 
+  const [isLargerThan1600] = useMediaQuery("(min-width: 1600px)");
   return (
-    <Box m="20px" mt="100px">
+    <Box w={isLargerThan1600 ? "1600px" : "full"}>
       <Table
+        scroll={{
+          x: 800,
+          y: 300,
+        }}
+        bordered={true}
         loading={isLoading}
         dataSource={plans}
         columns={columns()}
-        rowKey={(data) => data.planId || 0}
-      >
-        <Column title="" />
-      </Table>
+        rowKey="planId"
+        pagination={{
+          position: ["none"],
+        }}
+      />
     </Box>
   );
 };
