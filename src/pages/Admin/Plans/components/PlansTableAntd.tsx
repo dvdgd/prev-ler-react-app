@@ -1,5 +1,5 @@
-import { Box, Tag, useMediaQuery } from "@chakra-ui/react";
-import { Table } from "antd";
+import { Box, useMediaQuery } from "@chakra-ui/react";
+import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { useEffect, useState } from "react";
 import { TPlan } from "../../../../@types/plan";

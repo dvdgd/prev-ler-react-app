@@ -7,6 +7,7 @@ import { AuthService } from "../shared/services/AuthService";
 
 interface TCurrentUserContextValues {
   userSession: TUserSession | undefined;
+  isLoading: boolean;
   login: (props: TLoginBody) => Promise<TUserSession>;
   signUp: (props: TSignUpBody) => Promise<TUserSession>;
   logout: () => void;
@@ -19,6 +20,8 @@ export const CurrentUserContext = createContext(
 
 export const AuthProvider = ({ children }: IChildrenProps) => {
   const [userSession, setStateSession] = useState<TUserSession>();
+  const [isLoading, setIsLoading] = useState(true);
+
   const authService = new AuthService();
 
   useEffect(() => {
@@ -26,7 +29,12 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
     if (!userSessionStr) return;
 
     const userSession = JSON.parse(userSessionStr) as TUserSession;
-    setUserSession(userSession);
+
+    if (userSession?.session?.access_token) {
+      supabaseClient.auth.setSession(userSession.session);
+      setStateSession(userSession);
+    }
+    setIsLoading(false);
   }, []);
 
   const setUserSession = (userSession: TUserSession | undefined) => {
@@ -37,28 +45,32 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
     supabaseClient.auth.setSession(userSession.session);
     localStorage.setItem("@userSession", JSON.stringify(userSession));
     setStateSession(userSession);
+    setIsLoading(false);
   }
 
   const logout = async () => {
     await supabaseClient.auth.signOut();
     localStorage.removeItem("@userSession");
     setStateSession(undefined);
+    setIsLoading(false);
   }
 
   const login = async (props: TLoginBody) => {
     const session = await authService.login(props);
     setUserSession(session);
+    setIsLoading(false);
     return session;
   }
 
   const signUp = async (props: TSignUpBody) => {
     const session = await authService.signUp(props);
     setUserSession(session);
+    setIsLoading(false);
     return session;
   }
 
   return (
-    <CurrentUserContext.Provider value={{ userSession, login, logout, signUp, setUserSession }}>
+    <CurrentUserContext.Provider value={{ userSession, login, logout, signUp, setUserSession, isLoading }}>
       {children}
     </CurrentUserContext.Provider>
   )

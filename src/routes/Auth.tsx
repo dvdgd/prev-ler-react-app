@@ -1,11 +1,20 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useCurrentUser";
+import { SplashPage } from "../pages/Splash";
 
 export function Auth() {
   const location = useLocation();
-  const { userSession } = useAuth();
-  const access_token = userSession?.session?.access_token;
+  const { userSession, isLoading } = useAuth();
 
+  if (isLoading) {
+    return (
+      <>
+        <SplashPage />
+      </>
+    )
+  }
+
+  const access_token = userSession?.session?.access_token;
   if (access_token) {
     return <Outlet />
   }

@@ -30,12 +30,16 @@ export const routesCreateBrowserRoute = createBrowserRouter(
       <Route path="auth" element={<Auth />}>
         <Route path="complete-register" element={<CompanyRegister />} />
         <Route path="company" element={<RequireRole allowedRoles={[EUserType.representante]} />} >
-          <Route path="dashboard" element={<CompanyDashboard />} />
-          <Route path="plan-details" element={<CompanyPlanDetailsPage />} />
+          <Route path="dashboard" element={<Outlet />} handle={{ title: "Dashboard" }} >
+            <Route index element={<CompanyDashboard />} />
+            <Route path="plan-details" element={<Outlet />} handle={{ title: "Planos" }} >
+              <Route index element={<CompanyPlanDetailsPage />} />
+            </Route>
+          </Route>
         </Route>
         <Route path="admin" element={<RequireRole allowedRoles={[EUserType.administrador]} />} >
           <Route path="dashboard" element={<Outlet />} handle={{ title: "Dashboard" }} >
-            <Route index path="" element={<AdminDashboard />} />
+            <Route index element={<AdminDashboard />} />
             <Route path="plans" element={<Outlet />} handle={{ title: "Plano" }} >
               <Route index element={<AdminPlans />} />
               <Route path="create/:idPlan?" element={<PlansForm />} handle={{ title: "Criar Plano" }} />

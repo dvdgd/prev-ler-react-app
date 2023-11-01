@@ -3,18 +3,6 @@ import { Breadcrumb as BreadcrumbChakra, BreadcrumbItem, BreadcrumbLink, HStack 
 import { useMatches, useNavigate } from "react-router-dom";
 import { BreadcrumbRoute } from "../../../@types/react-base-props";
 
-// function DesktopCrumbs() {
-//   return (
-
-//   )
-// }
-
-// function MobileCrumbs() {
-//   return (
-
-//   )
-// }
-
 export function Breadcrumb() {
   const navigate = useNavigate();
   const matches = useMatches() as BreadcrumbRoute[];
