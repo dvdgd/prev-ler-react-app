@@ -27,3 +27,17 @@ export function PlanFromSupabase(planSupabase: TPlanSupabaseRow): TPlan {
     value: planSupabase.valor_plano
   };
 }
+
+export function PartialPlanFromSupabase(planSupabase: Partial<TPlanSupabaseRow> | undefined): Partial<TPlan> {
+  return {
+    active: planSupabase?.ativo ?? false,
+    createdAt: planSupabase?.data_criacao ? new Date(planSupabase?.data_criacao) : undefined,
+    endDate: planSupabase?.data_fim ? new Date(planSupabase?.data_fim) : undefined,
+    description: planSupabase?.descricao,
+    planId: planSupabase?.id_plano,
+    periodicy: planSupabase?.periodicidade,
+    maxUsers: planSupabase?.qtd_max_usuarios,
+    title: planSupabase?.titulo,
+    value: planSupabase?.valor_plano
+  };
+}

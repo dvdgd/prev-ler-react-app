@@ -1,19 +1,9 @@
-import { EPaymentStatus, TPayment, TPaymentSupabaseInsert } from "../../@types/payment";
-
-function formatDate(dateStr: string | undefined): string | undefined {
-  if (dateStr) {
-    const date = new Date(dateStr);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-    return `${day}/${month}/${year}`;
-  }
-  return undefined;
-}
+import { EPaymentStatus, TPayment, TPaymentSupabaseInsert, TPaymentSupabaseRow } from "../../@types/payment";
+import { partialSubscriptionFromSupabase } from "./SubscriptionSupabaseMapper";
 
 export function paymentToSupabase(payment: TPayment): TPaymentSupabaseInsert {
   return {
-    data_pagamento: payment.paymentDate || undefined,
+    data_pagamento: payment.paymentDate?.toISOString() || undefined,
     id_assinatura: payment.subscriptionId,
     id_pagamento: payment.paymentId || undefined,
     status_pagamento: payment.status,
@@ -21,16 +11,13 @@ export function paymentToSupabase(payment: TPayment): TPaymentSupabaseInsert {
   };
 }
 
-export function paymentFromSupabase(paymentSupabaseInsert: TPaymentSupabaseInsert): TPayment {
-  const formattedDate = formatDate(paymentSupabaseInsert.data_pagamento);
-
+export function paymentFromSupabase(paymentSupabaseRow: TPaymentSupabaseRow): TPayment {
   return {
-    paymentId: paymentSupabaseInsert.id_pagamento || undefined,
-    subscriptionId: paymentSupabaseInsert.id_assinatura,
-    status: paymentSupabaseInsert.status_pagamento as EPaymentStatus,
-    value: paymentSupabaseInsert.valor_pagamento,
-    paymentDate: formattedDate
+    paymentId: paymentSupabaseRow.id_pagamento || undefined,
+    subscriptionId: paymentSupabaseRow.id_assinatura,
+    subscription: partialSubscriptionFromSupabase(paymentSupabaseRow.subscription),
+    status: paymentSupabaseRow.status_pagamento as EPaymentStatus,
+    value: paymentSupabaseRow.valor_pagamento,
+    paymentDate: new Date(paymentSupabaseRow.data_pagamento),
   };
 }
-
-

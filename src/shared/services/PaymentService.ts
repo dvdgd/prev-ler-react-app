@@ -7,7 +7,24 @@ export class PaymentService {
   async getAllPayments(): Promise<TPayment[]> {
     const { data } = await supabaseClient
       .from('pagamento')
-      .select()
+      .select(`
+        data_pagamento,
+        id_assinatura,
+        id_pagamento,
+        status_pagamento,
+        valor_pagamento,
+        assinatura (
+          status_assinatura,
+          data_inicio,
+          data_fim,
+          plano (
+            titulo,
+            valor_plano,
+            qtd_max_usuarios,
+            periodicidade
+          )
+        )
+      `)
       .order('valor_pagamento', { ascending: true });
 
     if (!data) {
