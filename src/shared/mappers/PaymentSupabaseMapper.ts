@@ -1,7 +1,7 @@
 import { EPaymentStatus, TPayment, TPaymentSupabaseInsert, TPaymentSupabaseRow } from "../../@types/payment";
-import { partialSubscriptionFromSupabase } from "./SubscriptionSupabaseMapper";
+import { PartialSubscriptionFromSupabase } from "./SubscriptionSupabaseMapper";
 
-export function paymentToSupabase(payment: TPayment): TPaymentSupabaseInsert {
+export function PaymentToSupabase(payment: TPayment): TPaymentSupabaseInsert {
   return {
     data_pagamento: payment.paymentDate?.toISOString() || undefined,
     id_assinatura: payment.subscriptionId,
@@ -11,11 +11,11 @@ export function paymentToSupabase(payment: TPayment): TPaymentSupabaseInsert {
   };
 }
 
-export function paymentFromSupabase(paymentSupabaseRow: TPaymentSupabaseRow): TPayment {
+export function PaymentFromSupabase(paymentSupabaseRow: TPaymentSupabaseRow): TPayment {
   return {
     paymentId: paymentSupabaseRow.id_pagamento || undefined,
     subscriptionId: paymentSupabaseRow.id_assinatura,
-    subscription: partialSubscriptionFromSupabase(paymentSupabaseRow.subscription),
+    subscription: PartialSubscriptionFromSupabase(paymentSupabaseRow.subscription),
     status: paymentSupabaseRow.status_pagamento as EPaymentStatus,
     value: paymentSupabaseRow.valor_pagamento,
     paymentDate: new Date(paymentSupabaseRow.data_pagamento),

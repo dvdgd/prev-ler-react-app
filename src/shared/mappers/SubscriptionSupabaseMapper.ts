@@ -2,7 +2,7 @@ import { ESubscriptionStatus, TSubscription, TSubscriptionInsert, TSubscriptionR
 import { PartialCompanyFromSupabase } from "./CompanySupabaseMappers";
 import { PartialPlanFromSupabase } from "./PlanSupabaseMapper";
 
-export function subscriptionToSupabase(subscription: TSubscription): TSubscriptionInsert {
+export function SubscriptionToSupabase(subscription: TSubscription): TSubscriptionInsert {
   return {
     data_fim: subscription.endDate?.toISOString() || null,
     data_inicio: subscription.startDate?.toISOString() || undefined,
@@ -13,7 +13,7 @@ export function subscriptionToSupabase(subscription: TSubscription): TSubscripti
   };
 }
 
-export function subscriptionFromSupabase(subscriptionRow: TSubscriptionRow): TSubscription {
+export function SubscriptionFromSupabase(subscriptionRow: TSubscriptionRow): TSubscription {
   return {
     subscriptionId: subscriptionRow.id_assinatura || undefined,
     endDate: subscriptionRow.data_fim ? new Date(subscriptionRow.data_fim) : undefined,
@@ -24,7 +24,7 @@ export function subscriptionFromSupabase(subscriptionRow: TSubscriptionRow): TSu
   };
 }
 
-export function partialSubscriptionFromSupabase(subscriptionRow: Partial<TSubscriptionRow> | undefined): Partial<TSubscription> {
+export function PartialSubscriptionFromSupabase(subscriptionRow: Partial<TSubscriptionRow> | undefined): Partial<TSubscription> {
   return {
     subscriptionId: subscriptionRow?.id_assinatura || undefined,
     endDate: subscriptionRow?.data_fim ? new Date(subscriptionRow?.data_fim) : undefined,

@@ -1,7 +1,7 @@
 import { TPayment } from "../../@types/payment";
 import { supabaseClient } from "../../config/supabase";
 import { BaseError } from "../errors/BaseError";
-import { paymentFromSupabase } from "../mappers/PaymentSupabaseMapper";
+import { PaymentFromSupabase } from "../mappers/PaymentSupabaseMapper";
 
 export class PaymentService {
   async getAllPayments(): Promise<TPayment[]> {
@@ -34,7 +34,7 @@ export class PaymentService {
       });
     }
 
-    return data.map(p => paymentFromSupabase(p));
+    return data.map(p => PaymentFromSupabase(p));
   }
 
   async getPaymentById(paymentId: string): Promise<TPayment> {
@@ -51,6 +51,6 @@ export class PaymentService {
       });
     }
 
-    return paymentFromSupabase(data);
+    return PaymentFromSupabase(data);
   }
 }
