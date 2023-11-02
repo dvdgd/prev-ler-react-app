@@ -29,8 +29,8 @@ export const PlansForm = () => {
               <FormLabel htmlFor="description">Descricao</FormLabel>
               <Textarea id="description" {...register("description")} />
             </FormControl>
-            <Wrap>
-              <Box w="192px">
+            <Wrap spacing={4} w={"full"}>
+              <Box flex={1} minW={"47.6%"} maxW={"full"}>
                 <FormControl isRequired>
                   <FormLabel>Periodicidade</FormLabel>
                   <Controller
@@ -49,7 +49,7 @@ export const PlansForm = () => {
                   />
                 </FormControl>
               </Box>
-              <Box w="192px">
+              <Box flex={1} minW={"47.6%"} maxW={"full"}>
                 <FormControl isRequired>
                   <FormLabel htmlFor="value">Valor</FormLabel>
                   <Input
@@ -60,6 +60,7 @@ export const PlansForm = () => {
                 </FormControl>
               </Box>
             </Wrap>
+
             <FormControl isRequired>
               <FormLabel htmlFor="maxUsers">Qtd. de Usuários</FormLabel>
               <Input id="maxUsers" type="number" {...register("maxUsers")} />
@@ -67,7 +68,6 @@ export const PlansForm = () => {
             <Button
               colorScheme="brand"
               size="md"
-              w="100%"
               mt="5"
               type="submit"
               isLoading={isLoading}
