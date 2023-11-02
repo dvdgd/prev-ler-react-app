@@ -2,8 +2,8 @@ import { Box, Button, FormControl, FormLabel, HStack, Input, Stack } from "@chak
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useCurrentUser";
 import { OnboardingLayout } from "../../../layouts/UserOnboardingLayout/UserOnboardingLayout";
+import { FormCard } from "../../../shared/components/Card/FormCard";
 import { ReturnTrueIfCompanyComplete } from "../../../shared/functions/ReturnTrueIfCompanyComplete";
-import { FormCard } from "../components/FormCard";
 import { useCompanyForm } from "./hooks/useCompanyForm";
 import { useGetCompanyApi } from "./hooks/useGetCompanyApi";
 
@@ -30,8 +30,7 @@ export function CompanyRegister() {
     <OnboardingLayout>
       <form onSubmit={handleSubmit(handleNewCompany)}>
         <FormCard
-          title="Estamos quase lá..."
-          subtitle="Agora vamos cadastrar sua empresa!"
+          title="Cadastrar Empresa"
           spacing={4}
         >
           <HStack>

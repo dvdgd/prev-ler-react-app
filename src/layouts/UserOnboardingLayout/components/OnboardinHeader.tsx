@@ -24,7 +24,7 @@ const DesktopSidebarContents = () => {
     : { name: "Entrar", link: "/check/login", colorScheme: "brand" }
 
   return (
-    <Container maxW={["full", "container.lg"]} p={4} marginBottom={12}>
+    <Container maxW={["full", "container.lg"]} p={4} marginBottom={0}>
       <HStack justify="space-between" w="full" alignItems="end">
         <LogoButton />
         <Spacer />

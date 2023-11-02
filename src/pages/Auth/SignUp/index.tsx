@@ -13,13 +13,15 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { OnboardingLayout } from "../../../layouts/UserOnboardingLayout/UserOnboardingLayout";
-import { FormCard } from "../components/FormCard";
+import { FormCard } from "../../../shared/components/Card/FormCard";
 import { useSignUpForm } from "./hooks/useSignUpForm";
 
 export function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const { handleSubmit, isLoading, onFormSubmit, register } = useSignUpForm();
+  const navigate = useNavigate();
 
   return (
     <OnboardingLayout>
@@ -69,22 +71,20 @@ export function SignUp() {
             </InputGroup>
           </FormControl>
 
-          <Stack spacing={10} pt={2}>
-            <Button
-              loadingText="Cadastrando..."
-              colorScheme="brand"
-              size="lg"
-              type="submit"
-              isLoading={isLoading}
-            >
-              Cadastrar
-            </Button>
-          </Stack>
+          <Button
+            loadingText="Cadastrando..."
+            colorScheme="brand"
+            size="lg"
+            type="submit"
+            isLoading={isLoading}
+          >
+            Cadastrar
+          </Button>
 
           <Stack pt={6}>
             <Text align={"center"}>
               Já é um usuário?{" "}
-              <Link color={"blue.500"} href="/check/login">
+              <Link color={"blue.500"} onClick={() => navigate("/check/login")}>
                 Faça o Login!
               </Link>
             </Text>

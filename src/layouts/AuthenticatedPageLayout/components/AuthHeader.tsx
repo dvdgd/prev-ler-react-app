@@ -46,7 +46,7 @@ export const AuthHeader = () => {
 
   return (
     <VStack
-      zIndex={2}
+      zIndex={3}
       as="header"
       w={"full"}
       position={"fixed"}

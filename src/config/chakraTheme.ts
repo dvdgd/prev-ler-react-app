@@ -1,6 +1,7 @@
 import { extendTheme } from "@chakra-ui/react";
 
 export const chakraTheme = extendTheme({
+
   colors: {
     brand: {
       50: "#E6FFFA",

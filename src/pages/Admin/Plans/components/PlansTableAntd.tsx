@@ -1,4 +1,3 @@
-import { Box, useMediaQuery } from "@chakra-ui/react";
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { useEffect, useState } from "react";
@@ -108,9 +107,8 @@ export const PlansTableAntd = () => {
     fetchPlans();
   }, []);
 
-  const [isLargerThan1600] = useMediaQuery("(min-width: 1600px)");
   return (
-    <Box w={isLargerThan1600 ? "1600px" : "full"}>
+    <>
       <Table
         scroll={{
           x: 800,
@@ -125,6 +123,6 @@ export const PlansTableAntd = () => {
           position: ["none"],
         }}
       />
-    </Box>
+    </>
   );
 };
