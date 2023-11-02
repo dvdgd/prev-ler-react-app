@@ -25,52 +25,55 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
   const authService = new AuthService();
 
   useEffect(() => {
-    setIsLoading(false);
-  }, [userSession]);
-
-  useEffect(() => {
     const userSessionStr = localStorage.getItem("@userSession");
-    if (!userSessionStr) return;
+    if (!userSessionStr) return setIsLoading(false);
 
     const userSession = JSON.parse(userSessionStr) as TUserSession;
-
-    if (userSession?.session?.access_token) {
-      setUserSession(userSession);
-    }
+    setUserSession(userSession);
   }, []);
 
-  const setUserSession = (userSession: TUserSession | undefined) => {
+  const setUserSession = async (userSession: TUserSession | undefined) => {
     if (!userSession?.session?.access_token) {
       return logout();
     }
 
-    setIsLoading(true);
-    supabaseClient.auth.setSession(userSession.session).then(({ data }) => {
-      if (!data.session?.access_token) {
-        return setStateSession(undefined);
+    try {
+      setIsLoading(true);
+      const { data: { session } } = await supabaseClient.auth.setSession(userSession.session);
+
+      if (!session?.access_token) {
+        return logout();
       }
 
-      userSession.session = data.session;
+      userSession.session = session;
       localStorage.setItem("@userSession", JSON.stringify(userSession));
+
       setStateSession(userSession);
-    });
+    } catch (e) {
+      console.log('An unexpected error occured in AuthProvider.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = async () => {
-    await supabaseClient.auth.signOut();
     localStorage.removeItem("@userSession");
+    await supabaseClient.auth.signOut();
     setStateSession(undefined);
+    if (isLoading) setIsLoading(false);
   };
 
   const login = async (props: TLoginBody) => {
     const session = await authService.login(props);
     setUserSession(session);
+    if (isLoading) setIsLoading(false);
     return session;
   };
 
   const signUp = async (props: TSignUpBody) => {
     const session = await authService.signUp(props);
     setUserSession(session);
+    if (isLoading) setIsLoading(false);
     return session;
   };
 
