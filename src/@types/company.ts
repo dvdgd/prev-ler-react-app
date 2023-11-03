@@ -16,3 +16,8 @@ export type TCompany = {
   adress: TAdress;
   phone: TPhone;
 }
+
+export type TPartialCompany = Partial<Omit<TCompany, "adress" | "phone">> & {
+  adress: Partial<TAdress>
+  phone: Partial<TPhone>
+}

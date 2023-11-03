@@ -26,52 +26,62 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
 
   useEffect(() => {
     const userSessionStr = localStorage.getItem("@userSession");
-    if (!userSessionStr) return;
+    if (!userSessionStr) return setIsLoading(false);
 
     const userSession = JSON.parse(userSessionStr) as TUserSession;
-
-    if (userSession?.session?.access_token) {
-      supabaseClient.auth.setSession(userSession.session);
-      setStateSession(userSession);
-    }
-    setIsLoading(false);
+    setUserSession(userSession);
   }, []);
 
-  const setUserSession = (userSession: TUserSession | undefined) => {
+  const setUserSession = async (userSession: TUserSession | undefined) => {
     if (!userSession?.session?.access_token) {
       return logout();
     }
 
-    supabaseClient.auth.setSession(userSession.session);
-    localStorage.setItem("@userSession", JSON.stringify(userSession));
-    setStateSession(userSession);
-    setIsLoading(false);
-  }
+    try {
+      setIsLoading(true);
+      const { data: { session } } = await supabaseClient.auth.setSession(userSession.session);
+
+      if (!session?.access_token) {
+        return logout();
+      }
+
+      userSession.session = session;
+      localStorage.setItem("@userSession", JSON.stringify(userSession));
+
+      setStateSession(userSession);
+    } catch (e) {
+      console.log('An unexpected error occured in AuthProvider.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const logout = async () => {
-    await supabaseClient.auth.signOut();
     localStorage.removeItem("@userSession");
+    await supabaseClient.auth.signOut();
     setStateSession(undefined);
-    setIsLoading(false);
-  }
+    if (isLoading) setIsLoading(false);
+  };
 
   const login = async (props: TLoginBody) => {
     const session = await authService.login(props);
     setUserSession(session);
-    setIsLoading(false);
+    if (isLoading) setIsLoading(false);
     return session;
-  }
+  };
 
   const signUp = async (props: TSignUpBody) => {
     const session = await authService.signUp(props);
     setUserSession(session);
-    setIsLoading(false);
+    if (isLoading) setIsLoading(false);
     return session;
-  }
+  };
 
   return (
-    <CurrentUserContext.Provider value={{ userSession, login, logout, signUp, setUserSession, isLoading }}>
+    <CurrentUserContext.Provider
+      value={{ userSession, login, logout, signUp, setUserSession, isLoading }}
+    >
       {children}
     </CurrentUserContext.Provider>
-  )
-}
+  );
+};

@@ -1,13 +1,30 @@
 import { TPayment } from "../../@types/payment";
 import { supabaseClient } from "../../config/supabase";
 import { BaseError } from "../errors/BaseError";
-import { paymentFromSupabase } from "../mappers/PaymentSupabaseMapper";
+import { PaymentFromSupabase } from "../mappers/PaymentSupabaseMapper";
 
 export class PaymentService {
   async getAllPayments(): Promise<TPayment[]> {
     const { data } = await supabaseClient
       .from('pagamento')
-      .select()
+      .select(`
+        data_pagamento,
+        id_assinatura,
+        id_pagamento,
+        status_pagamento,
+        valor_pagamento,
+        assinatura (
+          status_assinatura,
+          data_inicio,
+          data_fim,
+          plano (
+            titulo,
+            valor_plano,
+            qtd_max_usuarios,
+            periodicidade
+          )
+        )
+      `)
       .order('valor_pagamento', { ascending: true });
 
     if (!data) {
@@ -17,7 +34,7 @@ export class PaymentService {
       });
     }
 
-    return data.map(p => paymentFromSupabase(p));
+    return data.map(p => PaymentFromSupabase(p));
   }
 
   async getPaymentById(paymentId: string): Promise<TPayment> {
@@ -34,6 +51,6 @@ export class PaymentService {
       });
     }
 
-    return paymentFromSupabase(data);
+    return PaymentFromSupabase(data);
   }
 }

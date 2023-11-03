@@ -9,38 +9,43 @@ import {
   InputGroup,
   InputRightElement,
   Link,
-  Stack,
   Text,
+  VStack,
+  Wrap
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { OnboardingLayout } from "../../../layouts/UserOnboardingLayout/UserOnboardingLayout";
-import { FormCard } from "../components/FormCard";
+import { FormCard } from "../../../shared/components/Card/FormCard";
 import { useSignUpForm } from "./hooks/useSignUpForm";
 
 export function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const { handleSubmit, isLoading, onFormSubmit, register } = useSignUpForm();
+  const navigate = useNavigate();
 
   return (
     <OnboardingLayout>
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <FormCard title="Cadastre-se">
           <HStack>
-            <Box>
-              <FormControl isRequired>
-                <FormLabel htmlFor="firstName">Primeiro Nome</FormLabel>
-                <Input
-                  id="firstName"
-                  {...register("profile.firstName", { required: true })}
-                />
-              </FormControl>
-            </Box>
-            <Box>
-              <FormControl>
-                <FormLabel htmlFor="lastName">Último Nome</FormLabel>
-                <Input id="lastName" {...register("profile.lastName")} />
-              </FormControl>
-            </Box>
+            <Wrap spacing={4}>
+              <Box flex={1} minW={"47.6%"}>
+                <FormControl isRequired>
+                  <FormLabel htmlFor="firstName">Primeiro Nome</FormLabel>
+                  <Input
+                    id="firstName"
+                    {...register("profile.firstName", { required: true })}
+                  />
+                </FormControl>
+              </Box>
+              <Box flex={1} minW={"47.6%"}>
+                <FormControl>
+                  <FormLabel htmlFor="lastName">Último Nome</FormLabel>
+                  <Input id="lastName" {...register("profile.lastName")} />
+                </FormControl>
+              </Box>
+            </Wrap>
           </HStack>
 
           <FormControl isRequired>
@@ -69,7 +74,7 @@ export function SignUp() {
             </InputGroup>
           </FormControl>
 
-          <Stack spacing={10} pt={2}>
+          <VStack spacing={4} mt={3}>
             <Button
               loadingText="Cadastrando..."
               colorScheme="brand"
@@ -79,16 +84,13 @@ export function SignUp() {
             >
               Cadastrar
             </Button>
-          </Stack>
-
-          <Stack pt={6}>
             <Text align={"center"}>
               Já é um usuário?{" "}
-              <Link color={"blue.500"} href="/check/login">
+              <Link color={"blue.500"} onClick={() => navigate("/check/login")}>
                 Faça o Login!
               </Link>
             </Text>
-          </Stack>
+          </VStack>
         </FormCard>
       </form>
     </OnboardingLayout>

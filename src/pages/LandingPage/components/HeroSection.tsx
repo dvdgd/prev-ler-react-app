@@ -15,7 +15,7 @@ export const HeroSection: FunctionComponent<HeroSectionProps> = () => {
   const navigate = useNavigate();
 
   return (
-    <Container maxW="container.lg">
+    <Container maxW="container.lg" mt={12}>
       <Center p={4} minHeight="70vh">
         <VStack>
           <Container maxW="container.md" textAlign="center">

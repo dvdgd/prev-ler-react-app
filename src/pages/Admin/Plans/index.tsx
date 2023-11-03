@@ -1,5 +1,6 @@
-import { Box, Button, Card, Heading, VStack } from "@chakra-ui/react";
+import { Button, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { TableCard } from "../../../shared/components/Card/TableCard";
 import { PlansTableAntd } from "./components/PlansTableAntd";
 
 export function AdminPlans() {
@@ -7,31 +8,22 @@ export function AdminPlans() {
 
   return (
     <>
-      <Box
-        w={"full"}
-        p={6}
+      <TableCard
+        title="Planos"
+      // shadow={"xl"}
+      // size={"lg"}
       >
-        <Card
-          shadow={"xl"}
-          size={"sm"}
-        >
-          <VStack p={6} spacing={8}>
-            <Box w={"full"} alignItems={"left"}>
-              <Heading size={"lg"}>
-                Planos
-              </Heading>
-            </Box>
-            <PlansTableAntd />
-            <Button
-              colorScheme="brand"
-              size={"lg"}
-              onClick={() => navigate("create")}
-            >
-              Novo
-            </Button>
-          </VStack>
-        </Card>
-      </Box>
+        <VStack spacing={8} w="full">
+          <PlansTableAntd />
+          <Button
+            colorScheme="brand"
+            size={"lg"}
+            onClick={() => navigate("create")}
+          >
+            Novo
+          </Button>
+        </VStack>
+      </TableCard>
     </>
   );
 }

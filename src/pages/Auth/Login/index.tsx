@@ -1,17 +1,18 @@
 import {
+  Box,
   Button,
-  Checkbox,
   FormControl,
   FormLabel,
   Input,
   Link,
-  Stack,
   Text,
+  VStack
 } from "@chakra-ui/react";
 import { FormProvider } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { OnboardingLayout } from "../../../layouts/UserOnboardingLayout/UserOnboardingLayout";
+import { FormCard } from "../../../shared/components/Card/FormCard";
 import { PasswordInput } from "../../../shared/components/PasswordInput";
-import { FormCard } from "../components/FormCard";
 import { useLogin } from "./hooks/useLoginForm";
 
 export function Login() {
@@ -22,44 +23,44 @@ export function Login() {
     rest,
     handleSubmit,
   } = useLogin();
+  const navigate = useNavigate();
 
   return (
     <OnboardingLayout>
       <FormProvider {...{ register, handleSubmit, ...rest }}>
         <form onSubmit={handleSubmit(onFormSubmit)}>
-          <FormCard title={"Faça o login em sua conta!"}>
+          <FormCard title={"Login"}>
             <FormControl isRequired>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input id="email" type="email" {...register("email")} />
             </FormControl>
             <PasswordInput inputName="password" label="Senha" />
-            <Stack
-              direction={{ base: "column", sm: "row" }}
-              align={"start"}
-              justify={"space-between"}>
-              <Checkbox>Lembre-me</Checkbox>
-              <Link color={"blue.500"}>Esqueci minha senha</Link>
-            </Stack>
-            <Button
-              colorScheme="brand"
-              loadingText="Entrando..."
-              size="lg"
-              type="submit"
-              isLoading={isLoading}
+            <Box
+              w={"full"}
+              textAlign={"start"}
             >
-              Entrar
-            </Button>
-            <Stack pt={6}>
+              <Link color={"blue.500"}>Esqueci minha senha</Link>
+            </Box>
+            <VStack spacing={4} mt={3}>
+              <Button
+                colorScheme="brand"
+                loadingText="Entrando..."
+                size="lg"
+                type="submit"
+                isLoading={isLoading}
+              >
+                Entrar
+              </Button>
               <Text align={"center"}>
                 Ainda não é usuário? {" "}
-                <Link color={"blue.500"} href="/check/sign-up">
+                <Link color={"blue.500"} onClick={() => navigate("/check/sign-up")}>
                   Cadastre-se
                 </Link>
               </Text>
-            </Stack>
+            </VStack>
           </FormCard>
         </form>
       </FormProvider>
-    </OnboardingLayout>
+    </OnboardingLayout >
   )
 }
