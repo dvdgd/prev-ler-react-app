@@ -17,7 +17,7 @@ export function BaseCard({ children, title, ...props }: BaseCardProps) {
       {...props}
     >
       <CardHeader>
-        <Heading fontSize={"4xl"} textOverflow={"clip"}>
+        <Heading textOverflow={"clip"}>
           {title}
         </Heading>
       </CardHeader>

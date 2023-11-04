@@ -29,7 +29,7 @@ export function Breadcrumb() {
 
                 return (
                   <BreadcrumbItem key={index} isCurrentPage={currentPage}>
-                    <BreadcrumbLink onClick={() => navigate(crumb.pathname)} textDecoration={textDecoration}>
+                    <BreadcrumbLink onClick={() => navigate(crumb.pathname)} textDecoration={textDecoration} fontSize={["sm", "md"]}>
                       {crumb.handle.title}
                     </BreadcrumbLink>
                   </BreadcrumbItem>
