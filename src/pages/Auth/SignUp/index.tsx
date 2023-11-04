@@ -27,7 +27,7 @@ export function SignUp() {
   return (
     <OnboardingLayout>
       <form onSubmit={handleSubmit(onFormSubmit)}>
-        <FormCard title="Cadastre-se">
+        <FormCard title="Cadastre-se" maxW={"md"}>
           <HStack>
             <Wrap spacing={4}>
               <Box flex={1} minW={"47.6%"}>

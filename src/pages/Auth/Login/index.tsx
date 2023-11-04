@@ -29,7 +29,7 @@ export function Login() {
     <OnboardingLayout>
       <FormProvider {...{ register, handleSubmit, ...rest }}>
         <form onSubmit={handleSubmit(onFormSubmit)}>
-          <FormCard title={"Login"}>
+          <FormCard title={"Login"} maxW={"sm"}>
             <FormControl isRequired>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input id="email" type="email" {...register("email")} />

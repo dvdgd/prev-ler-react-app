@@ -5,7 +5,7 @@ export default function FeaturesSection() {
 
   return (
     <Container id="features" maxW="container.md" centerContent py={[8, 28]}>
-      <SimpleGrid spacingX={10} spacingY={20} minChildWidth="300px">
+      <SimpleGrid spacingX={10} spacingY={20} minChildWidth={["full", "300px"]}>
         {features.map(({ title, description, icon }, i: number) => (
           <Box p={4} rounded="md" key={`highlight_${i}`}>
             <Text fontSize="4xl">{icon}</Text>

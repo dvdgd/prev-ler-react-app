@@ -42,7 +42,8 @@ export const routesCreateBrowserRoute = createBrowserRouter(
             <Route index element={<AdminDashboard />} />
             <Route path="plans" element={<Outlet />} handle={{ title: "Plano" }} >
               <Route index element={<AdminPlans />} />
-              <Route path="create/:idPlan?" element={<PlansForm />} handle={{ title: "Criar Plano" }} />
+              <Route path="create" element={<PlansForm />} handle={{ title: "Criar Plano" }} />
+              <Route path="create/:idPlan?" element={<PlansForm />} handle={{ title: "Editar Plano" }} />
             </Route>
           </Route>
         </Route>

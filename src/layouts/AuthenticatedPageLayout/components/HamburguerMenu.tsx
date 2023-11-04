@@ -19,11 +19,11 @@ export const HamburguerMenu = ({ children }: IChildrenProps) => {
         <HamburgerIcon
           boxSize={8}
           aria-label={"Abrir Menu"}
-          onClick={onOpen}
+          onClick={isOpen ? onClose : onOpen}
           cursor={"pointer"}
         />
       </Box>
-      <Drawer placement={"left"} onClose={onClose} isOpen={isOpen} >
+      <Drawer placement={"left"} onClose={onClose} isOpen={isOpen} size={"xs"}>
         <DrawerOverlay mt={16} />
         <DrawerContent mt={16} >
           <DrawerHeader>Menu</DrawerHeader>

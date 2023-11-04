@@ -1,11 +1,8 @@
-import { useMediaQuery } from "@chakra-ui/react";
 import { BaseCard, BaseCardProps } from "./BaseCard";
 
-export function FormCard({ title, children }: Omit<BaseCardProps, "minW">) {
-  const [isLargerThan48em] = useMediaQuery("(min-width: 500px)");
-
+export function FormCard({ title, children, ...props }: Omit<BaseCardProps, "minW">) {
   return (
-    <BaseCard title={title} maxW={"md"} minW={isLargerThan48em ? "md" : ""}>
+    <BaseCard title={title} w={["auto", "auto", "2xl"]} {...props}>
       {children}
     </BaseCard>
   )
