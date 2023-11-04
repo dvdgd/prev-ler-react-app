@@ -10,8 +10,6 @@ export function AdminPlans() {
     <>
       <TableCard
         title="Planos"
-      // shadow={"xl"}
-      // size={"lg"}
       >
         <VStack spacing={8} w="full">
           <PlansTableAntd />
