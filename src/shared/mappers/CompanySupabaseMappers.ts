@@ -1,5 +1,6 @@
 import { TCompany, TCompanySupabaseInsert, TCompanySupabaseRow, TPartialCompany } from "../../@types/company";
 import { DateonlyPtBrToISO } from "./DatePtBrMapper";
+import { PartialSubscriptionFromSupabase } from "./SubscriptionSupabaseMapper";
 
 export function CompanyToSupabase(company: TCompany): TCompanySupabaseInsert {
   return {
@@ -27,6 +28,7 @@ export function CompanyFromSupabase(company: TCompanySupabaseRow): TCompany {
       number: company.telefone,
       ddd: company.ddd,
     },
+    subscriptions: company.assinatura?.map((subscription) => PartialSubscriptionFromSupabase(subscription)),
     cnpj: company.id_cnpj,
     companyName: company.razao_social,
     fantasyName: company.nome_fantasia,
