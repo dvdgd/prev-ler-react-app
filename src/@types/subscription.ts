@@ -25,5 +25,5 @@ export type TSubscription = {
   endDate?: Date;
   startDate?: Date;
   planId: number;
-  subscriptionStatus: ESubscriptionStatus
+  status: ESubscriptionStatus
 }

@@ -5,7 +5,7 @@ type TPaymentSupabase = Database['public']['Tables']['pagamento']
 
 export type TPaymentSupabaseInsert = TPaymentSupabase['Insert'];
 export type TPaymentSupabaseRow = TPaymentSupabase['Row'] & {
-  subscription?: Partial<TSubscriptionRow>
+  assinatura?: Partial<TSubscriptionRow>
 };
 
 export type TPaymentStatusSupabase = Database["public"]["Enums"]["status_pagamento"]
@@ -20,7 +20,7 @@ export type TPayment = {
   paymentId?: number;
   subscriptionId: number;
   subscription?: Partial<TSubscription>;
-  status: EPaymentStatus;
-  value: number;
   paymentDate?: Date;
+  value: number;
+  status: EPaymentStatus;
 }
