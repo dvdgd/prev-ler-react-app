@@ -7,7 +7,7 @@ import { CompanyRegister } from "../pages/Auth/CompanyRegister";
 import { Login } from "../pages/Auth/Login";
 import { Logout } from "../pages/Auth/Logout";
 import { SignUp } from "../pages/Auth/SignUp";
-import { CompanyPlanDetailsPage } from "../pages/Company/CompanyPlanDetails/CompanyPlanDetails";
+import { CompanyPlanDetailsPage } from "../pages/Company/CompanyPlanDetails";
 import { CompanyDashboard } from "../pages/Company/Dashboard/CompanyDashboard";
 import { NotFound } from "../pages/Errors/NotFound";
 import { Unauthorized } from "../pages/Errors/Unauthorized";
