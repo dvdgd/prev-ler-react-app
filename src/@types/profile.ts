@@ -1,4 +1,5 @@
 import { Database } from "./database.types";
+import { TJobRoleSupabaseRow } from "./job-role";
 
 
 export enum EUserType {
@@ -11,7 +12,9 @@ export enum EUserType {
 type ProfileSupabase = Database["public"]["Tables"]["profiles"]
 export type EProfileType = Database["public"]["Enums"]["tipo_usuario"]
 export type TUserProfileSupabaseInsert = ProfileSupabase["Insert"]
-export type TUserProfileSupabaseRow = ProfileSupabase["Row"]
+export type TUserProfileSupabaseRow = ProfileSupabase["Row"] & {
+  cargo: Omit<TJobRoleSupabaseRow, "id_cargo" | "id_empresa">
+}
 export type TUserProfileSupabaseUpdate = ProfileSupabase["Update"]
 
 export type TUserProfile = {
@@ -19,4 +22,5 @@ export type TUserProfile = {
   lastName: string;
   userType: EUserType;
   idCompany?: string | null;
+  jobRole?: string;
 }

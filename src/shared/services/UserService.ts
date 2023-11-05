@@ -1,5 +1,5 @@
-import { TCompany } from "../../@types/company";
-import { EUserType, TUserProfile } from "../../@types/profile";
+import { TCompany, TCompanySupabaseRow } from "../../@types/company";
+import { EUserType, TUserProfile, TUserProfileSupabaseRow } from "../../@types/profile";
 import { TUser } from "../../@types/user";
 import { supabaseClient } from "../../config/supabase";
 import { BaseError } from "../errors/BaseError";
@@ -33,21 +33,22 @@ export class UserService {
   private async getProfile(): Promise<TUserProfile | undefined> {
     const { data, error } = await supabaseClient
       .from('profiles')
-      .select("*")
+      .select(`*, cargo(nome)`)
       .single();
     if (!data || error) return;
-    return UserProfileFromSupabase(data);
+    return UserProfileFromSupabase(data as TUserProfileSupabaseRow);
   }
 
   private async getUserCompany(userType: EUserType): Promise<TCompany | undefined> {
     if (userType !== EUserType.representante) return;
     const { data, error } = await supabaseClient.from("empresa")
-      .select("*")
+      .select(`*, assinatura(*, plano(*))`)
+      .is("assinatura.data_fim", null)
       .limit(1)
       .single();
 
     if (!data || error) return;
-    return CompanyFromSupabase(data);
+    return CompanyFromSupabase(data as TCompanySupabaseRow);
   }
 
   async updateProfileByUserId(profile: Partial<TUserProfile>, userId: string): Promise<void> {

@@ -15,5 +15,6 @@ export function UserProfileFromSupabase(userProfileSupabase: TUserProfileSupabas
     lastName: userProfileSupabase.last_name,
     userType: userProfileSupabase.id_tipo_usuario as EUserType,
     idCompany: userProfileSupabase.id_empresa,
+    jobRole: userProfileSupabase.cargo?.nome
   }
 }
