@@ -15,7 +15,7 @@ export function PaymentFromSupabase(paymentSupabaseRow: TPaymentSupabaseRow): TP
   return {
     paymentId: paymentSupabaseRow.id_pagamento || undefined,
     subscriptionId: paymentSupabaseRow.id_assinatura,
-    subscription: PartialSubscriptionFromSupabase(paymentSupabaseRow.subscription),
+    subscription: PartialSubscriptionFromSupabase(paymentSupabaseRow.assinatura),
     status: paymentSupabaseRow.status_pagamento as EPaymentStatus,
     value: paymentSupabaseRow.valor_pagamento,
     paymentDate: new Date(paymentSupabaseRow.data_pagamento),

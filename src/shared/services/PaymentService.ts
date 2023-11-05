@@ -1,4 +1,4 @@
-import { TPayment } from "../../@types/payment";
+import { TPayment, TPaymentSupabaseRow } from "../../@types/payment";
 import { supabaseClient } from "../../config/supabase";
 import { BaseError } from "../errors/BaseError";
 import { PaymentFromSupabase } from "../mappers/PaymentSupabaseMapper";
@@ -21,7 +21,8 @@ export class PaymentService {
             titulo,
             valor_plano,
             qtd_max_usuarios,
-            periodicidade
+            periodicidade,
+            descricao
           )
         )
       `)
@@ -34,7 +35,7 @@ export class PaymentService {
       });
     }
 
-    return data.map(p => PaymentFromSupabase(p));
+    return data.map(p => PaymentFromSupabase(p as TPaymentSupabaseRow));
   }
 
   async getPaymentById(paymentId: string): Promise<TPayment> {
