@@ -115,7 +115,10 @@ export const CompanyPaymentsTableAntd = () => {
       loading={isLoading}
       dataSource={payments}
       columns={columns()}
-      rowKey={(data) => data.paymentId || 0}
+      rowKey="paymentId"
+      scroll={{ x: 800, y: 300 }}
+      bordered
+      pagination={{ position: ["none"] }}
     >
       <Column title="" />
     </Table>
