@@ -9,7 +9,7 @@ export function SubscriptionToSupabase(subscription: TSubscription): TSubscripti
     id_assinatura: subscription.subscriptionId || undefined,
     id_empresa: subscription.companyId.toString(),
     id_plano: subscription.planId,
-    status_assinatura: subscription.subscriptionStatus
+    status_assinatura: subscription.status
   };
 }
 
@@ -20,7 +20,7 @@ export function SubscriptionFromSupabase(subscriptionRow: TSubscriptionRow): TSu
     startDate: subscriptionRow.data_inicio ? new Date(subscriptionRow.data_inicio) : undefined,
     companyId: subscriptionRow.id_empresa?.toString() ?? '0',
     planId: subscriptionRow.id_plano ?? 0,
-    subscriptionStatus: subscriptionRow.status_assinatura as ESubscriptionStatus
+    status: subscriptionRow.status_assinatura as ESubscriptionStatus
   };
 }
 
@@ -33,6 +33,6 @@ export function PartialSubscriptionFromSupabase(subscriptionRow: Partial<TSubscr
     plan: PartialPlanFromSupabase(subscriptionRow?.plano),
     company: PartialCompanyFromSupabase(subscriptionRow?.empresa),
     planId: subscriptionRow?.id_plano,
-    subscriptionStatus: subscriptionRow?.status_assinatura as ESubscriptionStatus
+    status: subscriptionRow?.status_assinatura as ESubscriptionStatus
   };
 }
