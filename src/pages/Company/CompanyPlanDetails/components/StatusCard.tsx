@@ -1,35 +1,17 @@
-import { CheckCircleIcon } from "@chakra-ui/icons";
-import { Box, HStack, List, ListIcon, ListItem, Text, VStack } from "@chakra-ui/react";
-import { MyCard } from "../../../../shared/components/MyCard";
+import { Text, VStack } from "@chakra-ui/react";
+import { BsCheckAll } from "react-icons/bs";
+import { useAuth } from "../../../../hooks/useCurrentUser";
+import { MiniInfoCard } from "../../../../shared/components/Card/MiniInfoCard";
 
 export function StatusCard() {
+  const { userSession } = useAuth();
   return (
-    <MyCard>
-      <VStack spacing={3} align="flex-start">
-        <Text fontWeight={600} casing="uppercase" fontSize="sm">
-          {"Status de Assinatura"}
+    <MiniInfoCard title={"Status da Assinatura"} icon={<BsCheckAll />}>
+      <VStack w={"full"} spacing={3} align="flex-start">
+        <Text fontSize="3xl" fontWeight="medium">
+          {userSession?.user?.company?.subscriptions?.at(0)?.status}
         </Text>
-
-        <Box w="full">
-          <Text fontSize="3xl" fontWeight="medium">
-            R$ {"R$ 2000,00"} {"MENSAL"}
-          </Text>
-        </Box>
-        <Text>{"IDEAL PARA FALIR O RH"}</Text>
-
-        <VStack pt={8} spacing={4} align="flex-start">
-          <List>
-            <ListItem>
-              <HStack align="flex-start" spacing={1}>
-                <ListIcon as={CheckCircleIcon} color="brand.500" mt={1} />
-                <Text>
-                  Até {"MÁXIMO DE 27,5 USUÁRIOS"} usuários ativos.
-                </Text>
-              </HStack>
-            </ListItem>
-          </List>
-        </VStack>
       </VStack>
-    </MyCard>
+    </MiniInfoCard>
   );
 }
