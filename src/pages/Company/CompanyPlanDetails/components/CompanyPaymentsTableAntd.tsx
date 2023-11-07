@@ -1,5 +1,4 @@
 import { Table, Tag } from "antd";
-import Column from "antd/es/table/Column";
 import { ColumnsType } from "antd/lib/table";
 import { useEffect, useState } from "react";
 import { EPaymentStatus, TPayment } from "../../../../@types/payment";
@@ -118,9 +117,10 @@ export const CompanyPaymentsTableAntd = () => {
       rowKey="paymentId"
       scroll={{ x: 800, y: 300 }}
       bordered
-      pagination={{ position: ["none"] }}
+      pagination={{
+        position: ["none"],
+      }}
     >
-      <Column title="" />
     </Table>
   );
 };
