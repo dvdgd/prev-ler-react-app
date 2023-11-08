@@ -8,7 +8,7 @@ export class PaymentService {
     const { data } = await supabaseClient
       .from('pagamento')
       .select(`
-        data_pagamento,
+        data_pago,
         id_assinatura,
         id_pagamento,
         status_pagamento,

@@ -277,21 +277,21 @@ export interface Database {
       }
       pagamento: {
         Row: {
-          data_pagamento: string
+          data_pago: string
           id_assinatura: number
           id_pagamento: number
           status_pagamento: Database["public"]["Enums"]["status_pagamento"]
           valor_pagamento: number
         }
         Insert: {
-          data_pagamento?: string
+          data_pago?: string
           id_assinatura: number
           id_pagamento?: number
           status_pagamento: Database["public"]["Enums"]["status_pagamento"]
           valor_pagamento: number
         }
         Update: {
-          data_pagamento?: string
+          data_pago?: string
           id_assinatura?: number
           id_pagamento?: number
           status_pagamento?: Database["public"]["Enums"]["status_pagamento"]
