@@ -25,6 +25,7 @@ const columns = (): ColumnsType<TPayment> => {
       title: "Plano",
       dataIndex: "title",
       key: "title",
+      width: 110,
       render(_value, Title) {
         const title = Title.subscription?.plan?.title
         return <>{title}</>
@@ -34,6 +35,7 @@ const columns = (): ColumnsType<TPayment> => {
       title: "Data",
       dataIndex: "paymentDate",
       key: "paymentDate",
+      width: 120,
       render(_value, Data) {
         const date = new Date(Data.paymentDate!)
         const formattedDate = date.toLocaleDateString('pt-BR')
@@ -69,7 +71,7 @@ const columns = (): ColumnsType<TPayment> => {
       dataIndex: "",
       key: "",
       align: "center",
-      width: 150,
+      width: 300,
       render: (_value, record) => {
         return (
           <>
