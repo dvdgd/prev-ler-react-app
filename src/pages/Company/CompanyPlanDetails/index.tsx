@@ -7,8 +7,8 @@ import { StatusCard } from "./components/StatusCard";
 
 export function CompanyPlanDetailsPage() {
   return (
-    <VStack width={"full"} spacing={8} style={{ paddingTop: 30 }}>
-      <SimpleGrid p={8} spacing={8} columns={3}>
+    <>
+      <SimpleGrid w={"full"} gap={8} columns={[1, 1, 1, 3]} alignContent={"space-between"}>
         <StatusCard />
         <ActualPlanCard />
         <DueDateCard />
@@ -18,6 +18,6 @@ export function CompanyPlanDetailsPage() {
           <CompanyPaymentsTableAntd />
         </VStack>
       </TableCard>
-    </VStack>
+    </>
   );
 }

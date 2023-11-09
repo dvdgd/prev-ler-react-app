@@ -7,8 +7,8 @@ export function DueDateCard() {
   return (
     <MiniInfoCard title={"Data de Vencimento"} icon={<BsCalendar2Week />}>
       <VStack w={"full"} spacing={3} align="flex-start">
-        <Text fontSize="3xl" fontWeight="medium">
-          {dueDate.toDateString()}
+        <Text >
+          {dueDate.toLocaleDateString()}
         </Text>
       </VStack>
     </MiniInfoCard>

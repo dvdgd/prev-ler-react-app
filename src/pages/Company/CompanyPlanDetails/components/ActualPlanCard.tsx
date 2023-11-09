@@ -8,7 +8,7 @@ export function ActualPlanCard() {
   return (
     <MiniInfoCard title={"Plano Atual"} icon={<PiClipboardDuotone />}>
       <VStack w={"full"} spacing={3} align="flex-start">
-        <Text fontSize="3xl" fontWeight="medium">
+        <Text>
           R$ {userSession?.user?.company?.subscriptions?.at(0)?.plan?.value} {userSession?.user?.company?.subscriptions?.at(0)?.plan?.periodicy}
         </Text>
       </VStack>

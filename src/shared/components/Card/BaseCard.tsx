@@ -9,7 +9,10 @@ export type BaseCardProps = {
 
 export function BaseCard({ children, title, titleSize, ...props }: BaseCardProps) {
   return (
-    <Box w={"full"}>
+    <Box
+      maxW={"full"}
+      alignContent={"center"}
+    >
       <Card
         p={2}
         direction={"column"}

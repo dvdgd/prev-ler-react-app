@@ -1,4 +1,4 @@
-import { Card, CardBody, CardProps, Flex, FlexProps, Stat, StatLabel } from "@chakra-ui/react";
+import { Box, Card, CardBody, CardProps, Flex, FlexProps, Stat, StatLabel } from "@chakra-ui/react";
 import { IChildrenProps } from "../../../@types/react-base-props";
 
 type MiniStatisticsCardProps = {
@@ -22,29 +22,34 @@ function IconBox({ children, ...props }: IChildrenProps & FlexProps) {
 
 export function MiniInfoCard({ title, icon, children, minW }: MiniStatisticsCardProps) {
   return (
-    <Card minH='83px' w={"full"} minW={minW ?? "200px"}>
-      <CardBody>
-        <Flex flexDirection='row' align='center' justify='center' columnGap={[4]}>
-          <Stat me='auto'>
-            <StatLabel
-              fontSize='sm'
-              color='gray.400'
-              fontWeight='bold'
-              pb='.1rem'
+    <Box w={"full"} minW={minW ?? "200px"}>
+      <Card size={["lg"]} >
+        <CardBody>
+          <Flex flexDirection='row' align='center' justify='center' columnGap={[4]}>
+            <Stat me='auto'>
+              <StatLabel
+                fontSize='sm'
+                color='gray.400'
+                fontWeight='bold'
+                pb='.1rem'
+              >
+                {title}
+              </StatLabel>
+              <Flex
+                fontSize={["xl", "2xl"]}
+                fontWeight="medium"
+              >
+                {children}
+              </Flex>
+            </Stat>
+            <IconBox
+              h={"45px"} w={"45px"} bg={"brand.300"}
             >
-              {title}
-            </StatLabel>
-            <Flex>
-              {children}
-            </Flex>
-          </Stat>
-          <IconBox
-            h={"45px"} w={"45px"} bg={"brand.300"}
-          >
-            {icon}
-          </IconBox>
-        </Flex>
-      </CardBody>
-    </Card>
+              {icon}
+            </IconBox>
+          </Flex>
+        </CardBody>
+      </Card>
+    </Box>
   );
 }

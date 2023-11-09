@@ -7,8 +7,8 @@ export function StatusCard() {
   const { userSession } = useAuth();
   return (
     <MiniInfoCard title={"Status da Assinatura"} icon={<BsCheckAll />}>
-      <VStack w={"full"} spacing={3} align="flex-start">
-        <Text fontSize="3xl" fontWeight="medium">
+      <VStack w={"full"} align="flex-start">
+        <Text>
           {userSession?.user?.company?.subscriptions?.at(0)?.status}
         </Text>
       </VStack>
