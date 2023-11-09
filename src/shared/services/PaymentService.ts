@@ -1,4 +1,4 @@
-import { TPayment, TPaymentSupabaseRow } from "../../@types/payment";
+import { EPaymentStatus, TPayment, TPaymentSupabaseRow } from "../../@types/payment";
 import { supabaseClient } from "../../config/supabase";
 import { BaseError } from "../errors/BaseError";
 import { PaymentFromSupabase } from "../mappers/PaymentSupabaseMapper";
@@ -53,5 +53,34 @@ export class PaymentService {
     }
 
     return PaymentFromSupabase(data);
+  }
+
+  async notifyPaymentToAdmin(payment: TPayment): Promise<void> {
+    const acceptStatus = [
+      EPaymentStatus.notPaid,
+      EPaymentStatus.open,
+    ];
+
+    if (!acceptStatus.includes(payment.status)) {
+      throw new BaseError({
+        title: "Não foi possível concluir essa ação",
+        description: "Você não pode avisar uma pagamento que não esteja aberto ou não pago."
+      });
+    }
+
+    const { error } = await supabaseClient
+      .from("pagamento")
+      .update({
+        data_pago: new Date().toISOString(),
+        status_pagamento: EPaymentStatus.processing,
+      })
+      .eq("id_pagamento", payment.paymentId ?? 0);
+
+    if (error?.code) {
+      throw new BaseError({
+        title: 'Erro interno no servidor.',
+        description: 'Erro ao avisar o pagamento. Por favor tente novamente mais tarde.'
+      });
+    }
   }
 }
