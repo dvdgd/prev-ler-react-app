@@ -13,8 +13,8 @@ export class UserService {
       this.getProfile(),
     ]);
 
-    if (!user || !profile) return;
-    const company = await this.getUserCompany(profile.userType);
+    if (!user || !profile?.idCompany) return;
+    const company = await this.getUserCompany(profile.userType, profile.idCompany);
 
     return {
       email: user.email || "",
@@ -39,11 +39,12 @@ export class UserService {
     return UserProfileFromSupabase(data as TUserProfileSupabaseRow);
   }
 
-  private async getUserCompany(userType: EUserType): Promise<TCompany | undefined> {
+  private async getUserCompany(userType: EUserType, companyId: string): Promise<TCompany | undefined> {
     if (userType !== EUserType.representante) return;
     const { data, error } = await supabaseClient.from("empresa")
       .select(`*, assinatura(*, plano(*))`)
       .is("assinatura.data_fim", null)
+      .eq("id_cnpj", companyId)
       .limit(1)
       .single();
 
