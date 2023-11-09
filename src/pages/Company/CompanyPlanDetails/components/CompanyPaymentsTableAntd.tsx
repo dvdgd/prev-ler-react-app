@@ -58,6 +58,7 @@ const columns = (): ColumnsType<TPayment> => {
       render(_value, { status }) {
         const colorMapping = {
           [EPaymentStatus.paid]: "green",
+          [EPaymentStatus.open]: "gray",
           [EPaymentStatus.processing]: "yellow",
           [EPaymentStatus.notPaid]: "red",
         };

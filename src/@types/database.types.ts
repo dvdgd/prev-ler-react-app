@@ -502,7 +502,7 @@ export interface Database {
       | "Sábado"
       | "Domingo"
       status_assinatura: "ativo" | "nao paga" | "cancelada"
-      status_pagamento: "pago" | "processando" | "nao pago"
+      status_pagamento: "pago" | "processando" | "nao pago" | "aberto"
       tipo_usuario:
       | "representante"
       | "funcionario"
