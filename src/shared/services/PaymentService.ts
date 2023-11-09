@@ -38,23 +38,6 @@ export class PaymentService {
     return data.map(p => PaymentFromSupabase(p as TPaymentSupabaseRow));
   }
 
-  async getPaymentById(paymentId: string): Promise<TPayment> {
-    const { data } = await supabaseClient
-      .from('pagamento')
-      .select()
-      .eq("id_pagamento", paymentId)
-      .single();
-
-    if (!data) {
-      throw new BaseError({
-        title: 'Erro interno no servidor.',
-        description: 'Erro ao buscar informações sobre o pagamento. Por favor tente novamente mais tarde.'
-      });
-    }
-
-    return PaymentFromSupabase(data);
-  }
-
   async notifyPaymentToAdmin(payment: TPayment): Promise<void> {
     const acceptStatus = [
       EPaymentStatus.notPaid,
