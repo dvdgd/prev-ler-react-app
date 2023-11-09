@@ -13,7 +13,8 @@ export type TPaymentStatusSupabase = Database["public"]["Enums"]["status_pagamen
 export enum EPaymentStatus {
   paid = "pago",
   processing = "processando",
-  notPaid = "nao pago"
+  notPaid = "nao pago",
+  open = "aberto"
 }
 
 export type TPayment = {
