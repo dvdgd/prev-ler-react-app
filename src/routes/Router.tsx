@@ -1,6 +1,7 @@
 import { Outlet, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import { EUserType } from "../@types/profile";
 import { AdminDashboard } from "../pages/Admin/Dashboard/index";
+import { AdminPayments } from "../pages/Admin/Payments";
 import { AdminPlans } from "../pages/Admin/Plans";
 import { PlansForm } from "../pages/Admin/Plans/form/PlansForm";
 import { CompanyRegister } from "../pages/Auth/CompanyRegister";
@@ -40,6 +41,7 @@ export const routesCreateBrowserRoute = createBrowserRouter(
         <Route path="admin" element={<RequireRole allowedRoles={[EUserType.administrador]} />} >
           <Route path="dashboard" element={<Outlet />} handle={{ title: "Dashboard" }} >
             <Route index element={<AdminDashboard />} />
+            <Route path="payments" element={<AdminPayments/>} handle={{title: "Pagamentos"}} />
             <Route path="plans" element={<Outlet />} handle={{ title: "Plano" }} >
               <Route index element={<AdminPlans />} />
               <Route path="create" element={<PlansForm />} handle={{ title: "Criar Plano" }} />

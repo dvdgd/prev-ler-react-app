@@ -1,3 +1,4 @@
+import { MdOutlinePayments } from "react-icons/md";
 import { TbBusinessplan, TbDashboard } from "react-icons/tb";
 import { useLocation } from "react-router-dom";
 import { useAuthDrawner } from "../../../hooks/useAuthDrawner";
@@ -22,6 +23,12 @@ export function AdminMenuContents() {
         title="Planos"
         active={pathname.includes("plans")}
         onClick={() => handleGoPage("/auth/admin/dashboard/plans")}
+      />
+      <SidebarItem
+        icon={MdOutlinePayments}
+        title="Pagamentos"
+        active={pathname.includes("payments")}
+        onClick={() => handleGoPage("/auth/admin/dashboard/payments")}
       />
     </>
   );
