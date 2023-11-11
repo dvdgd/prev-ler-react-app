@@ -16,7 +16,7 @@ export const HeroSection: FunctionComponent<HeroSectionProps> = () => {
 
   return (
     <Container maxW="container.lg" mt={12}>
-      <Center p={4} minHeight="70vh">
+      <Center minHeight="70vh">
         <VStack>
           <Container maxW="container.md" textAlign="center">
             <Heading size="2xl" mb={4} color="gray.700">
