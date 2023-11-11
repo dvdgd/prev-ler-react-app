@@ -77,7 +77,7 @@ export function PaymentsTableOptions({ payment }: PaymentsModalProps) {
           />
           <CheckPaymentButtonAction
             cursor="pointer"
-            aria-label="Detalhes do Pagamento"
+            aria-label="Confirmar Pagamento"
             isLoading={isLoadingNotifyButton}
             notifyPaymentFn={handleNotifyPayment}
           />
