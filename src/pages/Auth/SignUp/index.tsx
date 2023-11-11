@@ -1,17 +1,15 @@
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
-  Box,
   Button,
   FormControl,
   FormLabel,
-  HStack,
   Input,
   InputGroup,
   InputRightElement,
   Link,
+  SimpleGrid,
   Text,
-  VStack,
-  Wrap
+  VStack
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -28,25 +26,20 @@ export function SignUp() {
     <OnboardingLayout>
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <FormCard title="Cadastre-se" maxW={"md"}>
-          <HStack>
-            <Wrap spacing={4}>
-              <Box flex={1} minW={"47.6%"}>
-                <FormControl isRequired>
-                  <FormLabel htmlFor="firstName">Primeiro Nome</FormLabel>
-                  <Input
-                    id="firstName"
-                    {...register("profile.firstName", { required: true })}
-                  />
-                </FormControl>
-              </Box>
-              <Box flex={1} minW={"47.6%"}>
-                <FormControl>
-                  <FormLabel htmlFor="lastName">Último Nome</FormLabel>
-                  <Input id="lastName" {...register("profile.lastName")} />
-                </FormControl>
-              </Box>
-            </Wrap>
-          </HStack>
+          <SimpleGrid w="full" columns={[1, 2]} spacingX={4} spacingY={8}>
+            <FormControl isRequired>
+              <FormLabel htmlFor="firstName">Primeiro Nome</FormLabel>
+              <Input
+                id="firstName"
+                {...register("profile.firstName", { required: true })}
+              />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel htmlFor="lastName">Último Nome</FormLabel>
+              <Input id="lastName" {...register("profile.lastName")} />
+            </FormControl>
+          </SimpleGrid>
 
           <FormControl isRequired>
             <FormLabel htmlFor="email">Email</FormLabel>
