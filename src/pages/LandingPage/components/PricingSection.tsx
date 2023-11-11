@@ -1,11 +1,10 @@
 import { CheckCircleIcon } from "@chakra-ui/icons";
-import { Box, Center, Container, HStack, List, ListIcon, ListItem, SimpleGrid, Text, UseToastOptions, VStack } from "@chakra-ui/react";
+import { Box, Center, Container, HStack, List, ListIcon, ListItem, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TPlan } from "../../../@types/plan";
-import { useShowToastErrorHandler } from "../../../hooks/useShowToastErrorHandler";
+import { usePlans } from "../../../hooks/usePlans";
 import { ClickMeButton } from "../../../shared/components/ClickMeButton";
-import { PlanService } from "../../../shared/services/PlanService";
 
 interface PricingCardProps {
   id: number;
@@ -62,27 +61,13 @@ function PricingCard(props: PricingCardProps) {
 export default function PricingSection() {
   const navigate = useNavigate();
   const [pricings, setPrincings] = useState<PricingCardProps[]>([]);
-  const { showErrorToast } = useShowToastErrorHandler();
-
-  const toastErrorAttributes: UseToastOptions = {
-    title: "Erro ao buscar informações dos planos.",
-    description: "Desculpe, tente novamente mais tarde ou entre em contato com os administradores.",
-    status: "error",
-    duration: 3000,
-    isClosable: true,
-  };
+  const { fetchAllPlans } = usePlans();
 
   const fetchPlans = async () => {
-    try {
-      const plans = await new PlanService().getAllPlans();
+      const plans = await fetchAllPlans();
+      if (!plans) return;
       const pricings: PricingCardProps[] = plans.map(planToPricingCard);
       setPrincings(pricings);
-    } catch (error) {
-      showErrorToast({
-        error,
-        toastAttributes: toastErrorAttributes,
-      });
-    }
   }
 
   useEffect(() => {
@@ -100,7 +85,7 @@ export default function PricingSection() {
 
   return (
     <>
-      <Container py={28} maxW="container.lg" w="full" id="pricing">
+      <Container py={28} px={0} w="full" id="pricing">
         <SimpleGrid columns={[1, null, 3]} spacing={10}>
           {
             pricings.length > 0 ? pricings.map((p) => (
