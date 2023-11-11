@@ -13,8 +13,8 @@ export class UserService {
       this.getProfile(),
     ]);
 
-    if (!user || !profile?.idCompany) return;
-    const company = await this.getUserCompany(profile.userType, profile.idCompany);
+    if (!user || !profile) return;
+    const company = await this.getUserCompany(profile.userType, profile.idCompany || '');
 
     return {
       email: user.email || "",
