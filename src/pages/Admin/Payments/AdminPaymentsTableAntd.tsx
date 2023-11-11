@@ -85,9 +85,9 @@ const columns = (): ColumnsType<TPayment> => {
       render: (_value, record) => {
         return (
           <>
-            <a>Opcoes</a>
-            <a>Opcoes</a>
-            <a>Opcoes</a>
+            <a>{record.paymentId}</a>
+            <a>{record.paymentId}</a>
+            <a>{record.paymentId}</a>
           </>
         );
       },
