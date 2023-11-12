@@ -1,6 +1,5 @@
 import {
   Button,
-  Center,
   FormControl,
   FormLabel,
   Modal,
@@ -22,11 +21,11 @@ import { TPlan } from "../../@types/plan";
 import { useAuth } from "../../hooks/useCurrentUser";
 import { usePlans } from "../../hooks/usePlans";
 import { useShowToastErrorHandler } from "../../hooks/useShowToastErrorHandler";
-import { PlanService } from "../services/PlanService";
+import { SubscriptionService } from "../services/SubscriptionService";
 import { MyIconButton } from "./MyIconButton";
 
 type TChangePlanForm = {
-  planId: number,
+  newPlanId: number,
 }
 
 export function ChangePlanIconAction({ ...props }) {
@@ -53,10 +52,15 @@ export function ChangePlanIconAction({ ...props }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handlePlanChange: SubmitHandler<TChangePlanForm> = async ({ planId }) => {
+  const handlePlanChange: SubmitHandler<TChangePlanForm> = async ({ newPlanId }) => {
     try {
       setIsLoading(true);
-      await new PlanService().changeCompanyPlan(planId);
+      await new SubscriptionService().changeSubscription(
+        userSession?.user?.company?.cnpj || "",
+        newPlanId,
+        companyPlan?.planId || 0
+      );
+
     } catch (error) {
       showErrorToast({
         error,
@@ -92,12 +96,12 @@ export function ChangePlanIconAction({ ...props }) {
             <ModalCloseButton />
             <ModalBody marginBottom={8}>
               <Stack spacing={5}>
-                <Text fontSize={"lg"}>
+                <Text fontSize={"lg"} color={"red.500"} marginBottom={5}>
                   Atenção! Ao trocar de plano, o mesmo só estará disponível para uso após a efetuação do pagamento deste novo plano.
                 </Text>
-                <Center fontWeight={600} fontSize={"lg"}>
+                <Text fontWeight={600} fontSize={"lg"}>
                   Plano Atual
-                </Center>
+                </Text>
                 <Stack spacing={-1}>
                   <Text fontSize={"md"}>
                     Plano
@@ -125,7 +129,7 @@ export function ChangePlanIconAction({ ...props }) {
                   </Text>
                 </Stack>
 
-                <Stack spacing={-1}>
+                <Stack spacing={-1} marginBottom={5}>
                   <Text fontSize={"md"}>
                     Quantidade máxima de usuários
                   </Text>
@@ -138,7 +142,7 @@ export function ChangePlanIconAction({ ...props }) {
               <FormControl isRequired marginTop={8}>
                 <FormLabel>Selecione abaixo o novo plano</FormLabel>
                 <Controller
-                  name="planId"
+                  name="newPlanId"
                   control={control}
                   render={({ field }) => (
                     <Select {...field} placeholder="Selecione">
