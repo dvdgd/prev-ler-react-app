@@ -10,7 +10,7 @@ export function OnboardingLayout({
     <HStack bg="gray.50" h="full" minH="100vh">
       <VStack w="full" minH="100vh" align="center">
         <OnboardingHeader />
-        <Box maxW={"full"} flex="1">
+        <Box maxW={"full"} flex="1" marginY={8} px={8}>
           {children}
         </Box>
         <Footer />
