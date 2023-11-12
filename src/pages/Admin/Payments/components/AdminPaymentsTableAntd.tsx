@@ -1,9 +1,12 @@
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { Center, HStack } from "@chakra-ui/react";
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { useEffect, useState } from "react";
-import { EPaymentStatus, TPayment } from "../../../@types/payment";
-import { useShowToastErrorHandler } from "../../../hooks/useShowToastErrorHandler";
-import { PaymentService } from "../../../shared/services/PaymentService";
+import { EPaymentStatus, TPayment } from "../../../../@types/payment";
+import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
+import { MyIconButton } from "../../../../shared/components/MyIconButton";
+import { PaymentService } from "../../../../shared/services/PaymentService";
 
 const columns = (): ColumnsType<TPayment> => {
   return [
@@ -11,7 +14,7 @@ const columns = (): ColumnsType<TPayment> => {
       title: "# ID",
       dataIndex: "paymentId",
       key: "paymentId",
-      width: "%55",
+      width: 60,
       fixed: true,
       render(_value, payment) {
         const paymentId = payment.paymentId?.toString().padStart(2, "0");
@@ -44,6 +47,7 @@ const columns = (): ColumnsType<TPayment> => {
       title: "Valor",
       dataIndex: "value",
       key: "value",
+      width: 100,
       render(_value, { value }) {
         const price = `R$ ${value}`
         return <>{price}</>
@@ -57,23 +61,24 @@ const columns = (): ColumnsType<TPayment> => {
         { text: "Pago", value: EPaymentStatus.paid },
         { text: "Não Pago", value: EPaymentStatus.notPaid },
         { text: "Aberto", value: EPaymentStatus.open },
-        { text: "Processando", value: EPaymentStatus.processing },
+        { text: "Aguardando Aprovação", value: EPaymentStatus.processing },
       ],
       filterMode: 'menu',
       filterSearch: true,
+      width: 180,
       onFilter: (value, record) => {
         return Boolean(record.status.toString() === value);
       },
       render(_value, { status }) {
-        const colorMapping = {
-          [EPaymentStatus.paid]: "green",
-          [EPaymentStatus.open]: "gray",
-          [EPaymentStatus.processing]: "yellow",
-          [EPaymentStatus.notPaid]: "red",
+        const statusConfigMap = {
+          [EPaymentStatus.paid]: { colorTag: "green", statusText: "Pago" },
+          [EPaymentStatus.open]: { colorTag: "gray", statusText: "Aberto" },
+          [EPaymentStatus.processing]: { colorTag: "yellow", statusText: "Aguardando Aprovação" },
+          [EPaymentStatus.notPaid]: { colorTag: "red", statusText: "Não Pago" },
         };
 
-        const color = colorMapping[status]
-        return <Tag color={color}>{status}</Tag>;
+        const statusConfig = statusConfigMap[status]
+        return <Tag color={statusConfig.colorTag}>{statusConfig.statusText}</Tag>;
       }
     },
     {
@@ -81,13 +86,30 @@ const columns = (): ColumnsType<TPayment> => {
       dataIndex: "",
       key: "",
       align: "center",
-      width: 300,
-      render: (_value, record) => {
+      width: 200,
+      render: () => {
         return (
           <>
-            <a>{record.paymentId}</a>
-            <a>{record.paymentId}</a>
-            <a>{record.paymentId}</a>
+            <Center>
+              <HStack alignContent={"space-around"} paddingX={3}>
+                <MyIconButton
+                  onClick={() => { }}
+                  icon={<CheckIcon />}
+                  color={"green.600"}
+                  aria-label="Reconhecer pagamento"
+                >
+                  Aprovar
+                </MyIconButton>
+                <MyIconButton
+                  onClick={() => { }}
+                  icon={<CloseIcon />}
+                  color={"red.600"}
+                  aria-label="Contestar Pagamento"
+                >
+                  Recusar
+                </MyIconButton>
+              </HStack>
+            </Center>
           </>
         );
       },
@@ -100,27 +122,27 @@ export const AdminPaymentsTableAntd = () => {
   const [isLoading, setIsloading] = useState(true);
   const { showErrorToast } = useShowToastErrorHandler();
 
-  useEffect(() => {
-    const fetchPayments = async () => {
-      try {
-        setIsloading(true);
-        const newPayments = await new PaymentService().getAllPayments();
-
-        setPayments([...newPayments]);
-      } catch (error) {
-        showErrorToast({
-          error, toastAttributes: {
-            title: 'Desculpe, ocorreu um erro ao buscar os pagamentos',
-            status: 'error',
-            duration: 3000,
-          }
-        });
-      } finally {
-        setIsloading(false);
-      }
+  const fetchPayments = async () => {
+    try {
+      setIsloading(true);
+      const allPayments = await new PaymentService().getAllPayments();
+      setPayments(allPayments);
+    } catch (error) {
+      console.log(error);
+      showErrorToast({
+        error, toastAttributes: {
+          title: 'Desculpe, ocorreu um erro ao buscar os pagamentos',
+          status: 'error',
+          duration: 3000,
+        }
+      });
+    } finally {
+      setIsloading(false);
     }
+  }
+
+  useEffect(() => {
     fetchPayments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
