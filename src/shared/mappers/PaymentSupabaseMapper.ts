@@ -4,6 +4,7 @@ import { PartialSubscriptionFromSupabase } from "./SubscriptionSupabaseMapper";
 export function PaymentToSupabase(payment: TPayment): TPaymentSupabaseInsert {
   return {
     data_pago: payment.paymentDate?.toISOString() || undefined,
+    data_abertura: new Date().toISOString(),
     id_assinatura: payment.subscriptionId,
     id_pagamento: payment.paymentId || undefined,
     status_pagamento: payment.status,
@@ -18,6 +19,14 @@ export function PaymentFromSupabase(paymentSupabaseRow: TPaymentSupabaseRow): TP
     subscription: PartialSubscriptionFromSupabase(paymentSupabaseRow.assinatura),
     status: paymentSupabaseRow.status_pagamento as EPaymentStatus,
     value: paymentSupabaseRow.valor_pagamento,
-    paymentDate: new Date(paymentSupabaseRow.data_pago),
+    aproovedAt: paymentSupabaseRow.data_aprovacao
+      ? new Date(paymentSupabaseRow.data_aprovacao)
+      : undefined,
+    openAt: paymentSupabaseRow.data_abertura
+      ? new Date(paymentSupabaseRow.data_abertura)
+      : undefined,
+    paymentDate: paymentSupabaseRow.data_pago
+      ? new Date(paymentSupabaseRow.data_pago)
+      : undefined,
   };
 }

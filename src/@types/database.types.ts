@@ -16,6 +16,7 @@ export interface Database {
           id_assinatura: number
           id_empresa: string
           id_plano: number
+          data_expiracao?: string;
           status_assinatura: Database["public"]["Enums"]["status_assinatura"]
         }
         Insert: {
@@ -24,6 +25,7 @@ export interface Database {
           id_assinatura?: number
           id_empresa: string
           id_plano: number
+          data_expiracao?: string;
           status_assinatura: Database["public"]["Enums"]["status_assinatura"]
         }
         Update: {
@@ -32,6 +34,7 @@ export interface Database {
           id_assinatura?: number
           id_empresa?: string
           id_plano?: number
+          data_expiracao?: string;
           status_assinatura?: Database["public"]["Enums"]["status_assinatura"]
         }
         Relationships: [
@@ -277,7 +280,9 @@ export interface Database {
       }
       pagamento: {
         Row: {
-          data_pago: string
+          data_pago?: string
+          data_aprovacao?: string
+          data_abertura: string
           id_assinatura: number
           id_pagamento: number
           status_pagamento: Database["public"]["Enums"]["status_pagamento"]
@@ -285,6 +290,8 @@ export interface Database {
         }
         Insert: {
           data_pago?: string
+          data_aprovacao?: string
+          data_abertura: string
           id_assinatura: number
           id_pagamento?: number
           status_pagamento: Database["public"]["Enums"]["status_pagamento"]
@@ -292,6 +299,8 @@ export interface Database {
         }
         Update: {
           data_pago?: string
+          data_aprovacao?: string
+          data_abertura?: string
           id_assinatura?: number
           id_pagamento?: number
           status_pagamento?: Database["public"]["Enums"]["status_pagamento"]

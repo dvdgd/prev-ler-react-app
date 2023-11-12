@@ -22,6 +22,8 @@ export type TPayment = {
   subscriptionId: number;
   subscription?: Partial<TSubscription>;
   paymentDate?: Date;
+  aproovedAt?: Date;
+  openAt?: Date;
   value: number;
   status: EPaymentStatus;
 }

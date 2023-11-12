@@ -49,7 +49,7 @@ export class PlanService {
     return data.map(p => PlanFromSupabase(p));
   }
 
-  async getPlanById(planId: string): Promise<TPlan> {
+  async getPlanById(planId: number): Promise<TPlan> {
     const { data } = await supabaseClient
       .from('plano')
       .select()
