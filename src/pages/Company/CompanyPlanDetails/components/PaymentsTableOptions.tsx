@@ -65,7 +65,6 @@ export function PaymentsTableOptions({ payment }: PaymentsModalProps) {
         setIsLoadingNotifyButton(false)
       }
     }
-
   }
 
   return (
