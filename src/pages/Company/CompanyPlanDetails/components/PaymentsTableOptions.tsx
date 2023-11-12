@@ -56,7 +56,9 @@ export function PaymentsTableOptions({ payment }: PaymentsModalProps) {
           error,
           toastAttributes: {
             title: "Desculpe, ocorreu um erro interno.",
-            description: "Não possivel dnasiodbaisu"
+            description: "Não possivel notificar o pagamento.",
+            duration: 3000,
+            status: "warning"
           }
         });
       } finally {
