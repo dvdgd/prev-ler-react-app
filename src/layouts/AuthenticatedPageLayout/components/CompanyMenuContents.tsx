@@ -19,7 +19,7 @@ export function CompanyMenuContents() {
       />
       <SidebarItem
         icon={TbBusinessplan}
-        title="Detalhes da assinatura"
+        title="Gestão do plano"
         active={pathname.includes("plan-details")}
         onClick={() => handleGoPage("/auth/company/dashboard/plan-details")}
       />
