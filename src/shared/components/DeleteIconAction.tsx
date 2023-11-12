@@ -1,7 +1,6 @@
 import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Button,
-  IconButton,
   IconButtonProps,
   Modal,
   ModalBody,
@@ -12,10 +11,11 @@ import {
   ModalOverlay,
   Text,
   useDisclosure,
-  useMediaQuery,
+  useMediaQuery
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useShowToastErrorHandler } from "../../hooks/useShowToastErrorHandler";
+import { MyIconButton } from "./MyIconButton";
 
 type DeleteIconProps = {
   deleteFn: () => Promise<void>;
@@ -48,7 +48,7 @@ export function DeleteIconAction({ deleteFn, ...props }: DeleteIconProps) {
 
   return (
     <>
-      <IconButton
+      <MyIconButton
         icon={<DeleteIcon />}
         color={"red.600"}
         onClick={onOpen}

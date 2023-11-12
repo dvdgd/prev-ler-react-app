@@ -1,9 +1,10 @@
 
 import { EditIcon } from "@chakra-ui/icons";
-import { HStack, IconButton, Text } from "@chakra-ui/react";
+import { HStack, Text } from "@chakra-ui/react";
 import { PiClipboardDuotone } from "react-icons/pi";
 import { useAuth } from "../../../../hooks/useCurrentUser";
 import { MiniInfoCard } from "../../../../shared/components/Card/MiniInfoCard";
+import { MyIconButton } from "../../../../shared/components/MyIconButton";
 
 function BlankPlanCard() {
   return (
@@ -36,8 +37,9 @@ export function ActualPlanCard() {
         <Text>
           R$ {value}/{periodicyText}
         </Text>
-        <IconButton
-          aria-label={"Mudar plano"}
+        <MyIconButton
+          onClick={() => { }}
+          aria-label={"Trocar plano"}
           size={"sm"}
           isRound={true}
           variant='outline'

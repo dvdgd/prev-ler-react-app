@@ -1,5 +1,6 @@
 import { ViewIcon } from "@chakra-ui/icons";
-import { IconButton, IconButtonProps } from "@chakra-ui/react";
+import { IconButtonProps } from "@chakra-ui/react";
+import { MyIconButton } from "./MyIconButton";
 
 type IconActionProps = {
   onClick: () => void;
@@ -8,7 +9,7 @@ type IconActionProps = {
 export function ViewIconAction({ onClick, ...props }: IconActionProps) {
   return (
     <>
-      <IconButton
+      <MyIconButton
         icon={<ViewIcon />}
         color={"brand.600"}
         onClick={onClick}
