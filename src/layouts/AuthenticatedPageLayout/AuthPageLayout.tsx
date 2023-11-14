@@ -10,7 +10,7 @@ export function AuthPageLayout({ children }: IChildrenProps) {
     <AuthDrawnerProvider>
       <VStack w="full" minH="100vh" align="center" bg="gray.50" h="full" >\
         <AuthHeader />
-        <VStack as="main" flex="1" w={["full", "full", "full", "62em"]} mt={32} p={8} gap={8}>
+        <VStack as="main" flex="1" w={["full", "full", "full", "62em", "80em"]} mt={32} p={8} gap={8}>
           {children}
         </VStack>
         <Footer />
