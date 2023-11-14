@@ -1,5 +1,6 @@
 import { TCompany, TCompanySupabaseRow } from "../../@types/company";
 import { EUserType, TUserProfile, TUserProfileSupabaseRow } from "../../@types/profile";
+import { ESubscriptionStatus } from "../../@types/subscription";
 import { TUser } from "../../@types/user";
 import { supabaseClient } from "../../config/supabase";
 import { BaseError } from "../errors/BaseError";
@@ -45,6 +46,7 @@ export class UserService {
       .select(`*, assinatura(*, plano(*))`)
       .is("assinatura.data_fim", null)
       .eq("id_cnpj", companyId)
+      .in("assinatura.status_assinatura", [ESubscriptionStatus.active, ESubscriptionStatus.notPaid])
       .limit(1)
       .single();
 

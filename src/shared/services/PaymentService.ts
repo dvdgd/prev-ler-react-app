@@ -14,7 +14,7 @@ export class PaymentService {
     const { data } = await supabaseClient
       .from('pagamento')
       .select(`*, assinatura (*, plano (*))`)
-      .order('valor_pagamento', { ascending: true });
+      .order('data_abertura', { ascending: false });
 
     if (!data) {
       throw new BaseError({
@@ -52,7 +52,7 @@ export class PaymentService {
     if (!acceptStatus.includes(payment.status)) {
       throw new BaseError({
         title: "Não foi possível concluir essa ação",
-        description: "Você não pode avisar uma pagamento que não esteja aberto ou não pago."
+        description: "Você não pode avisar uma pagamento que esteja não pago."
       });
     }
 
@@ -203,7 +203,7 @@ export class PaymentService {
     const { data: pendingPayments } = await supabaseClient
       .from("pagamento")
       .select()
-      .in("status_pagamento", [EPaymentStatus.processing])
+      .in("status_pagamento", [EPaymentStatus.processing, EPaymentStatus.notPaid])
 
     if (!pendingPayments || pendingPayments.length <= 0) return;
 

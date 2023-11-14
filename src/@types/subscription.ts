@@ -14,7 +14,7 @@ export type TSubscriptionRow = TSubscriptionSupabase['Row'] & {
 
 export enum ESubscriptionStatus {
   active = "ativo",
-  notPaid = "nao paga",
+  notPaid = "pendente_pagamento",
   canceled = "cancelada"
 }
 

@@ -2,12 +2,16 @@ import { TCompany } from "../../@types/company";
 import { supabaseClient } from "../../config/supabase";
 import { BaseError } from "../errors/BaseError";
 import { CompanyToSupabase } from "../mappers/CompanySupabaseMappers";
+import { SubscriptionService } from "./SubscriptionService";
 import { UserService } from "./UserService";
 
 export class CompanyService {
-  constructor(private userService = new UserService()) { }
+  constructor(
+    private userService = new UserService(),
+    private subscriptionService = new SubscriptionService(),
+  ) { }
 
-  async create(company: TCompany, userId: string): Promise<TCompany> {
+  async create(company: TCompany, userId: string, planId: number): Promise<TCompany> {
     const companySupabase = CompanyToSupabase(company);
 
     await this.checkIfCompanyAlreadyExists(companySupabase.id_cnpj);
@@ -24,6 +28,10 @@ export class CompanyService {
       idCompany: companySupabase.id_cnpj
     }, userId);
 
+    const subscription = await this.subscriptionService.subscribePlan(company.cnpj, planId);
+    Object.assign(company, {
+      subscriptions: [subscription]
+    });
     return company;
   }
 

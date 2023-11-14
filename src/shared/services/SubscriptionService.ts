@@ -1,4 +1,5 @@
 import { EPaymentStatus } from "../../@types/payment";
+import { TPlan } from "../../@types/plan";
 import { ESubscriptionStatus, TSubscription, TSubscriptionRow } from "../../@types/subscription";
 import { supabaseClient } from "../../config/supabase";
 import { BaseError } from "../errors/BaseError";
@@ -68,7 +69,12 @@ export class SubscriptionService {
 
   async changeSubscription(companyId: string, newPlanId: number, olderPlanId: number): Promise<Partial<TSubscription>> {
     await this.paymentService.throwErrorIfCompanyHasPendingPayments();
-    const olderPlan = await this.planService.getPlanById(olderPlanId);
+    let olderPlan: TPlan;
+    try {
+      olderPlan = await this.planService.getPlanById(olderPlanId);
+    } catch (error) {
+      return this.subscribePlan(companyId, newPlanId);
+    }
 
     const dateNow = new Date();
     const olderSubscriptions = await this.cancelAllSubscriptionsByCompanyId(companyId);
@@ -121,7 +127,7 @@ export class SubscriptionService {
   }
 
   private async cancelAllSubscriptionsByCompanyId(companyId: string): Promise<TSubscription[]> {
-    const { data } = await supabaseClient
+    const { data, error } = await supabaseClient
       .from("assinatura")
       .update({
         data_fim: new Date().toISOString(),
@@ -130,7 +136,7 @@ export class SubscriptionService {
       .eq("id_empresa", companyId)
       .select(`*`);
 
-    if (!data) {
+    if (error) {
       throw new BaseError({
         title: "Não foi possível atualizar as assinaturas.",
         description: "Ocorreu um erro ao cancelar as assinaturas da empresa."
@@ -142,6 +148,7 @@ export class SubscriptionService {
 
   private getMonthsDiff(subscriptions: TSubscription[]) {
     const dateNow = new Date();
+    if (subscriptions.length <= 0) return 0;
     const monthsDiff = subscriptions
       .map(({ expirationDate }) => {
         const expDate = expirationDate ? new Date(expirationDate) : dateNow;
@@ -166,9 +173,7 @@ export class SubscriptionService {
   }
 
   async updateExpirationDate(subscription: Partial<TSubscription>) {
-    await this.paymentService.throwErrorIfCompanyHasPendingPayments();
     if (
-      !subscription?.expirationDate ||
       !subscription.subscriptionId ||
       !subscription.plan?.periodicy
     ) {
@@ -177,7 +182,7 @@ export class SubscriptionService {
 
     const olderExpirationDate = subscription.expirationDate;
     const planPeriodicy = subscription.plan.periodicy;
-    const newExpirationDate = this.calculateNewExpirationDate(olderExpirationDate, planPeriodicy);
+    const newExpirationDate = this.calculateNewExpirationDate(olderExpirationDate || new Date(), planPeriodicy);
 
     const { error } = await supabaseClient
       .from("assinatura")

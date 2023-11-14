@@ -510,7 +510,7 @@ export interface Database {
       | "Sexta-feira"
       | "Sábado"
       | "Domingo"
-      status_assinatura: "ativo" | "nao paga" | "cancelada"
+      status_assinatura: "ativo" | "pendente_pagamento" | "cancelada"
       status_pagamento: "pago" | "processando" | "nao pago" | "aberto"
       tipo_usuario:
       | "representante"
