@@ -1,9 +1,11 @@
+import { useQuery } from "@tanstack/react-query";
 import { createContext, useEffect, useState } from "react";
 import { IChildrenProps } from "../@types/react-base-props";
 import { TUserSession } from "../@types/user";
 import { supabaseClient } from "../config/supabase";
 import { TLoginBody, TSignUpBody } from "../shared/services/@types";
 import { AuthService } from "../shared/services/AuthService";
+import { UserService } from "../shared/services/UserService";
 
 interface TCurrentUserContextValues {
   userSession: TUserSession | undefined;
@@ -23,6 +25,20 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const authService = new AuthService();
+  const userService = new UserService();
+
+  useQuery({
+    queryKey: ["user"],
+    queryFn: async () => {
+      if (!userSession?.session) return;
+      const userProfile = await userService.getUserProfile();
+      const newUserSession: TUserSession = {
+        session: userSession?.session,
+        user: userProfile,
+      }
+      setUserSession(newUserSession);
+    }
+  });
 
   useEffect(() => {
     const userSessionStr = localStorage.getItem("@userSession");
@@ -30,6 +46,7 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
 
     const userSession = JSON.parse(userSessionStr) as TUserSession;
     setUserSession(userSession);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setUserSession = async (userSession: TUserSession | undefined) => {

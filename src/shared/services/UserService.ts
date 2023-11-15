@@ -1,13 +1,26 @@
 import { TCompany, TCompanySupabaseRow } from "../../@types/company";
 import { EUserType, TUserProfile, TUserProfileSupabaseRow } from "../../@types/profile";
 import { ESubscriptionStatus } from "../../@types/subscription";
-import { TUser } from "../../@types/user";
+import { TUser, TUserSession } from "../../@types/user";
 import { supabaseClient } from "../../config/supabase";
 import { BaseError } from "../errors/BaseError";
 import { CompanyFromSupabase } from "../mappers/CompanySupabaseMappers";
 import { UserProfileFromSupabase, UserProfileToSupabase } from "../mappers/UserProfileSupabaseMappers";
 
 export class UserService {
+  async getUserSession(): Promise<TUserSession | undefined> {
+    const userProfile = await this.getUserProfile();
+    if (!userProfile) return;
+
+    const { data } = await supabaseClient.auth.getSession();
+    if (!data.session) return;
+
+    return {
+      session: data.session,
+      user: userProfile
+    }
+  }
+
   async getUserProfile(): Promise<TUser | undefined> {
     const [user, profile] = await Promise.all([
       this.getUser(),

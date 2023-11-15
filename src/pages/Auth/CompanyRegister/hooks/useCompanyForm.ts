@@ -1,8 +1,10 @@
 import { UseToastOptions, useToast } from "@chakra-ui/react";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { useCallback } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { TCompany } from "../../../../@types/company";
+import { queryClient } from "../../../../config/tanStackQueryClient";
 import { useAuth } from "../../../../hooks/useCurrentUser";
 import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
 import { CompanyService } from "../../../../shared/services/CompanyService";
@@ -13,8 +15,7 @@ export function useCompanyForm() {
   const toast = useToast();
   const navigate = useNavigate();
 
-  const { userSession, setUserSession } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const { userSession } = useAuth();
   const { register, handleSubmit, setValue, getValues, control } = useForm<TCompanyCreateForm>();
   const { showErrorToast } = useShowToastErrorHandler();
 
@@ -26,51 +27,50 @@ export function useCompanyForm() {
     isClosable: true
   };
 
-  const handleNewCompany: SubmitHandler<TCompanyCreateForm> = async (formAttributes) => {
-    try {
-      setIsLoading(true);
+  const mutation = useMutation({
+    mutationFn: async () => {
       if (!userSession?.user?.id) {
-        return toast(toastErrorAttributes);
+        toast(toastErrorAttributes);
+        return;
       }
 
+      const formValues = getValues();
       const newCompany = await new CompanyService().create(
-        formAttributes,
+        formValues,
         userSession?.user?.id,
-        formAttributes.planId
+        formValues.planId
       );
-
-      const user = Object.assign({}, {
-        ...userSession,
-        user: {
-          ...userSession.user,
-          company: newCompany
-        },
-      });
-      setUserSession(user);
-
+      return newCompany;
+    },
+    onSuccess: (newCompany) => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
       toast({
         title: "Cadastro concluído.",
         description: "Você se associou como representate da empresa " + newCompany?.fantasyName,
         status: "success",
-        duration: 9000,
+        duration: 4000,
         isClosable: true,
       });
 
       navigate("/check/login");
-    } catch (error) {
+    },
+    onError: (error) => {
       toast.closeAll();
       showErrorToast({
         error,
         toastAttributes: toastErrorAttributes
       });
-    } finally {
-      setIsLoading(false);
     }
-  }
+  });
+
+  const handleNewCompany = useCallback(
+    () => mutation.mutate(),
+    [mutation],
+  );
 
   return {
     control,
-    isLoading,
+    isLoading: mutation.isPending,
     register,
     handleSubmit,
     setValue,
