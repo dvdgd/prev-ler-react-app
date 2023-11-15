@@ -1,10 +1,8 @@
 import { Text, Tooltip } from "@chakra-ui/react";
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { useEffect, useState } from "react";
 import { EPaymentStatus, TPayment } from "../../../../@types/payment";
-import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
-import { PaymentService } from "../../../../shared/services/PaymentService";
+import { usePayments } from "../../../../hooks/usePayments";
 import { AdminPaymentTableOptions } from "./AdminPaymentsTableOptions";
 
 const columns = (): ColumnsType<TPayment> => {
@@ -127,37 +125,15 @@ const columns = (): ColumnsType<TPayment> => {
 };
 
 export const AdminPaymentsTableAntd = () => {
-  const [payments, setPayments] = useState<TPayment[]>([]);
-  const [isLoading, setIsloading] = useState(true);
-  const { showErrorToast } = useShowToastErrorHandler();
-
-  const fetchPayments = async () => {
-    try {
-      setIsloading(true);
-      const allPayments = await new PaymentService().getAllPayments();
-      setPayments(allPayments);
-    } catch (error) {
-      console.log(error);
-      showErrorToast({
-        error, toastAttributes: {
-          title: 'Desculpe, ocorreu um erro ao buscar os pagamentos',
-          status: 'error',
-          duration: 3000,
-        }
-      });
-    } finally {
-      setIsloading(false);
-    }
-  }
-
-  useEffect(() => {
-    fetchPayments();
-  }, []);
+  const {
+    allPayments,
+    isLoading,
+  } = usePayments();
 
   return (
     <Table
       loading={isLoading}
-      dataSource={payments}
+      dataSource={allPayments}
       columns={columns()}
       rowKey="paymentId"
       scroll={{ x: 800, y: 300 }}

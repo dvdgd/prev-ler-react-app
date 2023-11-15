@@ -1,11 +1,10 @@
 import { IconButton, IconButtonProps, Tooltip } from "@chakra-ui/react";
-import { MouseEventHandler } from "react";
 
 type MyIconButtonProps = {
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  buttonFn: () => any;
 } & IconButtonProps;
 
-export function MyIconButton({ onClick, ...props }: MyIconButtonProps) {
+export function MyIconButton({ buttonFn: onClick, ...props }: MyIconButtonProps) {
   return (
     <>
       <Tooltip label={props["aria-label"]}>

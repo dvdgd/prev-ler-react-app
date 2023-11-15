@@ -13,10 +13,14 @@ import {
   Text,
   VStack,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import {} from "antd";
+import { useMutation } from "@tanstack/react-query";
+import { } from "antd";
 import { useNavigate } from "react-router-dom";
 import { TPlan } from "../../../../@types/plan";
+import { queryClient } from "../../../../config/tanStackQueryClient";
+import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
 import { DeleteIconAction } from "../../../../shared/components/DeleteIconAction";
 import { EditIconAction } from "../../../../shared/components/EditIconAction";
 import { ViewIconAction } from "../../../../shared/components/ViewIconAction";
@@ -29,15 +33,39 @@ type PlansModalProps = {
 export function PlansTableOptions({ plan }: PlansModalProps) {
   const { isOpen, onOpen: openModal, onClose: closeModal } = useDisclosure();
   const navigate = useNavigate();
+  const { showErrorToast } = useShowToastErrorHandler();
+  const toast = useToast();
 
   const handleViewDetails = () => {
     openModal();
   };
 
-  const handleDelete = async () => {
-    if (!plan.planId) return;
-    await new PlanService().deletePlanById(plan.planId);
-  };
+  const deletePlanMutation = useMutation({
+    mutationFn: () => new PlanService().deletePlanById(plan.planId || 0),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["plans"] });
+      toast({
+        title: "Sucesso",
+        description: "O plano foi excluído com êxito.",
+        status: "success",
+        duration: 3000,
+        isClosable: true
+      });
+    },
+    onError: (error) => {
+      toast.closeAll();
+      showErrorToast({
+        error,
+        toastAttributes: {
+          title: "Erro ao excluir plano",
+          description: "Ocorreu um erro ao excluir o plano, tente novamente mais tarde",
+          status: "error",
+          duration: 3000,
+          isClosable: true
+        }
+      })
+    }
+  });
 
   const handleEdit = () => {
     navigate(`create/${plan.planId}`);
@@ -59,7 +87,8 @@ export function PlansTableOptions({ plan }: PlansModalProps) {
           />
           <DeleteIconAction
             cursor="pointer"
-            deleteFn={handleDelete}
+            isLoading={deletePlanMutation.isPending}
+            deleteFn={deletePlanMutation.mutate}
             aria-label="Excluir Plano"
           />
         </HStack>

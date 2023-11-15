@@ -77,7 +77,7 @@ export function ChangePlanIconAction({ ...props }) {
     <>
       <MyIconButton
         aria-label={""}
-        onClick={onOpen}
+        buttonFn={onOpen}
         cursor="pointer"
         {...props}
         size={"md"}>

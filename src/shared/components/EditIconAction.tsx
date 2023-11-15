@@ -12,7 +12,7 @@ export function EditIconAction({ onClick, ...props }: DeleteIconProps) {
       <MyIconButton
         icon={<EditIcon />}
         color={"blue.600"}
-        onClick={onClick}
+        buttonFn={onClick}
         cursor="pointer"
         {...props}
       />

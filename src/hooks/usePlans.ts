@@ -6,7 +6,7 @@ export function usePlans() {
   const { showErrorToast } = useShowToastErrorHandler();
 
   const { isLoading, error, data: allPlans } = useQuery({
-    queryKey: ['todos'],
+    queryKey: ['plans'],
     queryFn: async () => {
       try {
         const plans = await new PlanService().getAllPlans();

@@ -12,7 +12,7 @@ export function ViewIconAction({ onClick, ...props }: IconActionProps) {
       <MyIconButton
         icon={<ViewIcon />}
         color={"brand.600"}
-        onClick={onClick}
+        buttonFn={onClick}
         cursor="pointer"
         {...props}
       />

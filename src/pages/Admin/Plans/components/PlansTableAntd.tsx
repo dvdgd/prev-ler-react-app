@@ -1,9 +1,8 @@
-import { Table, Tag } from "antd";
+import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { useEffect, useState } from "react";
 import { TPlan } from "../../../../@types/plan";
-import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
-import { PlanService } from "../../../../shared/services/PlanService";
+import { usePlans } from "../../../../hooks/usePlans";
+import { PlanActiveToggleButton } from "./PlanActiveToggleButton";
 import { PlansTableOptions } from "./PlansTableOptions";
 
 const columns = (): ColumnsType<TPlan> => {
@@ -57,10 +56,12 @@ const columns = (): ColumnsType<TPlan> => {
       key: "active",
       responsive: ["md"],
       width: 100,
-      render(_value, { active }) {
-        const activeStr = active ? "SIM" : "NÃO";
-        const color = active ? "green" : "red";
-        return <Tag color={color}>{activeStr}</Tag>;
+      render(_value, plan) {
+        return (
+          <>
+            <PlanActiveToggleButton plan={plan} />
+          </>
+        )
       },
     },
     {
@@ -81,32 +82,10 @@ const columns = (): ColumnsType<TPlan> => {
 };
 
 export const PlansTableAntd = () => {
-  const [plans, setPlans] = useState<TPlan[]>([]);
-  const [isLoading, setIsloading] = useState(true);
-  const { showErrorToast } = useShowToastErrorHandler();
-
-  useEffect(() => {
-    const fetchPlans = async () => {
-      try {
-        setIsloading(true);
-        const allPlans = await new PlanService().getAllPlans();
-        setPlans(allPlans);
-      } catch (error) {
-        showErrorToast({
-          error,
-          toastAttributes: {
-            title: "Desculpe, ocorreu um erro ao buscar os planos",
-            status: "error",
-            duration: 3000,
-          },
-        });
-      } finally {
-        setIsloading(false);
-      }
-    };
-    fetchPlans();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const {
+    isLoading,
+    allPlans
+  } = usePlans();
 
   return (
     <>
@@ -117,7 +96,7 @@ export const PlansTableAntd = () => {
         }}
         bordered={true}
         loading={isLoading}
-        dataSource={plans}
+        dataSource={allPlans}
         columns={columns()}
         rowKey="planId"
         pagination={{

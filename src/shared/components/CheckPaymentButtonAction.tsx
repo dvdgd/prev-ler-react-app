@@ -12,38 +12,14 @@ import {
   useDisclosure,
   useMediaQuery
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useShowToastErrorHandler } from "../../hooks/useShowToastErrorHandler";
 
 type CheckPaymentProps = {
-  notifyPaymentFn: () => Promise<void>;
+  notifyPaymentFn: () => any;
 } & ButtonProps;
 
-export function CheckPaymentButtonAction({ notifyPaymentFn, ...props }: CheckPaymentProps) {
+export function CheckPaymentButtonAction({ notifyPaymentFn, isLoading, ...props }: CheckPaymentProps) {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isLoading, setIsLoading] = useState(false);
-  const { showErrorToast } = useShowToastErrorHandler();
-
-  const handlePaymentCheck = async () => {
-    try {
-      setIsLoading(true);
-      await notifyPaymentFn();
-    } catch (error) {
-      showErrorToast({
-        error,
-        toastAttributes: {
-          title: "Erro inesperado.",
-          description: "Desculpe, não foi possível confirmar o pagamento.",
-          status: "error",
-          duration: 3000,
-        },
-      });
-    } finally {
-      setIsLoading(false);
-      onClose();
-    }
-  };
 
   return (
     <>
@@ -74,7 +50,7 @@ export function CheckPaymentButtonAction({ notifyPaymentFn, ...props }: CheckPay
               loadingText="Excluindo..."
               isLoading={isLoading}
               mr={3}
-              onClick={handlePaymentCheck}
+              onClick={notifyPaymentFn}
             >
               Confirmar pagamento
             </Button>

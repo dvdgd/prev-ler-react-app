@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormLabel, Input, Select, SimpleGrid, Textarea } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, HStack, Input, Select, SimpleGrid, Switch, Text, Textarea } from "@chakra-ui/react";
 import { Controller, FormProvider } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { FormCard } from "../../../../shared/components/Card/FormCard";
@@ -27,6 +27,14 @@ export const PlansForm = () => {
       <FormProvider {...formMethods}>
         <form onSubmit={onFormSubmit}>
           <FormCard title={title}>
+            <FormControl>
+              <FormLabel htmlFor="active">Ativo</FormLabel>
+              <HStack>
+                <Text>Não</Text>
+                <Switch {...register("active")}></Switch>
+                <Text>Sim</Text>
+              </HStack>
+            </FormControl>
             <SimpleGrid w="full" columns={[1, 2]} spacingX={4} spacingY={8}>
               <FormControl isRequired>
                 <FormLabel htmlFor="title">Título</FormLabel>

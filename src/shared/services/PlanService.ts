@@ -9,7 +9,7 @@ export class PlanService {
 
     const result = await supabaseClient
       .from("plano")
-      .insert(supabasePlan);
+      .upsert(supabasePlan);
 
     if (result.status != 201) {
       throw new BaseError({
@@ -60,6 +60,26 @@ export class PlanService {
       throw new BaseError({
         title: 'Erro interno no servidor.',
         description: 'Erro ao buscar informações sobre o plano. Por favor tente novamente mais tarde.'
+      });
+    }
+
+    return PlanFromSupabase(data);
+  }
+
+  async setPlanActive(planId: number, active: boolean) {
+    const { data, error } = await supabaseClient
+      .from("plano")
+      .update({
+        ativo: active,
+      })
+      .eq("id_plano", planId)
+      .select()
+      .single();
+
+    if (!data || error) {
+      throw new BaseError({
+        title: "Erro ao atualizar o plano",
+        description: "Ocorreu um erro ao ativar/desativar o plano. Por favor, tente novamente mais tarde.",
       });
     }
 

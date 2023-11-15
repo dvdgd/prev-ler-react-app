@@ -1,10 +1,8 @@
 import { Tooltip } from "@chakra-ui/react";
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { useEffect, useState } from "react";
 import { EPaymentStatus, TPayment } from "../../../../@types/payment";
-import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
-import { PaymentService } from "../../../../shared/services/PaymentService";
+import { usePayments } from "../../../../hooks/usePayments";
 import { PaymentsTableOptions } from "./PaymentsTableOptions";
 
 const columns = (): ColumnsType<TPayment> => {
@@ -119,36 +117,12 @@ const columns = (): ColumnsType<TPayment> => {
 };
 
 export const CompanyPaymentsTableAntd = () => {
-  const [payments, setPayments] = useState<TPayment[]>([]);
-  const [isLoading, setIsloading] = useState(true);
-  const { showErrorToast } = useShowToastErrorHandler();
-
-  useEffect(() => {
-    const fetchPayments = async () => {
-      try {
-        setIsloading(true);
-        const newPayments = await new PaymentService().getAllPayments();
-        setPayments([...newPayments]);
-      } catch (error) {
-        showErrorToast({
-          error, toastAttributes: {
-            title: 'Desculpe, ocorreu um erro ao buscar os pagamentos',
-            status: 'error',
-            duration: 3000,
-          }
-        });
-      } finally {
-        setIsloading(false);
-      }
-    }
-    fetchPayments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { allPayments, isLoading } = usePayments();
 
   return (
     <Table
       loading={isLoading}
-      dataSource={payments}
+      dataSource={allPayments}
       columns={columns()}
       rowKey="paymentId"
       scroll={{ x: 900, y: 300 }}

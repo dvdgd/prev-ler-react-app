@@ -1,50 +1,79 @@
-import { useToast, UseToastOptions } from "@chakra-ui/react";
-import { useState } from "react";
+import { useToast } from "@chakra-ui/react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useCallback, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import { TPlan } from "../../../../@types/plan";
+import { queryClient } from "../../../../config/tanStackQueryClient";
 import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
 import { PlanService } from "../../../../shared/services/PlanService";
 
+export type TCreatePlanForm = Omit<TPlan, "createdAt" | "endDate">
 
 export function usePlanForm() {
+  const formMethods = useForm<TCreatePlanForm>();
   const toast = useToast();
   const { showErrorToast } = useShowToastErrorHandler();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const formMethods = useForm<TPlan>();
+  const { idPlan: idPlanParam } = useParams();
+  const planId = parseInt(idPlanParam ?? '0');
+  const { data: plan, isLoading } = useQuery({
+    queryKey: ["plans", planId],
+    queryFn: () => new PlanService().getPlanById(planId),
+  })
 
-  const toastErrorAttributes: UseToastOptions = {
-    title: "Erro ao salvar",
-    description: "Não foi possível recuperar a sessão do usuario, tente novamente mais tarde.",
-    status: "error",
-    duration: 5000,
-    isClosable: true
-  };
+  useEffect(() => {
+    if (!plan || isLoading) return;
+    const { setValue } = formMethods;
+    setValue("title", plan.title);
+    setValue("active", plan.active);
+    setValue("description", plan.description);
+    setValue("maxUsers", plan.maxUsers);
+    setValue("periodicy", plan.periodicy);
+    setValue("value", plan.value);
+  }, [isLoading])
 
-  const handleFormSubmit: SubmitHandler<TPlan> = async (formAttributes) => {
-    try {
-      setIsLoading(true);
-      await new PlanService().createNewPlan(formAttributes);
+  const mutation = useMutation({
+    mutationFn: () => {
+      const formValues = formMethods.getValues();
+      return new PlanService().createNewPlan({
+        ...formValues,
+        planId,
+        createdAt: new Date(),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['plans'] });
       toast({
-        title: "Plano cadastrado com sucesso.",
+        title: `Plano ${planId ? "atualizado" : "cadastrado"} com sucesso.`,
         status: "success",
-        duration: 9000,
+        duration: 3000,
         isClosable: true,
       });
-    } catch (error) {
+    },
+    onError: (error) => {
       toast.closeAll();
       showErrorToast({
         error,
-        toastAttributes: toastErrorAttributes
+        toastAttributes: {
+          title: "Erro ao salvar",
+          description: "Não foi possível recuperar a sessão do usuario, tente novamente mais tarde.",
+          status: "error",
+          duration: 5000,
+          isClosable: true
+        }
       });
-    } finally {
-      setIsLoading(false);
-    }
-  }
+    },
+  });
+
+  const onSubmit: SubmitHandler<TCreatePlanForm> = useCallback(
+    () => mutation.mutate(),
+    [mutation]
+  );
 
   return {
-    isLoading,
-    onFormSubmit: formMethods.handleSubmit(handleFormSubmit),
+    isLoading: mutation.isPending,
+    onFormSubmit: formMethods.handleSubmit(onSubmit),
     formMethods,
   }
 }

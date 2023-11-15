@@ -16,9 +16,10 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import { useMutation } from "@tanstack/react-query";
 import { } from "antd";
-import { useState } from "react";
 import { EPaymentStatus, TPayment } from "../../../../@types/payment";
+import { queryClient } from "../../../../config/tanStackQueryClient";
 import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
 import { CheckPaymentButtonAction } from "../../../../shared/components/CheckPaymentButtonAction";
 import { ViewIconAction } from "../../../../shared/components/ViewIconAction";
@@ -32,24 +33,19 @@ export function PaymentsTableOptions({ payment }: PaymentsModalProps) {
   const { isOpen, onOpen: openModal, onClose: closeModal } = useDisclosure();
   const { showErrorToast } = useShowToastErrorHandler();
   const toast = useToast();
-  const [isLoadingNotifyButton, setIsLoadingNotifyButton] = useState(false);
 
-
-  const handleViewDetails = () => {
-    openModal();
-  };
-
-  const handleNotifyPayment = async () => {
-    try {
-      setIsLoadingNotifyButton(true)
-      await new PaymentService().notifyPaymentToAdmin(payment);
+  const mutation = useMutation({
+    mutationFn: () => new PaymentService().notifyPaymentToAdmin(payment),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['payments'] });
       toast({
         title: "Pagamento notificado",
         description: "Agora basta um administrador reconhecer o pagamento.",
         isClosable: true,
         duration: 3000
-      })
-    } catch (error) {
+      });
+    },
+    onError: (error) => {
       toast.closeAll();
       showErrorToast({
         error,
@@ -61,10 +57,8 @@ export function PaymentsTableOptions({ payment }: PaymentsModalProps) {
           status: "error"
         }
       });
-    } finally {
-      setIsLoadingNotifyButton(false)
     }
-  }
+  });
 
   return (
     <>
@@ -73,14 +67,14 @@ export function PaymentsTableOptions({ payment }: PaymentsModalProps) {
           <ViewIconAction
             cursor="pointer"
             aria-label="Detalhes do Pagamento"
-            onClick={handleViewDetails}
+            onClick={openModal}
           />
           <CheckPaymentButtonAction
             cursor="pointer"
             aria-label="Confirmar Pagamento"
             isDisabled={payment.status !== EPaymentStatus.notPaid}
-            isLoading={isLoadingNotifyButton}
-            notifyPaymentFn={handleNotifyPayment}
+            isLoading={mutation.isPending}
+            notifyPaymentFn={mutation.mutate}
           />
         </HStack>
       </Center>

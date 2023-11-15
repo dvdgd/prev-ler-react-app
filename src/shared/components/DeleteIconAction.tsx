@@ -13,45 +13,28 @@ import {
   useDisclosure,
   useMediaQuery
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useShowToastErrorHandler } from "../../hooks/useShowToastErrorHandler";
 import { MyIconButton } from "./MyIconButton";
 
 type DeleteIconProps = {
-  deleteFn: () => Promise<void>;
+  deleteFn: () => any;
 } & IconButtonProps;
 
-export function DeleteIconAction({ deleteFn, ...props }: DeleteIconProps) {
+export function DeleteIconAction({ deleteFn, isLoading, ...props }: DeleteIconProps) {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isLoading, setIsLoading] = useState(false);
-  const { showErrorToast } = useShowToastErrorHandler();
 
-  const handleDelete = async () => {
-    try {
-      setIsLoading(true);
-      await deleteFn();
-    } catch (error) {
-      showErrorToast({
-        error,
-        toastAttributes: {
-          title: "Erro inesperado.",
-          description: "Desculpe, não foi possível deletar o plano.",
-          status: "error",
-          duration: 3000,
-        },
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const onDelete = async () => {
+    deleteFn();
+    onClose();
+  }
 
   return (
     <>
       <MyIconButton
         icon={<DeleteIcon />}
         color={"red.600"}
-        onClick={onOpen}
+        buttonFn={onOpen}
+        isLoading={isLoading}
         cursor="pointer"
         {...props}
       />
@@ -72,7 +55,7 @@ export function DeleteIconAction({ deleteFn, ...props }: DeleteIconProps) {
               loadingText="Excluindo..."
               isLoading={isLoading}
               mr={3}
-              onClick={handleDelete}
+              onClick={onDelete}
             >
               Continuar
             </Button>
