@@ -14,12 +14,17 @@ import {
 } from "@chakra-ui/react";
 
 type CheckPaymentProps = {
-  notifyPaymentFn: () => any;
+  notifyPaymentFn: () => unknown;
 } & ButtonProps;
 
 export function CheckPaymentButtonAction({ notifyPaymentFn, isLoading, ...props }: CheckPaymentProps) {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const onNotifyPayment = () => {
+    notifyPaymentFn();
+    onClose();
+  }
 
   return (
     <>
@@ -50,7 +55,7 @@ export function CheckPaymentButtonAction({ notifyPaymentFn, isLoading, ...props 
               loadingText="Excluindo..."
               isLoading={isLoading}
               mr={3}
-              onClick={notifyPaymentFn}
+              onClick={onNotifyPayment}
             >
               Confirmar pagamento
             </Button>

@@ -16,8 +16,10 @@ import {
   useMediaQuery,
   useToast
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { useCallback } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { queryClient } from "../../config/tanStackQueryClient";
 import { useAuth } from "../../hooks/useCurrentUser";
 import { usePlans } from "../../hooks/usePlans";
 import { useShowToastErrorHandler } from "../../hooks/useShowToastErrorHandler";
@@ -29,13 +31,16 @@ type TChangePlanForm = {
 }
 
 export function ChangePlanIconAction({ ...props }) {
+  const formMethods = useForm<TChangePlanForm>();
+  const { handleSubmit, control } = formMethods
+
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isLoading, setIsLoading] = useState(false);
+
   const { showErrorToast } = useShowToastErrorHandler();
-  const { handleSubmit, control } = useForm<TChangePlanForm>();
   const { allPlans } = usePlans();
   const { userSession } = useAuth();
+
   const companyPlan = userSession?.user?.company?.subscriptions?.at(0)?.plan
   const toast = useToast();
 
@@ -43,20 +48,26 @@ export function ChangePlanIconAction({ ...props }) {
     return planId !== companyPlan?.planId
   }) || [];
 
-  const handlePlanChange: SubmitHandler<TChangePlanForm> = async ({ newPlanId }) => {
-    try {
-      setIsLoading(true);
+  const changePlanMutation = useMutation({
+    mutationFn: async () => {
+      const formValues = formMethods.getValues();
       await new SubscriptionService().changeSubscription(
         userSession?.user?.company?.cnpj || "",
-        newPlanId,
+        formValues.newPlanId,
         companyPlan?.planId || 0
       );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] })
+      onClose();
       toast({
         title: "Você mudou de plano com sucesso.",
         duration: 3000,
         status: "success",
-      })
-    } catch (error) {
+      });
+    },
+    onError: (error) => {
+      onClose();
       showErrorToast({
         error,
         toastAttributes: {
@@ -67,11 +78,13 @@ export function ChangePlanIconAction({ ...props }) {
           isClosable: true,
         },
       });
-    } finally {
-      onClose()
-      setIsLoading(false);
     }
-  };
+  })
+
+  const onSubmit = useCallback(
+    () => changePlanMutation.mutate(),
+    [changePlanMutation]
+  )
 
   return (
     <>
@@ -86,7 +99,7 @@ export function ChangePlanIconAction({ ...props }) {
       <Modal isCentered size={isLargerThan900 ? "lg" : "xs"} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay backdropFilter="blur(9px)" />
 
-        <form onSubmit={handleSubmit(handlePlanChange)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <ModalContent>
             <ModalHeader>Seleção de plano</ModalHeader>
             <ModalCloseButton />
@@ -158,7 +171,7 @@ export function ChangePlanIconAction({ ...props }) {
               <Button
                 colorScheme="red"
                 loadingText="Aguarde..."
-                isLoading={isLoading}
+                isLoading={changePlanMutation.isPending}
                 mr={3}
                 type="submit"
               >
