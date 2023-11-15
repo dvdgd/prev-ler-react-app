@@ -1,8 +1,6 @@
 import { Button, Divider, FormControl, FormLabel, Input, Select, SimpleGrid, Stack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import { Navigate } from "react-router-dom";
-import { TPlan } from "../../../@types/plan";
 import { useAuth } from "../../../hooks/useCurrentUser";
 import { usePlans } from "../../../hooks/usePlans";
 import { OnboardingLayout } from "../../../layouts/UserOnboardingLayout/UserOnboardingLayout";
@@ -24,18 +22,8 @@ export function CompanyRegister() {
 
   const { getCompanyByCnpjApi } = useGetCompanyApi({ setValue, getValues });
 
-  const [plans, setPlans] = useState<TPlan[]>([]);
-  const { fetchAllPlans } = usePlans();
-
-  const getPlans = async () => {
-    const allPlans = await fetchAllPlans();
-    setPlans(allPlans || []);
-  }
-
-  useEffect(() => {
-    getPlans();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { allPlans } = usePlans();
+  const plans = allPlans ?? [];
 
   const { userSession } = useAuth();
   const registerComplete = ReturnTrueIfCompanyComplete(userSession?.user);

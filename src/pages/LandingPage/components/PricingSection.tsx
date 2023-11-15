@@ -1,8 +1,6 @@
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Box, Center, Container, HStack, List, ListIcon, ListItem, SimpleGrid, Text, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { TPlan } from "../../../@types/plan";
 import { usePlans } from "../../../hooks/usePlans";
 import { ClickMeButton } from "../../../shared/components/ClickMeButton";
 
@@ -60,28 +58,16 @@ function PricingCard(props: PricingCardProps) {
 
 export default function PricingSection() {
   const navigate = useNavigate();
-  const [pricings, setPrincings] = useState<PricingCardProps[]>([]);
-  const { fetchAllPlans } = usePlans();
+  const { allPlans } = usePlans();
 
-  const fetchPlans = async () => {
-      const plans = await fetchAllPlans();
-      if (!plans) return;
-      const pricings: PricingCardProps[] = plans.map(planToPricingCard);
-      setPrincings(pricings);
-  }
-
-  useEffect(() => {
-    fetchPlans();
-  }, []);
-
-  const planToPricingCard = (plan: TPlan): PricingCardProps => {
+  const pricings: PricingCardProps[] = allPlans?.map((plan) => {
     const { planId, value, ...planProps } = plan;
     return {
       id: planId || 0,
       price: value,
       ...planProps
     };
-  }
+  }) ?? [];
 
   return (
     <>

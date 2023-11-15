@@ -16,9 +16,8 @@ import {
   useMediaQuery,
   useToast
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { TPlan } from "../../@types/plan";
 import { useAuth } from "../../hooks/useCurrentUser";
 import { usePlans } from "../../hooks/usePlans";
 import { useShowToastErrorHandler } from "../../hooks/useShowToastErrorHandler";
@@ -35,24 +34,14 @@ export function ChangePlanIconAction({ ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const { showErrorToast } = useShowToastErrorHandler();
   const { handleSubmit, control } = useForm<TChangePlanForm>();
-  const { fetchAllPlans } = usePlans();
-  const [plans, setPlans] = useState<TPlan[]>([]);
+  const { allPlans } = usePlans();
   const { userSession } = useAuth();
   const companyPlan = userSession?.user?.company?.subscriptions?.at(0)?.plan
   const toast = useToast();
 
-  const getPlans = async () => {
-    const allPlans = await fetchAllPlans();
-    const plansWithoutActualPlan = allPlans?.filter(({ planId }) => {
-      return planId !== companyPlan?.planId
-    })
-    setPlans(plansWithoutActualPlan || []);
-  }
-
-  useEffect(() => {
-    getPlans();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const plans = allPlans?.filter(({ planId }) => {
+    return planId !== companyPlan?.planId
+  }) || [];
 
   const handlePlanChange: SubmitHandler<TChangePlanForm> = async ({ newPlanId }) => {
     try {
