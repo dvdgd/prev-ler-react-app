@@ -128,7 +128,8 @@ export const CompanyPaymentsTableAntd = () => {
       scroll={{ x: 900, y: 300 }}
       bordered
       pagination={{
-        position: ["none"],
+        position: ["bottomRight"],
+        pageSize: 4
       }}
     >
     </Table>
