@@ -40,8 +40,8 @@ export function CheckPaymentButtonAction({ notifyPaymentFn, ...props }: CheckPay
         },
       });
     } finally {
-      onClose()
       setIsLoading(false);
+      onClose();
     }
   };
 

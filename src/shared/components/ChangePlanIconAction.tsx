@@ -13,7 +13,8 @@ import {
   Stack,
   Text,
   useDisclosure,
-  useMediaQuery
+  useMediaQuery,
+  useToast
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -38,6 +39,7 @@ export function ChangePlanIconAction({ ...props }) {
   const [plans, setPlans] = useState<TPlan[]>([]);
   const { userSession } = useAuth();
   const companyPlan = userSession?.user?.company?.subscriptions?.at(0)?.plan
+  const toast = useToast();
 
   const getPlans = async () => {
     const allPlans = await fetchAllPlans();
@@ -60,7 +62,11 @@ export function ChangePlanIconAction({ ...props }) {
         newPlanId,
         companyPlan?.planId || 0
       );
-
+      toast({
+        title: "Você mudou de plano com sucesso.",
+        duration: 3000,
+        status: "success",
+      })
     } catch (error) {
       showErrorToast({
         error,
@@ -69,6 +75,7 @@ export function ChangePlanIconAction({ ...props }) {
           description: "Desculpe, não foi possível alterar seu plano.",
           status: "error",
           duration: 3000,
+          isClosable: true,
         },
       });
     } finally {
@@ -95,7 +102,7 @@ export function ChangePlanIconAction({ ...props }) {
             <ModalHeader>Seleção de plano</ModalHeader>
             <ModalCloseButton />
             <ModalBody marginBottom={8}>
-              <Stack spacing={5}>
+              {companyPlan ? <Stack spacing={5}>
                 <Text fontSize={"lg"} color={"red.500"} marginBottom={5}>
                   Atenção! Ao trocar de plano, o mesmo só estará disponível para uso após a efetuação do pagamento deste novo plano.
                 </Text>
@@ -137,8 +144,7 @@ export function ChangePlanIconAction({ ...props }) {
                     {companyPlan?.maxUsers} {"usuários"}
                   </Text>
                 </Stack>
-
-              </Stack>
+              </Stack> : ""}
               <FormControl isRequired marginTop={8}>
                 <FormLabel>Selecione abaixo o novo plano</FormLabel>
                 <Controller
@@ -162,7 +168,7 @@ export function ChangePlanIconAction({ ...props }) {
             <ModalFooter>
               <Button
                 colorScheme="red"
-                loadingText="Excluindo..."
+                loadingText="Aguarde..."
                 isLoading={isLoading}
                 mr={3}
                 type="submit"

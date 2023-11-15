@@ -28,11 +28,6 @@ type PaymentsModalProps = {
   payment: TPayment;
 };
 
-const acceptedStatus = [
-  EPaymentStatus.notPaid,
-  EPaymentStatus.processing
-]
-
 export function PaymentsTableOptions({ payment }: PaymentsModalProps) {
   const { isOpen, onOpen: openModal, onClose: closeModal } = useDisclosure();
   const { showErrorToast } = useShowToastErrorHandler();
@@ -45,25 +40,29 @@ export function PaymentsTableOptions({ payment }: PaymentsModalProps) {
   };
 
   const handleNotifyPayment = async () => {
-    if (acceptedStatus.includes(payment.status)) {
-      try {
-        setIsLoadingNotifyButton(true)
-        await new PaymentService().notifyPaymentToAdmin(payment);
-
-      } catch (error) {
-        toast.closeAll();
-        showErrorToast({
-          error,
-          toastAttributes: {
-            title: "Desculpe, ocorreu um erro interno.",
-            description: "Não possivel notificar o pagamento.",
-            duration: 3000,
-            status: "warning"
-          }
-        });
-      } finally {
-        setIsLoadingNotifyButton(false)
-      }
+    try {
+      setIsLoadingNotifyButton(true)
+      await new PaymentService().notifyPaymentToAdmin(payment);
+      toast({
+        title: "Pagamento notificado",
+        description: "Agora basta um administrador reconhecer o pagamento.",
+        isClosable: true,
+        duration: 3000
+      })
+    } catch (error) {
+      toast.closeAll();
+      showErrorToast({
+        error,
+        toastAttributes: {
+          title: "Desculpe, ocorreu um erro interno.",
+          description: "Não possivel notificar o pagamento.",
+          duration: 5000,
+          isClosable: true,
+          status: "error"
+        }
+      });
+    } finally {
+      setIsLoadingNotifyButton(false)
     }
   }
 
@@ -79,6 +78,7 @@ export function PaymentsTableOptions({ payment }: PaymentsModalProps) {
           <CheckPaymentButtonAction
             cursor="pointer"
             aria-label="Confirmar Pagamento"
+            isDisabled={payment.status !== EPaymentStatus.notPaid}
             isLoading={isLoadingNotifyButton}
             notifyPaymentFn={handleNotifyPayment}
           />

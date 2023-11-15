@@ -1,3 +1,4 @@
+import { Tooltip } from "@chakra-ui/react";
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { useEffect, useState } from "react";
@@ -13,7 +14,7 @@ const columns = (): ColumnsType<TPayment> => {
       title: "# ID",
       dataIndex: "paymentId",
       key: "paymentId",
-      width: "%55",
+      width: 60,
       fixed: true,
       render(_value, payment) {
         const paymentId = payment.paymentId?.toString().padStart(2, "0");
@@ -32,20 +33,46 @@ const columns = (): ColumnsType<TPayment> => {
       }
     },
     {
-      title: "Data",
+      title: "Data Abertura",
+      dataIndex: "openAt",
+      key: "openAt",
+      width: 120,
+      render(_value, { openAt }) {
+        if (openAt) {
+          return <>{openAt.toLocaleDateString()}</>
+        }
+        return <>--</>
+      }
+    },
+    {
+      title: "Data Notificado",
       dataIndex: "paymentDate",
       key: "paymentDate",
       width: 120,
-      render(_value, Data) {
-        const date = new Date(Data.paymentDate!)
-        const formattedDate = date.toLocaleDateString('pt-BR')
-        return <>{formattedDate}</>
+      render(_value, { paymentDate }) {
+        if (paymentDate) {
+          return <>{paymentDate.toLocaleDateString()}</>
+        }
+        return <>--</>
+      }
+    },
+    {
+      title: "Data Aprovado",
+      dataIndex: "approvedAt",
+      key: "approvedAt",
+      width: 120,
+      render(_value, { aproovedAt }) {
+        if (aproovedAt) {
+          return <>{aproovedAt.toLocaleDateString()}</>
+        }
+        return <>--</>
       }
     },
     {
       title: "Valor",
       dataIndex: "value",
       key: "value",
+      width: 100,
       render(_value, { value }) {
         const price = `R$ ${value}`
         return <>{price}</>
@@ -55,16 +82,23 @@ const columns = (): ColumnsType<TPayment> => {
       title: "Status",
       dataIndex: "status",
       key: "status",
+      width: 180,
       render(_value, { status }) {
-        const colorMapping = {
-          [EPaymentStatus.paid]: "green",
-          [EPaymentStatus.open]: "gray",
-          [EPaymentStatus.processing]: "yellow",
-          [EPaymentStatus.notPaid]: "red",
+        const statusConfigMap = {
+          [EPaymentStatus.paid]: { colorTag: "green", statusText: "Pago", tooltipText: "Esse pagamento já foi pago" },
+          [EPaymentStatus.open]: { colorTag: "gray", statusText: "Aberto", tooltipText: "Esse pagamento está aguardando pagamento" },
+          [EPaymentStatus.processing]: { colorTag: "yellow", statusText: "Aguardando Aprovação", tooltipText: "Esperando a aprovação de um administrador" },
+          [EPaymentStatus.notPaid]: { colorTag: "red", statusText: "Não Pago", tooltipText: "Aguardando pagamento" },
         };
 
-        const color = colorMapping[status]
-        return <Tag color={color}>{status}</Tag>;
+        const statusConfig = statusConfigMap[status];
+        return (
+          <>
+            <Tooltip label={statusConfig.tooltipText}>
+              <Tag color={statusConfig.colorTag}>{statusConfig.statusText}</Tag>
+            </Tooltip>
+          </>
+        )
       }
     },
     {
@@ -94,7 +128,6 @@ export const CompanyPaymentsTableAntd = () => {
       try {
         setIsloading(true);
         const newPayments = await new PaymentService().getAllPayments();
-
         setPayments([...newPayments]);
       } catch (error) {
         showErrorToast({
@@ -118,7 +151,7 @@ export const CompanyPaymentsTableAntd = () => {
       dataSource={payments}
       columns={columns()}
       rowKey="paymentId"
-      scroll={{ x: 800, y: 300 }}
+      scroll={{ x: 900, y: 300 }}
       bordered
       pagination={{
         position: ["none"],

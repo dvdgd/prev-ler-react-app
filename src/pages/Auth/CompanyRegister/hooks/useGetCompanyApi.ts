@@ -1,10 +1,10 @@
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
-import { TCompany } from "../../../../@types/company";
 import { TGetCompanyByCnpjHttp } from "../@types";
+import { TCompanyCreateForm } from "./useCompanyForm";
 
 interface IUseGetCompanyApi {
-  setValue: UseFormSetValue<TCompany>;
-  getValues: UseFormGetValues<TCompany>
+  setValue: UseFormSetValue<TCompanyCreateForm>;
+  getValues: UseFormGetValues<TCompanyCreateForm>
 }
 
 export const useGetCompanyApi = ({

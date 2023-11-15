@@ -13,7 +13,7 @@ export class PaymentService {
   async getAllPayments(): Promise<TPayment[]> {
     const { data } = await supabaseClient
       .from('pagamento')
-      .select(`*, assinatura (*, plano (*))`)
+      .select(`*, assinatura (*, plano (*), empresa(*))`)
       .order('data_abertura', { ascending: false });
 
     if (!data) {
@@ -43,7 +43,8 @@ export class PaymentService {
     return PaymentFromSupabase(data as TPaymentSupabaseRow);
   }
 
-  async notifyPaymentToAdmin(payment: TPayment): Promise<TPayment> {
+  async notifyPaymentToAdmin({ paymentId }: TPayment): Promise<TPayment> {
+    const payment = await this.getPaymentById(paymentId!)
     const acceptStatus = [
       EPaymentStatus.notPaid,
       EPaymentStatus.open,
@@ -157,6 +158,14 @@ export class PaymentService {
       .select(`*, assinatura(*, plano(*))`)
       .single();
 
+    try {
+      await this.throwErrorIfCompanyHasAnyOfStatus([
+        EPaymentStatus.notPaid,
+        EPaymentStatus.processing,
+      ]);
+    } catch (error) {
+      return PaymentFromSupabase(paymentUpdated as TPaymentSupabaseRow);
+    }
     await this.subscriptionService.updateExpirationDate(payment.subscription);
 
     if (!paymentUpdated || error) {
@@ -199,11 +208,11 @@ export class PaymentService {
     return PaymentFromSupabase(data as TPaymentSupabaseRow);
   }
 
-  async throwErrorIfCompanyHasPendingPayments(): Promise<void> {
+  async throwErrorIfCompanyHasAnyOfStatus(status = [EPaymentStatus.processing]): Promise<void> {
     const { data: pendingPayments } = await supabaseClient
       .from("pagamento")
       .select()
-      .in("status_pagamento", [EPaymentStatus.processing, EPaymentStatus.notPaid])
+      .in("status_pagamento", status);
 
     if (!pendingPayments || pendingPayments.length <= 0) return;
 

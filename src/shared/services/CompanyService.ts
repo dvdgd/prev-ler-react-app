@@ -28,7 +28,7 @@ export class CompanyService {
       idCompany: companySupabase.id_cnpj
     }, userId);
 
-    const subscription = await this.subscriptionService.subscribePlan(company.cnpj, planId);
+    const subscription = await this.subscriptionService.subscribePlan(companySupabase.id_cnpj, planId);
     Object.assign(company, {
       subscriptions: [subscription]
     });

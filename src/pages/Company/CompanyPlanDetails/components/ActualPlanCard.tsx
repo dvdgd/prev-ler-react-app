@@ -9,9 +9,18 @@ import { ChangePlanIconAction } from "../../../../shared/components/ChangePlanIc
 function BlankPlanCard() {
   return (
     <MiniInfoCard title={"Plano Atual"} icon={<PiClipboardDuotone />}>
-      <Text>
-        R$ 0,00
-      </Text>
+      <HStack spacing={4} alignItems={"center"}>
+        <Text>
+          R$ --
+        </Text>
+        <ChangePlanIconAction
+          aria-label={"Mudar plano"}
+          size={"sm"}
+          isRound={true}
+          variant='outline'
+          icon={<EditIcon />}
+        />
+      </HStack>
     </MiniInfoCard>
   )
 }
@@ -33,7 +42,7 @@ export function ActualPlanCard() {
 
   return (
     <MiniInfoCard title={"Plano Atual"} icon={<PiClipboardDuotone />}>
-      <HStack spacing={4} alignItems={"center"}>
+      <HStack spacing={3} alignItems={"center"}>
         <Text>
           R$ {value}/{periodicyText}
         </Text>

@@ -7,13 +7,15 @@ import { useAuth } from "../../../../hooks/useCurrentUser";
 import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
 import { CompanyService } from "../../../../shared/services/CompanyService";
 
+export type TCompanyCreateForm = TCompany & { planId: number }
+
 export function useCompanyForm() {
   const toast = useToast();
   const navigate = useNavigate();
 
   const { userSession, setUserSession } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const { register, handleSubmit, setValue, getValues } = useForm<TCompany>();
+  const { register, handleSubmit, setValue, getValues, control } = useForm<TCompanyCreateForm>();
   const { showErrorToast } = useShowToastErrorHandler();
 
   const toastErrorAttributes: UseToastOptions = {
@@ -24,15 +26,19 @@ export function useCompanyForm() {
     isClosable: true
   };
 
-  const handleNewCompany: SubmitHandler<TCompany> = async (formAttributes) => {
+  const handleNewCompany: SubmitHandler<TCompanyCreateForm> = async (formAttributes) => {
     try {
       setIsLoading(true);
       if (!userSession?.user?.id) {
         return toast(toastErrorAttributes);
       }
 
-      const companyService = new CompanyService();
-      const newCompany = await companyService.create(formAttributes, userSession?.user?.id);
+      const newCompany = await new CompanyService().create(
+        formAttributes,
+        userSession?.user?.id,
+        formAttributes.planId
+      );
+
       const user = Object.assign({}, {
         ...userSession,
         user: {
@@ -63,6 +69,7 @@ export function useCompanyForm() {
   }
 
   return {
+    control,
     isLoading,
     register,
     handleSubmit,
