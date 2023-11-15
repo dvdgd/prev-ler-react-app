@@ -1,5 +1,5 @@
 import { CheckCircleIcon } from "@chakra-ui/icons";
-import { Box, Center, Container, HStack, List, ListIcon, ListItem, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { Box, Center, HStack, List, ListIcon, ListItem, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { usePlans } from "../../../hooks/usePlans";
 import { ClickMeButton } from "../../../shared/components/ClickMeButton";
@@ -71,7 +71,7 @@ export default function PricingSection() {
 
   return (
     <>
-      <Container py={28} px={0} w="full" id="pricing">
+      <Box py={28} w="full" id="pricing">
         <SimpleGrid columns={[1, null, 3]} spacing={10}>
           {
             pricings.length > 0 ? pricings.map((p) => (
@@ -85,7 +85,7 @@ export default function PricingSection() {
             text={"Começar"}
           />
         </Center>
-      </Container >
+      </Box >
     </>
   );
 }
