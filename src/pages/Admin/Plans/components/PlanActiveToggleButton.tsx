@@ -1,6 +1,6 @@
 import { HStack, Switch, Text, useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { TPlan } from "../../../../@types/plan";
 import { queryClient } from "../../../../config/tanStackQueryClient";
 import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
@@ -11,21 +11,23 @@ type PlanActiveToggleButtonProps = {
 }
 
 export function PlanActiveToggleButton({ plan }: PlanActiveToggleButtonProps) {
-  const [isChecked, setIsChecked] = useState(plan.active);
   const { showErrorToast } = useShowToastErrorHandler();
   const toast = useToast();
 
-  const onSwitch = async () => {
-    try {
-      const active = !isChecked
-      const updatedPlan = await new PlanService().setPlanActive(plan.planId || 0, active);
-      setIsChecked(updatedPlan.active);
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const active = !plan.active;
+      await new PlanService().setPlanActive(plan.planId || 0, active);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["plans"] });
       toast({
-        title: `Plano #${plan.planId} ${active ? "ativado" : "desativado"} com sucesso`,
+        title: `Plano #${plan.planId} ${plan.active ? "ativado" : "desativado"} com sucesso`,
         duration: 3000,
         isClosable: true,
       });
-    } catch (error) {
+    },
+    onError: (error) => {
       toast.closeAll();
       showErrorToast({
         error,
@@ -35,11 +37,6 @@ export function PlanActiveToggleButton({ plan }: PlanActiveToggleButtonProps) {
         }
       });
     }
-  }
-
-  const mutation = useMutation({
-    mutationFn: onSwitch,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["plans"] }),
   })
 
   const onChange = useCallback(
@@ -50,9 +47,8 @@ export function PlanActiveToggleButton({ plan }: PlanActiveToggleButtonProps) {
   return (
     <>
       <HStack spacing={2}>
-        <Text>Não</Text>
-        <Switch isChecked={isChecked} onChange={onChange} />
-        <Text>Sim</Text>
+        <Switch isChecked={plan.active} onChange={onChange} />
+        <Text>{plan.active ? "Sim" : "Não"}</Text>
       </HStack>
     </>
   );

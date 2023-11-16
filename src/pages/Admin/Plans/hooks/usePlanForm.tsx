@@ -31,7 +31,7 @@ export function usePlanForm() {
     setValue("maxUsers", plan.maxUsers);
     setValue("periodicy", plan.periodicy);
     setValue("value", plan.value);
-  }, [isLoading])
+  }, [plan])
 
   const mutation = useMutation({
     mutationFn: () => {

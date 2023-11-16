@@ -29,11 +29,17 @@ export const PlansForm = () => {
           <FormCard title={title}>
             <FormControl>
               <FormLabel htmlFor="active">Ativo</FormLabel>
-              <HStack>
-                <Text>Não</Text>
-                <Switch {...register("active")}></Switch>
-                <Text>Sim</Text>
-              </HStack>
+              <Controller
+                name="active"
+                control={control}
+                defaultValue={true}
+                render={({ field }) => (
+                  <HStack>
+                    <Switch isChecked={field.value} onChange={field.onChange} />
+                    <Text>{field.value ? "Sim" : "Não"}</Text>
+                  </HStack>
+                )}
+              />
             </FormControl>
             <SimpleGrid w="full" columns={[1, 2]} spacingX={4} spacingY={8}>
               <FormControl isRequired>
