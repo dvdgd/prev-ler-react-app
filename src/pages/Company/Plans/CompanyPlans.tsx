@@ -5,7 +5,7 @@ import { CompanyPaymentsTableAntd } from "./components/CompanyPaymentsTableAntd"
 import { DueDateCard } from "./components/DueDateCard";
 import { StatusCard } from "./components/StatusCard";
 
-export function CompanyPlanDetailsPage() {
+export function CompanyPlans() {
   return (
     <>
       <SimpleGrid w={"full"} gap={8} columns={[1, 1, 1, 3]} alignContent={"space-between"}>

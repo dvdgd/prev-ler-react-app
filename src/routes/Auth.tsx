@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useCurrentUser";
-import { SplashPage } from "../pages/Splash";
+import { SplashPage } from "../pages/Splash/SplashPage";
 
 export function Auth() {
   const location = useLocation();
