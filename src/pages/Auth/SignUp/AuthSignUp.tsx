@@ -17,7 +17,7 @@ import { OnboardingLayout } from "../../../layouts/UserOnboardingLayout/UserOnbo
 import { FormCard } from "../../../shared/components/Card/FormCard";
 import { useSignUpForm } from "./hooks/useSignUpForm";
 
-export function SignUp() {
+export function AuthSignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const { handleSubmit, isLoading, onFormSubmit, register } = useSignUpForm();
   const navigate = useNavigate();

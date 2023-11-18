@@ -1,18 +1,18 @@
 import { Outlet, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import { EUserType } from "../@types/profile";
-import { AdminDashboard } from "../pages/Admin/Dashboard/index";
-import { AdminPayments } from "../pages/Admin/Payments";
-import { AdminPlans } from "../pages/Admin/Plans";
+import { AdminDashboard } from "../pages/Admin/Dashboard/AdminDashboard";
+import { AdminPayments } from "../pages/Admin/Payments/AdminPayments";
+import { AdminPlansPage } from "../pages/Admin/Plans/AdminPlansPage";
 import { PlansForm } from "../pages/Admin/Plans/form/PlansForm";
-import { CompanyRegister } from "../pages/Auth/CompanyRegister";
-import { Login } from "../pages/Auth/Login";
-import { Logout } from "../pages/Auth/Logout";
-import { SignUp } from "../pages/Auth/SignUp";
-import { CompanyPlanDetailsPage } from "../pages/Company/CompanyPlanDetails";
+import { AuthCompanyRegister } from "../pages/Auth/CompanyRegister/AuthCompanyRegister";
+import { Login } from "../pages/Auth/Login/AuthLogin";
+import { Logout } from "../pages/Auth/Logout/AuthLogout";
+import { AuthSignUp } from "../pages/Auth/SignUp/AuthSignUp";
 import { CompanyDashboard } from "../pages/Company/Dashboard/CompanyDashboard";
+import { CompanyPlans } from "../pages/Company/Plans";
 import { NotFound } from "../pages/Errors/NotFound";
 import { Unauthorized } from "../pages/Errors/Unauthorized";
-import { LandingPage } from "../pages/LandingPage";
+import { LandingPage } from "../pages/LandingPage/LandingPage";
 import { Auth } from "./Auth";
 import { RedirectLoginRoute } from "./RedirectLoginRoute";
 import { RequireRole } from "./RequireRole";
@@ -26,24 +26,24 @@ export const routesCreateBrowserRoute = createBrowserRouter(
       <Route path="logout" element={<Logout />} />
       <Route path="check" element={<RedirectLoginRoute />}>
         <Route path="login" element={<Login />} />
-        <Route path="sign-up" element={<SignUp />} />
+        <Route path="sign-up" element={<AuthSignUp />} />
       </Route>
       <Route path="auth" element={<Auth />}>
-        <Route path="complete-register" element={<CompanyRegister />} />
+        <Route path="complete-register" element={<AuthCompanyRegister />} />
         <Route path="company" element={<RequireRole allowedRoles={[EUserType.representante]} />} >
           <Route path="dashboard" element={<Outlet />} handle={{ title: "Dashboard" }} >
             <Route index element={<CompanyDashboard />} />
             <Route path="plan-details" element={<Outlet />} handle={{ title: "Planos" }} >
-              <Route index element={<CompanyPlanDetailsPage />} />
+              <Route index element={<CompanyPlans />} />
             </Route>
           </Route>
         </Route>
         <Route path="admin" element={<RequireRole allowedRoles={[EUserType.administrador]} />} >
           <Route path="dashboard" element={<Outlet />} handle={{ title: "Dashboard" }} >
             <Route index element={<AdminDashboard />} />
-            <Route path="payments" element={<AdminPayments/>} handle={{title: "Pagamentos"}} />
+            <Route path="payments" element={<AdminPayments />} handle={{ title: "Pagamentos" }} />
             <Route path="plans" element={<Outlet />} handle={{ title: "Plano" }} >
-              <Route index element={<AdminPlans />} />
+              <Route index element={<AdminPlansPage />} />
               <Route path="create" element={<PlansForm />} handle={{ title: "Criar Plano" }} />
               <Route path="create/:idPlan?" element={<PlansForm />} handle={{ title: "Editar Plano" }} />
             </Route>

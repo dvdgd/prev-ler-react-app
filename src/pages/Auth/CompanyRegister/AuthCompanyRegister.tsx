@@ -9,7 +9,7 @@ import { ReturnTrueIfCompanyComplete } from "../../../shared/functions/ReturnTru
 import { useCompanyForm } from "./hooks/useCompanyForm";
 import { useGetCompanyApi } from "./hooks/useGetCompanyApi";
 
-export function CompanyRegister() {
+export function AuthCompanyRegister() {
   const {
     isLoading,
     register,
