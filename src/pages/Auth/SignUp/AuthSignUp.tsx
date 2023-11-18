@@ -11,7 +11,8 @@ import {
   Text,
   VStack
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, } from "react";
+import MaskedInput from "react-input-mask";
 import { useNavigate } from "react-router-dom";
 import { OnboardingLayout } from "../../../layouts/UserOnboardingLayout/UserOnboardingLayout";
 import { FormCard } from "../../../shared/components/Card/FormCard";
@@ -40,6 +41,11 @@ export function AuthSignUp() {
               <Input id="lastName" {...register("profile.lastName")} />
             </FormControl>
           </SimpleGrid>
+
+          <FormControl isRequired>
+            <FormLabel htmlFor="cpf">CPF</FormLabel>
+            <Input as={MaskedInput} mask="999.999.999-99" maskChar={null} />
+          </FormControl>
 
           <FormControl isRequired>
             <FormLabel htmlFor="email">Email</FormLabel>

@@ -20,6 +20,7 @@ export type TUserProfileSupabaseUpdate = ProfileSupabase["Update"]
 export type TUserProfile = {
   firstName: string;
   lastName: string;
+  cpf: string;
   userType: EUserType;
   idCompany?: string | null;
   jobRole?: string;
