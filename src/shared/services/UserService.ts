@@ -22,10 +22,8 @@ export class UserService {
   }
 
   async getUserProfile(): Promise<TUser | undefined> {
-    const [user, profile] = await Promise.all([
-      this.getUser(),
-      this.getProfile(),
-    ]);
+    const user = await this.getUser();
+    const profile = await this.getProfile(user?.id || "");
 
     if (!user || !profile) return;
     const company = await this.getUserCompany(profile.userType, profile.idCompany || '');
@@ -44,10 +42,11 @@ export class UserService {
     return data.user;
   }
 
-  private async getProfile(): Promise<TUserProfile | undefined> {
+  private async getProfile(userId: string): Promise<TUserProfile | undefined> {
     const { data, error } = await supabaseClient
       .from('profiles')
       .select(`*, cargo(nome)`)
+      .eq("id_usuario", userId)
       .single();
     if (!data || error) return;
     return UserProfileFromSupabase(data as TUserProfileSupabaseRow);
