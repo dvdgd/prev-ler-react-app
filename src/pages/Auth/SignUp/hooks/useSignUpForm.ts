@@ -9,6 +9,7 @@ import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHan
 interface IFormSignUpInputs {
   email: string;
   password: string;
+  cpf: string;
   profile: {
     firstName: string;
     lastName: string;
@@ -19,7 +20,7 @@ export function useSignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { signUp } = useAuth();
-  const { register, handleSubmit } = useForm<IFormSignUpInputs>();
+  const { register, handleSubmit, control } = useForm<IFormSignUpInputs>();
 
   const toast = useToast();
   const { showErrorToast } = useShowToastErrorHandler();
@@ -39,6 +40,7 @@ export function useSignUpForm() {
       await signUp({
         email: formAttributes.email,
         password: formAttributes.password,
+        cpf: formAttributes.cpf,
         profile: {
           ...formAttributes.profile,
           userType: EUserType.representante,
@@ -69,5 +71,6 @@ export function useSignUpForm() {
     isLoading,
     register,
     onFormSubmit,
+    control
   };
 }

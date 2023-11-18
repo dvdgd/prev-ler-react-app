@@ -4,6 +4,7 @@ export function UserProfileToSupabase(userProfile: Partial<TUserProfile>): TUser
   return {
     first_name: userProfile.firstName,
     last_name: userProfile.lastName,
+    cpf: userProfile.cpf,
     id_tipo_usuario: userProfile.userType,
     id_empresa: userProfile.idCompany,
   }
@@ -13,6 +14,7 @@ export function UserProfileFromSupabase(userProfileSupabase: TUserProfileSupabas
   return {
     firstName: userProfileSupabase.first_name,
     lastName: userProfileSupabase.last_name,
+    cpf: userProfileSupabase.cpf,
     userType: userProfileSupabase.id_tipo_usuario as EUserType,
     idCompany: userProfileSupabase.id_empresa,
     jobRole: userProfileSupabase.cargo?.nome
