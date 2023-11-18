@@ -26,6 +26,23 @@ export class PaymentService {
     return data.map(p => PaymentFromSupabase(p as TPaymentSupabaseRow));
   }
 
+  async getPaymentsBySubscriptionId(subscriptionId: number): Promise<TPayment[]> {
+    const { data, error } = await supabaseClient
+      .from('pagamento')
+      .select(`*`)
+      .order('data_abertura', { ascending: false })
+      .eq("id_assinatura", subscriptionId);
+
+    if (!data || error) {
+      throw new BaseError({
+        title: "Erro interno no servidor",
+        description: `Não foi possível recuperar os pagamentos da assinatura #${subscriptionId}.`
+      });
+    }
+
+    return data.map((p) => PaymentFromSupabase(p));
+  }
+
   async getPaymentById(paymentId: number) {
     const { data } = await supabaseClient
       .from('pagamento')

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { TableCard } from "../../../shared/components/Card/TableCard";
 import { PlansTableAntd } from "./components/PlansTableAntd";
 
-export function AdminPlans() {
+export function AdminPlansPage() {
   const navigate = useNavigate();
 
   return (

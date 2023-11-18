@@ -1,7 +1,8 @@
-import { TCompany } from "../../@types/company";
+import { TCompany, TCompanySupabaseRow } from "../../@types/company";
+import { EUserType } from "../../@types/profile";
 import { supabaseClient } from "../../config/supabase";
 import { BaseError } from "../errors/BaseError";
-import { CompanyToSupabase } from "../mappers/CompanySupabaseMappers";
+import { CompanyFromSupabase, CompanyToSupabase } from "../mappers/CompanySupabaseMappers";
 import { SubscriptionService } from "./SubscriptionService";
 import { UserService } from "./UserService";
 
@@ -49,5 +50,21 @@ export class CompanyService {
         description: "Desculpe, mas essa empresa já existe em nosso sistema.",
       });
     }
+  }
+
+  async getAllCompanies(): Promise<TCompany[]> {
+    const { data: companies, error } = await supabaseClient
+      .from("empresa")
+      .select("*, assinatura(*, plano(*)), profiles(*)")
+      .eq("profiles.id_tipo_usuario", EUserType.representante);
+
+    if (!companies || error) {
+      throw new BaseError({
+        title: "Ops, um erro inesperado ocorreu",
+        description: "Não foi possível buscar as empresas do sistema.",
+      });
+    }
+
+    return companies.map((c) => CompanyFromSupabase(c as TCompanySupabaseRow));
   }
 }

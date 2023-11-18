@@ -1,10 +1,30 @@
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
-import { TGetCompanyByCnpjHttp } from "../@types";
 import { TCompanyCreateForm } from "./useCompanyForm";
 
 interface IUseGetCompanyApi {
   setValue: UseFormSetValue<TCompanyCreateForm>;
   getValues: UseFormGetValues<TCompanyCreateForm>
+}
+
+type TGetCompanyByCnpjHttp = {
+  "NOME FANTASIA": string;
+  "RAZAO SOCIAL": string;
+  "CNPJ": string;
+  "STATUS": string;
+  "CNAE PRINCIPAL DESCRICAO": string;
+  "CNAE PRINCIPAL CODIGO": string;
+  "CEP": string;
+  "DATA ABERTURA": string;
+  "DDD": string;
+  "TELEFONE": string;
+  "EMAIL": string;
+  "TIPO LOGRADOURO": string;
+  "LOGRADOURO": string;
+  "NUMERO": string;
+  "COMPLEMENTO": string;
+  "BAIRRO": string;
+  "MUNICIPIO": string;
+  "UF": string;
 }
 
 export const useGetCompanyApi = ({
