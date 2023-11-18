@@ -9,7 +9,7 @@ import { Login } from "../pages/Auth/Login/AuthLogin";
 import { Logout } from "../pages/Auth/Logout/AuthLogout";
 import { AuthSignUp } from "../pages/Auth/SignUp/AuthSignUp";
 import { CompanyDashboard } from "../pages/Company/Dashboard/CompanyDashboard";
-import { CompanyPlans } from "../pages/Company/Plans";
+import { CompanyPlans } from "../pages/Company/Plans/CompanyPlans";
 import { NotFound } from "../pages/Errors/NotFound";
 import { Unauthorized } from "../pages/Errors/Unauthorized";
 import { LandingPage } from "../pages/LandingPage/LandingPage";
