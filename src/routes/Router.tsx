@@ -1,5 +1,8 @@
 import { Outlet, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import { EUserType } from "../@types/profile";
+import { AdminCompanies } from "../pages/Admin/Company/AdminCompanies";
+import { AdminCompanyDetails } from "../pages/Admin/Company/Details/AdminCompanyDetails";
+import { CompanyNameBreadcrumb } from "../pages/Admin/Company/components/CompanyNameBreadcrumb";
 import { AdminDashboard } from "../pages/Admin/Dashboard/AdminDashboard";
 import { AdminPayments } from "../pages/Admin/Payments/AdminPayments";
 import { AdminPlansPage } from "../pages/Admin/Plans/AdminPlansPage";
@@ -40,6 +43,10 @@ export const routesCreateBrowserRoute = createBrowserRouter(
         </Route>
         <Route path="admin" element={<RequireRole allowedRoles={[EUserType.administrador]} />} >
           <Route path="dashboard" element={<Outlet />} handle={{ title: "Dashboard" }} >
+            <Route path="companies" element={<Outlet />} handle={{ title: "Empresas" }} >
+              <Route index element={<AdminCompanies />} />
+              <Route path=":companyId" element={<AdminCompanyDetails />} handle={{ title: "Detalhes", breadcrumb: <CompanyNameBreadcrumb /> }} />
+            </Route>
             <Route index element={<AdminDashboard />} />
             <Route path="payments" element={<AdminPayments />} handle={{ title: "Pagamentos" }} />
             <Route path="plans" element={<Outlet />} handle={{ title: "Plano" }} >

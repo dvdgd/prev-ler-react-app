@@ -5,6 +5,7 @@ export interface IChildrenProps {
 export type BreadcrumbRoute = {
   handle: {
     title: string;
+    breadcrumb?: JSX.Element;
   };
   pathname: string;
 }

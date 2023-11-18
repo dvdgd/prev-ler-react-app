@@ -46,7 +46,7 @@ export class PaymentService {
   async getPaymentById(paymentId: number) {
     const { data } = await supabaseClient
       .from('pagamento')
-      .select(`*,assinatura (*, plano (*))`)
+      .select(`*, assinatura (*, plano (*))`)
       .eq("id_pagamento", paymentId)
       .single();
 

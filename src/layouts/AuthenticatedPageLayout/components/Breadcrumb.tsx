@@ -29,8 +29,8 @@ export function Breadcrumb() {
 
                 return (
                   <BreadcrumbItem key={index} isCurrentPage={currentPage}>
-                    <BreadcrumbLink onClick={() => navigate(crumb.pathname)} textDecoration={textDecoration} fontSize={["sm", "md"]}>
-                      {crumb.handle.title}
+                    <BreadcrumbLink onClick={() => navigate(crumb.pathname)} textDecoration={textDecoration} fontSize={["xs", "sm", "md"]}>
+                      {crumb.handle.breadcrumb || crumb.handle.title}
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                 );
@@ -50,7 +50,7 @@ export function Breadcrumb() {
               </BreadcrumbItem>
               <BreadcrumbItem isCurrentPage={true}>
                 <BreadcrumbLink onClick={() => navigate(crumbs[crumbs.length - 1].pathname)}>
-                  {crumbs[crumbs.length - 1].handle.title}
+                  {crumbs[crumbs.length - 1].handle.breadcrumb || crumbs[crumbs.length - 1].handle.title}
                 </BreadcrumbLink>
               </BreadcrumbItem>
             </BreadcrumbChakra>

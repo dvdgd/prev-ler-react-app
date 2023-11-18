@@ -1,5 +1,6 @@
 import { TCompanySupabaseRow, TPartialCompany } from "./company";
 import { Database } from "./database.types";
+import { TPayment, TPaymentSupabaseRow } from "./payment";
 import { TPlan, TPlanSupabaseRow } from "./plan";
 
 type TSubscriptionSupabase = Database['public']['Tables']['assinatura'];
@@ -10,6 +11,7 @@ export type TSubscriptionUpdate = TSubscriptionSupabase['Update']
 export type TSubscriptionRow = TSubscriptionSupabase['Row'] & {
   plano?: Partial<TPlanSupabaseRow>,
   empresa?: Partial<TCompanySupabaseRow>,
+  pagamento?: TPaymentSupabaseRow[]
 }
 
 export enum ESubscriptionStatus {
@@ -23,6 +25,7 @@ export type TSubscription = {
   companyId: string;
   plan?: Partial<TPlan>,
   company?: TPartialCompany,
+  payments?: TPayment[]
   endDate?: Date;
   expirationDate?: Date;
   startDate?: Date;

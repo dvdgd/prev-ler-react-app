@@ -8,7 +8,7 @@ const companyService = new CompanyService();
 export function useCompany() {
   const toast = useToast();
   const { showErrorToast } = useShowToastErrorHandler();
-  const toastErrorId = "getCompanies-error"
+  const toastErrorId = "getCompanies-error";
 
   const getCompanies = async () => {
     try {

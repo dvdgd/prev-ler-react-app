@@ -14,7 +14,8 @@ export enum EPaymentStatus {
   paid = "pago",
   processing = "processando",
   notPaid = "nao pago",
-  open = "aberto"
+  open = "aberto",
+  canceled = "cancelado"
 }
 
 export type TPayment = {

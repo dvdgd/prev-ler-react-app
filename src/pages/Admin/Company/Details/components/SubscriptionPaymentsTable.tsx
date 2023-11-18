@@ -1,8 +1,10 @@
-import { Table, Tag } from "antd";
-import { ColumnsType } from "antd/lib/table";
-import { EPaymentStatus, TPayment } from "../../../../@types/payment";
-import { AdminPaymentTableOptions } from "./AdminPaymentsTableOptions";
-import { FantasyNameColumnProps } from "./FantasyNameColumnProps";
+import { Button } from "@chakra-ui/react";
+import { Tag } from "antd";
+import Table, { ColumnsType } from "antd/es/table";
+import { EPaymentStatus, TPayment } from "../../../../../@types/payment";
+import { TableCard } from "../../../../../shared/components/Card/TableCard";
+import { AdminPaymentTableOptions } from "../../../Payments/components/AdminPaymentsTableOptions";
+import { useSubscriptionsCompanyByParams } from "../../hooks/useSubscriptionsCompanyByParams";
 
 const columns = (): ColumnsType<TPayment> => {
   return [
@@ -17,34 +19,6 @@ const columns = (): ColumnsType<TPayment> => {
         return <>{paymentId}</>;
       },
 
-    },
-    {
-      title: "Plano",
-      dataIndex: "title",
-      key: "title",
-      width: 110,
-      responsive: ["md"],
-      render(_value, Title) {
-        const title = Title.subscription?.plan?.title
-        return <>{title}</>
-      }
-    },
-    {
-      title: "Empresa",
-      dataIndex: "fantasyName",
-      key: "fantasyName",
-      width: 155,
-      render(_value, { subscription }) {
-        const companyFantasyName = subscription?.company?.fantasyName
-        return (
-          <>
-            <FantasyNameColumnProps
-              fantasyName={companyFantasyName || "Não informado"}
-              companyId={subscription?.companyId || ""}
-            />
-          </>
-        )
-      },
     },
     {
       title: "Data Notificação",
@@ -125,25 +99,33 @@ const columns = (): ColumnsType<TPayment> => {
   ];
 };
 
-type AdminPaymentsTableAntdProps = {
-  allPayments: TPayment[]
-  isLoading: boolean
-}
+export function SubscriptionPaymentsTable() {
+  const { subscriptions, isLoading } = useSubscriptionsCompanyByParams();
 
-export const AdminPaymentsTableAntd = ({ allPayments, isLoading }: AdminPaymentsTableAntdProps) => {
   return (
-    <Table
-      loading={isLoading}
-      dataSource={allPayments}
-      columns={columns()}
-      rowKey="paymentId"
-      scroll={{ x: 800, y: 300 }}
-      bordered
-      pagination={{
-        pageSize: 5,
-        position: ["bottomRight"],
-      }}
-    >
-    </Table>
-  );
-};
+    <>
+      {subscriptions?.map((s) => (
+        <>
+          <TableCard title={`Pagamentos Assinatura ${s.subscriptionId}`} titleSize={"lg"}>
+
+            <Table
+              loading={isLoading}
+              dataSource={s.payments}
+              columns={columns()}
+              rowKey="paymentId"
+              scroll={{ x: 800, y: 300 }}
+              bordered
+              pagination={{
+                pageSize: 5,
+                position: ["bottomRight"],
+              }}
+            />
+            <Button size={"md"} onClick={(() => { })}>
+              Detalhes da assinatura
+            </Button>
+          </TableCard>
+        </>
+      ))}
+    </>
+  )
+}

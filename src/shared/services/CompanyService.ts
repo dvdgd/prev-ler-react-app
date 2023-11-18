@@ -67,4 +67,23 @@ export class CompanyService {
 
     return companies.map((c) => CompanyFromSupabase(c as TCompanySupabaseRow));
   }
+
+  async getCompanyById(companyId: string): Promise<TCompany> {
+    const { data: company, error } = await supabaseClient
+      .from("empresa")
+      .select("*, profiles(*), assinatura(*, plano(*))")
+      .eq("profiles.id_tipo_usuario", EUserType.representante)
+      .eq("id_cnpj", companyId)
+      .order('id_assinatura', { foreignTable: 'assinatura', ascending: false })
+      .single();
+
+    if (!company || error) {
+      throw new BaseError({
+        title: "Ops, um erro inesperado ocorreu",
+        description: "Não foi possível buscar as empresas do sistema.",
+      });
+    }
+
+    return CompanyFromSupabase(company as TCompanySupabaseRow);
+  }
 }

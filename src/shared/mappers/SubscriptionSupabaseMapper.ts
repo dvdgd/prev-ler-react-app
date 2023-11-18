@@ -1,5 +1,6 @@
 import { ESubscriptionStatus, TSubscription, TSubscriptionInsert, TSubscriptionRow } from "../../@types/subscription";
 import { PartialCompanyFromSupabase } from "./CompanySupabaseMappers";
+import { PaymentFromSupabase } from "./PaymentSupabaseMapper";
 import { PartialPlanFromSupabase } from "./PlanSupabaseMapper";
 
 export function SubscriptionToSupabase(subscription: TSubscription): TSubscriptionInsert {
@@ -23,6 +24,7 @@ export function SubscriptionFromSupabase(subscriptionRow: TSubscriptionRow): TSu
     company: PartialCompanyFromSupabase(subscriptionRow?.empresa),
     expirationDate: subscriptionRow.data_expiracao ? new Date(subscriptionRow.data_expiracao) : undefined,
     companyId: subscriptionRow.id_empresa?.toString() ?? '0',
+    payments: subscriptionRow?.pagamento?.map((p) => PaymentFromSupabase(p)),
     planId: subscriptionRow.id_plano ?? 0,
     status: subscriptionRow.status_assinatura as ESubscriptionStatus
   };
@@ -35,6 +37,7 @@ export function PartialSubscriptionFromSupabase(subscriptionRow: Partial<TSubscr
     startDate: subscriptionRow?.data_inicio ? new Date(subscriptionRow?.data_inicio) : undefined,
     expirationDate: subscriptionRow?.data_expiracao ? new Date(subscriptionRow.data_expiracao) : undefined,
     companyId: subscriptionRow?.id_empresa?.toString() ?? '0',
+    payments: subscriptionRow?.pagamento?.map((p) => PaymentFromSupabase(p)),
     plan: PartialPlanFromSupabase(subscriptionRow?.plano),
     company: PartialCompanyFromSupabase(subscriptionRow?.empresa),
     planId: subscriptionRow?.id_plano,

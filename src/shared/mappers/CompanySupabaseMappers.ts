@@ -1,6 +1,7 @@
 import { TCompany, TCompanySupabaseInsert, TCompanySupabaseRow, TPartialCompany } from "../../@types/company";
 import { DateonlyPtBrToISO } from "./DatePtBrMapper";
 import { PartialSubscriptionFromSupabase } from "./SubscriptionSupabaseMapper";
+import { PartialUserProfileFromSupabase } from "./UserProfileSupabaseMappers";
 
 export function CompanyToSupabase(company: TCompany): TCompanySupabaseInsert {
   return {
@@ -13,7 +14,7 @@ export function CompanyToSupabase(company: TCompany): TCompanySupabaseInsert {
     razao_social: company.companyName,
     nome_fantasia: company.fantasyName,
     email: company.email,
-    data_abertura: DateonlyPtBrToISO(company.openAt) || "",
+    data_abertura: DateonlyPtBrToISO(company.openAt.toISOString()) || "",
   }
 }
 
@@ -28,12 +29,13 @@ export function CompanyFromSupabase(company: TCompanySupabaseRow): TCompany {
       number: company.telefone,
       ddd: company.ddd,
     },
+    users: company.profiles?.map((user) => PartialUserProfileFromSupabase(user ?? {})),
     subscriptions: company.assinatura?.map((subscription) => PartialSubscriptionFromSupabase(subscription)),
     cnpj: company.id_cnpj,
     companyName: company.razao_social,
     fantasyName: company.nome_fantasia,
     email: company.email,
-    openAt: company.data_abertura.toString(),
+    openAt: new Date(company.data_abertura.toString()),
   }
 }
 
@@ -52,6 +54,6 @@ export function PartialCompanyFromSupabase(company: Partial<TCompanySupabaseRow>
     companyName: company?.razao_social,
     fantasyName: company?.nome_fantasia,
     email: company?.email,
-    openAt: company?.data_abertura?.toString(),
+    openAt: company?.data_abertura ? new Date(company.data_abertura) : undefined,
   }
 }

@@ -30,13 +30,14 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
   useQuery({
     queryKey: ["user"],
     queryFn: async () => {
-      if (!userSession?.session) return;
+      if (!userSession?.session) return {};
       const userProfile = await userService.getUserProfile();
       const newUserSession: TUserSession = {
         session: userSession?.session,
         user: userProfile,
       }
       setUserSession(newUserSession);
+      return {};
     }
   });
 

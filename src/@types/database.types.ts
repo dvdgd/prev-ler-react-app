@@ -355,6 +355,7 @@ export interface Database {
         Row: {
           born_date: string | null
           first_name: string
+          email: string
           last_name: string
           id_tipo_usuario: Database["public"]["Enums"]["tipo_usuario"] | "representante"
           id_cargo: number | null
@@ -365,6 +366,7 @@ export interface Database {
         Insert: {
           born_date?: string | null
           first_name?: string | null
+          email?: string
           id_cargo?: number | null
           id_empresa?: string | null
           id_tipo_usuario?: Database["public"]["Enums"]["tipo_usuario"] | "representante"
@@ -375,6 +377,7 @@ export interface Database {
         Update: {
           born_date?: string | null
           email?: string | null
+          cpf?: string | null
           first_name?: string | null
           id_cargo?: number | null
           id_empresa?: string | null
@@ -511,7 +514,7 @@ export interface Database {
       | "Sábado"
       | "Domingo"
       status_assinatura: "ativo" | "pendente_pagamento" | "cancelada"
-      status_pagamento: "pago" | "processando" | "nao pago" | "aberto"
+      status_pagamento: "pago" | "processando" | "nao pago" | "aberto" | "cancelado"
       tipo_usuario:
       | "representante"
       | "funcionario"

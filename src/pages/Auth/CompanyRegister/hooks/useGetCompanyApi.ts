@@ -57,7 +57,7 @@ export const useGetCompanyApi = ({
     setValue("phone.number", companyAttributesHttp.TELEFONE);
     setValue("companyName", companyAttributesHttp["RAZAO SOCIAL"]);
     setValue("fantasyName", companyAttributesHttp["NOME FANTASIA"]);
-    setValue("openAt", companyAttributesHttp["DATA ABERTURA"]);
+    setValue("openAt", new Date(companyAttributesHttp["DATA ABERTURA"]));
     setValue("email", companyAttributesHttp.EMAIL);
   }
 

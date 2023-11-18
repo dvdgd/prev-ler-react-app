@@ -13,21 +13,6 @@ export class SubscriptionService {
     private planService = new PlanService(),
   ) { }
 
-  async subscribePlan(companyId: string, planId: number): Promise<TSubscription> {
-    await this.paymentService.throwErrorIfCompanyHasAnyOfStatus();
-    const newSubscription = await this.generateNewSubscription(companyId, planId);
-
-    if (!newSubscription.subscriptionId) {
-      throw new BaseError({
-        title: "Erro inesperado ao criar nova assinatura",
-        description: "Não foi possível recuperar as informações da nova assinatura",
-      });
-    }
-
-    this.paymentService.generateNewPayment(newSubscription.subscriptionId);
-    return newSubscription;
-  }
-
   async getSubscriptionById(subscriptionId: number): Promise<TSubscription> {
     const { data: subscription } = await supabaseClient
       .from("assinatura")
@@ -43,6 +28,40 @@ export class SubscriptionService {
     }
 
     return SubscriptionFromSupabase(subscription as TSubscriptionRow);
+  }
+
+  async getAllSubscriptionsByCompanyId(companyId: string): Promise<TSubscription[]> {
+    const { data: subscriptions, error } = await supabaseClient
+      .from("assinatura")
+      .select(`*, plano(*), pagamento(*)`)
+      .eq("id_empresa", companyId)
+      .order('id_assinatura', { ascending: false })
+      .order('id_pagamento', { foreignTable: 'pagamento', ascending: false })
+
+
+    if (!subscriptions || error) {
+      throw new BaseError({
+        title: "Não foi possível encontrar a assinatura",
+        description: "Verifique que você possui uma assinatura de plano.",
+      });
+    }
+
+    return subscriptions?.map((s) => SubscriptionFromSupabase(s as TSubscriptionRow));
+  }
+
+  async subscribePlan(companyId: string, planId: number): Promise<TSubscription> {
+    await this.paymentService.throwErrorIfCompanyHasAnyOfStatus();
+    const newSubscription = await this.generateNewSubscription(companyId, planId);
+
+    if (!newSubscription.subscriptionId) {
+      throw new BaseError({
+        title: "Erro inesperado ao criar nova assinatura",
+        description: "Não foi possível recuperar as informações da nova assinatura",
+      });
+    }
+
+    this.paymentService.generateNewPayment(newSubscription.subscriptionId);
+    return newSubscription;
   }
 
   private async generateNewSubscription(companyId: string, planId: number, expirationDate = new Date()): Promise<TSubscription> {

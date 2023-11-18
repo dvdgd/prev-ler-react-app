@@ -40,6 +40,7 @@ export function useSignUpForm() {
         email: formAttributes.email,
         password: formAttributes.password,
         profile: {
+          email: formAttributes.email,
           ...formAttributes.profile,
           userType: EUserType.representante,
         },

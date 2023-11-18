@@ -1,7 +1,9 @@
 import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { TCompany } from "../../../../@types/company";
+import { formatCnpj } from "../../../../shared/functions/Formatters";
 import { useCompany } from "../hooks/useCompany";
+import { AdminCompanyTableOptions } from "./AdminCompanyTableOptions";
 
 const columns = (): ColumnsType<TCompany> => {
   return [
@@ -9,15 +11,10 @@ const columns = (): ColumnsType<TCompany> => {
       title: "CNPJ",
       dataIndex: "cnpj",
       key: "cnpj",
-      width: 55,
+      width: 35,
       fixed: true,
       render: (_value, record) => {
-        const maskedCnpj = record.cnpj.replace(/\D+/g, '')
-          .replace(/(\d{2})(\d)/, '$1.$2')
-          .replace(/(\d{3})(\d)/, '$1.$2')
-          .replace(/(\d{3})(\d)/, '$1/$2')
-          .replace(/(\d{4})(\d)/, '$1-$2')
-          .replace(/(-\d{2})\d+?$/, '$1')
+        const maskedCnpj = formatCnpj(record.cnpj);
         return (
           <>
             {maskedCnpj}
@@ -30,16 +27,17 @@ const columns = (): ColumnsType<TCompany> => {
       dataIndex: "fantasyName",
       key: "fantasyName",
       width: 55,
-      fixed: true,
     },
     {
       title: "E-mail",
       dataIndex: "email",
       key: "email",
-      width: 55,
+      width: 70,
     },
     {
-      title: "Contato",
+      title: "Telefone",
+      key: "phoneContact",
+      dataIndex: "",
       width: 55,
       render: (_value, company) => {
         const { ddd, number } = company.phone;
@@ -49,6 +47,34 @@ const columns = (): ColumnsType<TCompany> => {
           </>
         )
       }
+    },
+    {
+      title: "Localização",
+      key: "location",
+      dataIndex: "",
+      width: 55,
+      render: (_value, company) => {
+        const { uf, city } = company.adress;
+        return (
+          <>
+            {city} - {uf.toUpperCase()}
+          </>
+        )
+      }
+    },
+    {
+      title: "Opções",
+      key: "options",
+      dataIndex: "",
+      width: 50,
+      align: "center",
+      render(_value, company) {
+        return (
+          <>
+            <AdminCompanyTableOptions company={company} />
+          </>
+        )
+      },
     }
   ]
 }

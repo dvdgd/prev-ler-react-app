@@ -1,8 +1,8 @@
 import { BaseCard, BaseCardProps } from "./BaseCard";
 
-export function TableCard({ title, children }: Omit<BaseCardProps, "minW">) {
+export function TableCard({ children, ...props }: Omit<BaseCardProps, "minW">) {
   return (
-    <BaseCard title={title}>
+    <BaseCard {...props}>
       {children}
     </BaseCard>
   )

@@ -87,6 +87,7 @@ const columns = (): ColumnsType<TPayment> => {
           [EPaymentStatus.open]: { colorTag: "gray", statusText: "Aberto", tooltipText: "Esse pagamento está aguardando pagamento" },
           [EPaymentStatus.processing]: { colorTag: "yellow", statusText: "Aguardando Aprovação", tooltipText: "Esperando a aprovação de um administrador" },
           [EPaymentStatus.notPaid]: { colorTag: "red", statusText: "Não Pago", tooltipText: "Aguardando pagamento" },
+          [EPaymentStatus.canceled]: { colorTag: "gray", statusText: "Cancelado", tooltipText: "Pagamento cancelado" },
         };
 
         const statusConfig = statusConfigMap[status];
