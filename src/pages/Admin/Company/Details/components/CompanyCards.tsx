@@ -94,7 +94,7 @@ function CurrentSubscriptionCard({ company }: CompanyProps) {
           <VStack spacing={1} w={"full"} alignItems={"start"}>
             <Text fontWeight={"medium"} fontSize={"md"}>Assinatura {subscription?.subscriptionId}</Text>
             <Text fontSize={"md"}>Início: {subscription?.startDate?.toLocaleDateString()}</Text>
-            <Text fontSize={"md"}>Expiração: {subscription?.expirationDate?.toLocaleDateString()}</Text>
+            <Text fontSize={"md"}>Expiração: {subscription?.expirationDate?.toLocaleDateString() || "--"}</Text>
             <Text fontSize={"md"}>Status: {statusSubscriptionText}</Text>
           </VStack>
           <VStack spacing={1} w={"full"} alignItems={"start"}>
