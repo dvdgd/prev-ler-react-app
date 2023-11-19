@@ -1,7 +1,6 @@
 import { Database } from "./database.types";
 import { TJobRoleSupabaseRow } from "./job-role";
 
-
 export enum EUserType {
   representante = "representante",
   funcionario = "funcionario",

@@ -1,6 +1,7 @@
+import { useAuthDrawner } from "@hooks/useAuthDrawner";
+import { FaBuildingUser } from "react-icons/fa6";
 import { TbBusinessplan, TbDashboard } from "react-icons/tb";
 import { useLocation } from "react-router-dom";
-import { useAuthDrawner } from "../../../hooks/useAuthDrawner";
 import { SidebarItem } from "./BaseMenuItem";
 
 export function CompanyMenuContents() {
@@ -22,6 +23,12 @@ export function CompanyMenuContents() {
         title="Gestão do plano"
         active={pathname.includes("plan-details")}
         onClick={() => handleGoPage("/auth/company/dashboard/plan-details")}
+      />
+      <SidebarItem
+        icon={FaBuildingUser}
+        title="Usuários"
+        active={pathname.includes("users")}
+        onClick={() => handleGoPage("/auth/company/dashboard/users")}
       />
     </>
   );

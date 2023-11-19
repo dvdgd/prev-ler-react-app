@@ -180,6 +180,54 @@ export interface Database {
         }
         Relationships: []
       }
+      usuario_empresa: {
+        Row: {
+          autorizado: boolean
+          email: string
+          id_cargo: number
+          id_empresa: string
+          id_usuario: number
+          primeiro_nome: string
+          tipo: Database["public"]["Enums"]["tipo_usuario"]
+          ultimo_nome: string
+        }
+        Insert: {
+          autorizado: boolean
+          email: string
+          id_cargo: number
+          id_empresa: string
+          id_usuario?: number
+          primeiro_nome: string
+          tipo: Database["public"]["Enums"]["tipo_usuario"]
+          ultimo_nome: string
+        }
+        Update: {
+          autorizado?: boolean
+          email?: string
+          id_cargo?: number
+          id_empresa?: string
+          id_usuario?: number
+          primeiro_nome?: string
+          tipo?: Database["public"]["Enums"]["tipo_usuario"]
+          ultimo_nome?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "usuario_empresa_id_cargo_fkey"
+            columns: ["id_cargo"]
+            isOneToOne: false
+            referencedRelation: "cargo"
+            referencedColumns: ["id_cargo"]
+          },
+          {
+            foreignKeyName: "usuario_empresa_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa"
+            referencedColumns: ["id_cnpj"]
+          }
+        ]
+      }
       enfermidade: {
         Row: {
           data_atualizacao: string | null
