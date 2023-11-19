@@ -1,6 +1,6 @@
 
 import { VStack } from "@chakra-ui/react";
-import { IChildrenProps } from "../../@types/react-base-props";
+import { IChildrenProps } from "types/react-base-props";
 import { AuthDrawnerProvider } from "../../context/DrawnerProvider";
 import { Footer } from "../../shared/components/Footer";
 import { AuthHeader } from "./components/AuthHeader";

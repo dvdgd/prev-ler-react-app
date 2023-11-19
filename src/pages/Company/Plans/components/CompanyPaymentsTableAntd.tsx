@@ -1,8 +1,8 @@
 import { Tooltip } from "@chakra-ui/react";
+import { usePayments } from "@hooks/usePayments";
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { EPaymentStatus, TPayment } from "../../../../@types/payment";
-import { usePayments } from "../../../../hooks/usePayments";
+import { EPaymentStatus, TPayment } from "types/payment";
 import { PaymentsTableOptions } from "./PaymentsTableOptions";
 
 const columns = (): ColumnsType<TPayment> => {

@@ -8,11 +8,11 @@ import {
   Text,
   VStack
 } from "@chakra-ui/react";
+import { FormCard } from "@shared/components/Card/FormCard";
+import { PasswordInput } from "@shared/components/PasswordInput";
 import { FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { OnboardingLayout } from "../../../layouts/UserOnboardingLayout/UserOnboardingLayout";
-import { FormCard } from "../../../shared/components/Card/FormCard";
-import { PasswordInput } from "../../../shared/components/PasswordInput";
 import { useLogin } from "./hooks/useLoginForm";
 
 export function Login() {

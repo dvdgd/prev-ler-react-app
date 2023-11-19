@@ -7,8 +7,8 @@ import {
   DrawerHeader,
   DrawerOverlay
 } from "@chakra-ui/react";
-import { IChildrenProps } from "../../../@types/react-base-props";
-import { useAuthDrawner } from "../../../hooks/useAuthDrawner";
+import { useAuthDrawner } from "@hooks/useAuthDrawner";
+import { IChildrenProps } from "types/react-base-props";
 
 export const HamburguerMenu = ({ children }: IChildrenProps) => {
   const { isOpen, onOpen, onClose } = useAuthDrawner();

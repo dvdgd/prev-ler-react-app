@@ -1,8 +1,8 @@
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Box, Center, HStack, List, ListIcon, ListItem, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { ClickMeButton } from "@shared/components/ClickMeButton";
 import { useNavigate } from "react-router-dom";
 import { usePlans } from "../../../hooks/usePlans";
-import { ClickMeButton } from "../../../shared/components/ClickMeButton";
 
 interface PricingCardProps {
   id: number;

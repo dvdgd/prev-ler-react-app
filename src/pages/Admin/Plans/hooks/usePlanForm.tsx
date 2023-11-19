@@ -1,12 +1,12 @@
 import { useToast } from "@chakra-ui/react";
+import { queryClient } from "@config/tanStackQueryClient";
+import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
+import { PlanService } from "@shared/services/PlanService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { TPlan } from "../../../../@types/plan";
-import { queryClient } from "../../../../config/tanStackQueryClient";
-import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
-import { PlanService } from "../../../../shared/services/PlanService";
+import { TPlan } from "types/plan";
 
 export type TCreatePlanForm = Omit<TPlan, "createdAt" | "endDate">
 

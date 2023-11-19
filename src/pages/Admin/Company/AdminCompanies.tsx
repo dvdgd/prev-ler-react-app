@@ -1,4 +1,4 @@
-import { TableCard } from "../../../shared/components/Card/TableCard";
+import { TableCard } from "@shared/components/Card/TableCard";
 import { AdminCompanyTableAntd } from "./components/AdminCompanyTableAntd";
 
 export function AdminCompanies() {

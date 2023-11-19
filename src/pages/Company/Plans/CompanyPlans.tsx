@@ -1,5 +1,5 @@
 import { SimpleGrid, VStack } from "@chakra-ui/react";
-import { TableCard } from "../../../shared/components/Card/TableCard";
+import { TableCard } from "@shared/components/Card/TableCard";
 import { ActualPlanCard } from "./components/ActualPlanCard";
 import { CompanyPaymentsTableAntd } from "./components/CompanyPaymentsTableAntd";
 import { DueDateCard } from "./components/DueDateCard";

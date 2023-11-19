@@ -1,10 +1,10 @@
 
 import { EditIcon } from "@chakra-ui/icons";
 import { HStack, Text } from "@chakra-ui/react";
+import { useAuth } from "@hooks/useCurrentUser";
+import { MiniInfoCard } from "@shared/components/Card/MiniInfoCard";
+import { ChangePlanIconAction } from "@shared/components/ChangePlanIconAction";
 import { PiClipboardDuotone } from "react-icons/pi";
-import { useAuth } from "../../../../hooks/useCurrentUser";
-import { MiniInfoCard } from "../../../../shared/components/Card/MiniInfoCard";
-import { ChangePlanIconAction } from "../../../../shared/components/ChangePlanIconAction";
 
 function BlankPlanCard() {
   return (

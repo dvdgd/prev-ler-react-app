@@ -1,7 +1,7 @@
+import { formatCnpj } from "@shared/functions/Formatters";
 import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { TCompany } from "../../../../@types/company";
-import { formatCnpj } from "../../../../shared/functions/Formatters";
+import { TCompany } from "types/company";
 import { useCompany } from "../hooks/useCompany";
 import { AdminCompanyTableOptions } from "./AdminCompanyTableOptions";
 

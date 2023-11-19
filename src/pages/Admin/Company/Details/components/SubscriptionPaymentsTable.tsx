@@ -1,8 +1,10 @@
-import { Button } from "@chakra-ui/react";
+import {
+  Button
+} from "@chakra-ui/react";
+import { TableCard } from "@shared/components/Card/TableCard";
 import { Tag } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
-import { EPaymentStatus, TPayment } from "../../../../../@types/payment";
-import { TableCard } from "../../../../../shared/components/Card/TableCard";
+import { EPaymentStatus, TPayment } from "types/payment";
 import { AdminPaymentTableOptions } from "../../../Payments/components/AdminPaymentsTableOptions";
 import { useSubscriptionsCompanyByParams } from "../../hooks/useSubscriptionsCompanyByParams";
 
@@ -106,8 +108,7 @@ export function SubscriptionPaymentsTable() {
     <>
       {subscriptions?.map((s) => (
         <>
-          <TableCard title={`Pagamentos Assinatura ${s.subscriptionId}`} titleSize={"lg"}>
-
+          <TableCard title={`Pagamentos Assinatura ${s.subscriptionId}`} titleSize={["md", null, "lg"]}>
             <Table
               loading={isLoading}
               dataSource={s.payments}

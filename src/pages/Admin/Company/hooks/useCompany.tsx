@@ -1,7 +1,7 @@
 import { useToast } from "@chakra-ui/react";
+import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
+import { CompanyService } from "@shared/services/CompanyService";
 import { useQuery } from "@tanstack/react-query";
-import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
-import { CompanyService } from "../../../../shared/services/CompanyService";
 
 const companyService = new CompanyService();
 

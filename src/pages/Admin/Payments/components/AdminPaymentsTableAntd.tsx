@@ -1,6 +1,6 @@
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { EPaymentStatus, TPayment } from "../../../../@types/payment";
+import { EPaymentStatus, TPayment } from "types/payment";
 import { AdminPaymentTableOptions } from "./AdminPaymentsTableOptions";
 import { FantasyNameColumnProps } from "./FantasyNameColumnProps";
 

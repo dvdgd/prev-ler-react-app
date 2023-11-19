@@ -15,16 +15,16 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import { queryClient } from "@config/tanStackQueryClient";
+import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
+import { DeleteIconAction } from "@shared/components/DeleteIconAction";
+import { EditIconAction } from "@shared/components/EditIconAction";
+import { ViewIconAction } from "@shared/components/ViewIconAction";
+import { PlanService } from "@shared/services/PlanService";
 import { useMutation } from "@tanstack/react-query";
 import { } from "antd";
 import { useNavigate } from "react-router-dom";
-import { TPlan } from "../../../../@types/plan";
-import { queryClient } from "../../../../config/tanStackQueryClient";
-import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
-import { DeleteIconAction } from "../../../../shared/components/DeleteIconAction";
-import { EditIconAction } from "../../../../shared/components/EditIconAction";
-import { ViewIconAction } from "../../../../shared/components/ViewIconAction";
-import { PlanService } from "../../../../shared/services/PlanService";
+import { TPlan } from "types/plan";
 
 type PlansModalProps = {
   plan: TPlan;

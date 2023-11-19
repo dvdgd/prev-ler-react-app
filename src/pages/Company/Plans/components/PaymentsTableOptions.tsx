@@ -16,14 +16,13 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import { queryClient } from "@config/tanStackQueryClient";
+import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
+import { CheckPaymentButtonAction } from "@shared/components/CheckPaymentButtonAction";
+import { ViewIconAction } from "@shared/components/ViewIconAction";
+import { PaymentService } from "@shared/services/PaymentService";
 import { useMutation } from "@tanstack/react-query";
-import { } from "antd";
-import { EPaymentStatus, TPayment } from "../../../../@types/payment";
-import { queryClient } from "../../../../config/tanStackQueryClient";
-import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
-import { CheckPaymentButtonAction } from "../../../../shared/components/CheckPaymentButtonAction";
-import { ViewIconAction } from "../../../../shared/components/ViewIconAction";
-import { PaymentService } from "../../../../shared/services/PaymentService";
+import { EPaymentStatus, TPayment } from "types/payment";
 
 type PaymentsModalProps = {
   payment: TPayment;

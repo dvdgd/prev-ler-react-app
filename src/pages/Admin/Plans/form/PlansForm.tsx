@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, FormLabel, HStack, Input, Select, SimpleGrid, Switch, Text, Textarea } from "@chakra-ui/react";
+import { FormCard } from "@shared/components/Card/FormCard";
 import { Controller, FormProvider } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { FormCard } from "../../../../shared/components/Card/FormCard";
 import { usePlanForm } from "../hooks/usePlanForm";
 
 export const PlansForm = () => {

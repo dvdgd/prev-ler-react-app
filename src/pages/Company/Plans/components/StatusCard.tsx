@@ -1,8 +1,8 @@
 import { Text, VStack } from "@chakra-ui/react";
+import { useAuth } from "@hooks/useCurrentUser";
+import { MiniInfoCard } from "@shared/components/Card/MiniInfoCard";
 import { BsCheckAll } from "react-icons/bs";
-import { ESubscriptionStatus } from "../../../../@types/subscription";
-import { useAuth } from "../../../../hooks/useCurrentUser";
-import { MiniInfoCard } from "../../../../shared/components/Card/MiniInfoCard";
+import { ESubscriptionStatus } from "types/subscription";
 
 function BlankStatusCard() {
   return (

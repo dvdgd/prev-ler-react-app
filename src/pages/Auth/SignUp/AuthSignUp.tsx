@@ -11,11 +11,11 @@ import {
   Text,
   VStack
 } from "@chakra-ui/react";
+import { FormCard } from "@shared/components/Card/FormCard";
 import { useState, } from "react";
 import MaskedInput from "react-input-mask";
 import { useNavigate } from "react-router-dom";
 import { OnboardingLayout } from "../../../layouts/UserOnboardingLayout/UserOnboardingLayout";
-import { FormCard } from "../../../shared/components/Card/FormCard";
 import { useSignUpForm } from "./hooks/useSignUpForm";
 
 export function AuthSignUp() {

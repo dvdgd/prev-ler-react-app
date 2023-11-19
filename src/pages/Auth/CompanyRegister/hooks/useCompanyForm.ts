@@ -1,13 +1,13 @@
 import { UseToastOptions, useToast } from "@chakra-ui/react";
+import { queryClient } from "@config/tanStackQueryClient";
+import { useAuth } from "@hooks/useCurrentUser";
+import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
+import { CompanyService } from "@shared/services/CompanyService";
 import { useMutation } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { TCompany } from "../../../../@types/company";
-import { queryClient } from "../../../../config/tanStackQueryClient";
-import { useAuth } from "../../../../hooks/useCurrentUser";
-import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
-import { CompanyService } from "../../../../shared/services/CompanyService";
+import { TCompany } from "types/company";
 
 export type TCompanyCreateForm = TCompany & { planId: number }
 

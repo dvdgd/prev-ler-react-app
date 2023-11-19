@@ -1,5 +1,5 @@
 import { Box, BoxProps, Card, CardBody, Stat, StatLabel, VStack } from "@chakra-ui/react";
-import { IChildrenProps } from "../../../../../@types/react-base-props";
+import { IChildrenProps } from "types/react-base-props";
 
 type MyCardProps = IChildrenProps & {
   title: string;

@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Breadcrumb as BreadcrumbChakra, BreadcrumbItem, BreadcrumbLink, HStack } from "@chakra-ui/react";
 import { useMatches, useNavigate } from "react-router-dom";
-import { BreadcrumbRoute } from "../../../@types/react-base-props";
+import { BreadcrumbRoute } from "types/react-base-props";
 
 export function Breadcrumb() {
   const navigate = useNavigate();

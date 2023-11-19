@@ -5,9 +5,9 @@ import {
   Text,
   VStack
 } from "@chakra-ui/react";
+import { ClickMeButton } from "@shared/components/ClickMeButton";
 import { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
-import { ClickMeButton } from "../../../shared/components/ClickMeButton";
 
 interface HeroSectionProps { }
 

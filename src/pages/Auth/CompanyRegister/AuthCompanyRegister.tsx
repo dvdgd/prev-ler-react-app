@@ -1,11 +1,11 @@
 import { Button, Divider, FormControl, FormLabel, Input, Select, SimpleGrid, Stack } from "@chakra-ui/react";
+import { FormCard } from "@shared/components/Card/FormCard";
+import { ReturnTrueIfCompanyComplete } from "@shared/functions/ReturnTrueIfCompanyComplete";
 import { Controller } from "react-hook-form";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useCurrentUser";
 import { usePlans } from "../../../hooks/usePlans";
 import { OnboardingLayout } from "../../../layouts/UserOnboardingLayout/UserOnboardingLayout";
-import { FormCard } from "../../../shared/components/Card/FormCard";
-import { ReturnTrueIfCompanyComplete } from "../../../shared/functions/ReturnTrueIfCompanyComplete";
 import { useCompanyForm } from "./hooks/useCompanyForm";
 import { useGetCompanyApi } from "./hooks/useGetCompanyApi";
 

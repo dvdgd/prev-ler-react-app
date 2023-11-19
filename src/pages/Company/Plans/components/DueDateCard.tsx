@@ -1,7 +1,7 @@
 import { Text, VStack } from "@chakra-ui/react";
+import { useAuth } from "@hooks/useCurrentUser";
+import { MiniInfoCard } from "@shared/components/Card/MiniInfoCard";
 import { BsCalendar2Week } from "react-icons/bs";
-import { useAuth } from "../../../../hooks/useCurrentUser";
-import { MiniInfoCard } from "../../../../shared/components/Card/MiniInfoCard";
 
 export function DueDateCard() {
   const { userSession } = useAuth();

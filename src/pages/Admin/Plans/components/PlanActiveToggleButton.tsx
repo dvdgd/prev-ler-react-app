@@ -1,10 +1,10 @@
 import { HStack, Switch, Text, useToast } from "@chakra-ui/react";
+import { queryClient } from "@config/tanStackQueryClient";
+import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
+import { PlanService } from "@shared/services/PlanService";
 import { useMutation } from "@tanstack/react-query";
 import { useCallback } from "react";
-import { TPlan } from "../../../../@types/plan";
-import { queryClient } from "../../../../config/tanStackQueryClient";
-import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler";
-import { PlanService } from "../../../../shared/services/PlanService";
+import { TPlan } from "types/plan";
 
 type PlanActiveToggleButtonProps = {
   plan: TPlan,

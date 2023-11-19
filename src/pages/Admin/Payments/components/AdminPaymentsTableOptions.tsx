@@ -1,11 +1,11 @@
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons"
 import { Center, HStack, UseToastOptions, useToast } from "@chakra-ui/react"
+import { queryClient } from "@config/tanStackQueryClient"
+import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler"
+import { MyIconButton } from "@shared/components/MyIconButton"
+import { PaymentService } from "@shared/services/PaymentService"
 import { useMutation } from "@tanstack/react-query"
-import { TPayment } from "../../../../@types/payment"
-import { queryClient } from "../../../../config/tanStackQueryClient"
-import { useShowToastErrorHandler } from "../../../../hooks/useShowToastErrorHandler"
-import { MyIconButton } from "../../../../shared/components/MyIconButton"
-import { PaymentService } from "../../../../shared/services/PaymentService"
+import { TPayment } from "types/payment"
 
 type AdminPaymentTableOptionsProps = {
   payment: TPayment
