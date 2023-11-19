@@ -33,7 +33,7 @@ export function AdminMenuContents() {
       <SidebarItem
         icon={MdHomeWork}
         title="Empresas"
-        active={pathname.includes("company")}
+        active={pathname.includes("companies")}
         onClick={() => handleGoPage("/auth/admin/dashboard/companies")}
       />
     </>
