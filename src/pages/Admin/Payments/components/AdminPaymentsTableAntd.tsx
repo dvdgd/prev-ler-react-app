@@ -1,3 +1,4 @@
+import { getAdminPaymnetConfig } from "@shared/functions/PaymentStatusMap";
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { EPaymentStatus, TPayment } from "types/payment";
@@ -96,15 +97,7 @@ const columns = (): ColumnsType<TPayment> => {
         return Boolean(record.status.toString() === value);
       },
       render(_value, { status }) {
-        const statusConfigMap = {
-          [EPaymentStatus.paid]: { colorTag: "green", statusText: "Aprovado" },
-          [EPaymentStatus.open]: { colorTag: "gray", statusText: "Aberto" },
-          [EPaymentStatus.processing]: { colorTag: "yellow", statusText: "Aguardando Aprovação" },
-          [EPaymentStatus.notPaid]: { colorTag: "red", statusText: "Não Pago" },
-          [EPaymentStatus.canceled]: { colorTag: "gray", statusText: "Cancelado" },
-        };
-
-        const statusConfig = statusConfigMap[status]
+        const statusConfig = getAdminPaymnetConfig(status);
         return <Tag color={statusConfig.colorTag}>{statusConfig.statusText}</Tag>;
       }
     },

@@ -1,8 +1,9 @@
 import { Tooltip } from "@chakra-ui/react";
 import { usePayments } from "@hooks/usePayments";
+import { getCompanyPaymnetConfig } from "@shared/functions/PaymentStatusMap";
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { EPaymentStatus, TPayment } from "types/payment";
+import { TPayment } from "types/payment";
 import { PaymentsTableOptions } from "./PaymentsTableOptions";
 
 const columns = (): ColumnsType<TPayment> => {
@@ -82,15 +83,7 @@ const columns = (): ColumnsType<TPayment> => {
       key: "status",
       width: 180,
       render(_value, { status }) {
-        const statusConfigMap = {
-          [EPaymentStatus.paid]: { colorTag: "green", statusText: "Pago", tooltipText: "Esse pagamento já foi pago" },
-          [EPaymentStatus.open]: { colorTag: "gray", statusText: "Aberto", tooltipText: "Esse pagamento está aguardando pagamento" },
-          [EPaymentStatus.processing]: { colorTag: "yellow", statusText: "Aguardando Aprovação", tooltipText: "Esperando a aprovação de um administrador" },
-          [EPaymentStatus.notPaid]: { colorTag: "red", statusText: "Não Pago", tooltipText: "Aguardando pagamento" },
-          [EPaymentStatus.canceled]: { colorTag: "gray", statusText: "Cancelado", tooltipText: "Pagamento cancelado" },
-        };
-
-        const statusConfig = statusConfigMap[status];
+        const statusConfig = getCompanyPaymnetConfig(status);
         return (
           <>
             <Tooltip label={statusConfig.tooltipText}>

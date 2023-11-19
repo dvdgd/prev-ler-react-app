@@ -1,5 +1,6 @@
 import { Box, Link, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { formatCep, formatCnpj } from "@shared/functions/Formatters";
+import { getSubscriptionStatusText } from "@shared/functions/SubscriptionStatusMap";
 import { TCompany } from "types/company";
 import { ESubscriptionStatus } from "types/subscription";
 import { MyInfoCard } from "./MyInfoCard";
@@ -77,13 +78,8 @@ function CurrentSubscriptionCard({ company }: CompanyProps) {
 
 
   const planPeriodicyText = plan?.periodicy === "mensais" ? "mês" : "ano";
-  const statusSubscriptionMap = {
-    [ESubscriptionStatus.active]: "Ativa",
-    [ESubscriptionStatus.canceled]: "Cancelada",
-    [ESubscriptionStatus.notPaid]: "Não paga"
-  }
-
-  const statusSubscriptionText = statusSubscriptionMap[subscription?.status || ESubscriptionStatus.canceled];
+  const subscriptionStatus = subscription?.status || ESubscriptionStatus.canceled;
+  const statusSubscriptionText = getSubscriptionStatusText(subscriptionStatus);
 
   return (
     <>

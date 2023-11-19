@@ -1,8 +1,8 @@
 import { Text, VStack } from "@chakra-ui/react";
 import { useAuth } from "@hooks/useCurrentUser";
 import { MiniInfoCard } from "@shared/components/Card/MiniInfoCard";
+import { getSubscriptionStatusText } from "@shared/functions/SubscriptionStatusMap";
 import { BsCheckAll } from "react-icons/bs";
-import { ESubscriptionStatus } from "types/subscription";
 
 function BlankStatusCard() {
   return (
@@ -26,14 +26,7 @@ export function StatusCard() {
     return <BlankStatusCard />;
   }
 
-  const statusTextMap = {
-    [ESubscriptionStatus.active]: "Ativa",
-    [ESubscriptionStatus.canceled]: "Cancelada",
-    [ESubscriptionStatus.notPaid]: "Não paga",
-  }
-
-  const statusText = statusTextMap[subscription.status];
-
+  const statusText = getSubscriptionStatusText(subscription.status);
   return (
     <MiniInfoCard title={"Status da Assinatura"} icon={<BsCheckAll />}>
       <VStack w={"full"} align="flex-start">
