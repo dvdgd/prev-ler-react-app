@@ -5,7 +5,7 @@ import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler"
 import { MyIconButton } from "@shared/components/MyIconButton"
 import { PaymentService } from "@shared/services/PaymentService"
 import { useMutation } from "@tanstack/react-query"
-import { TPayment } from "types/payment"
+import { EPaymentStatus, TPayment } from "types/payment"
 
 type AdminPaymentTableOptionsProps = {
   payment: TPayment
@@ -77,6 +77,7 @@ export function AdminPaymentTableOptions({ payment }: AdminPaymentTableOptionsPr
           <MyIconButton
             buttonFn={recognizeMutation.mutate}
             isLoading={recognizeMutation.isPending}
+            isDisabled={payment.status !== EPaymentStatus.processing}
             icon={<CheckIcon />}
             color={"green.600"}
             aria-label="Reconhecer pagamento"
@@ -86,6 +87,7 @@ export function AdminPaymentTableOptions({ payment }: AdminPaymentTableOptionsPr
           <MyIconButton
             buttonFn={contestMutation.mutate}
             isLoading={contestMutation.isPending}
+            isDisabled={payment.status !== EPaymentStatus.processing}
             icon={<CloseIcon />}
             color={"red.600"}
             aria-label="Contestar Pagamento"
