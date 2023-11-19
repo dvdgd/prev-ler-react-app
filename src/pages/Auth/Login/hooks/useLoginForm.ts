@@ -20,7 +20,7 @@ export function useLogin() {
 
   const toastErrorAttributes: UseToastOptions = {
     title: "Usuario não encontrado",
-    description: "O usuário não existe os as credencias estão incorretas.",
+    description: "O usuário não existe ou as credencias estão incorretas.",
     status: "error",
     duration: 5000,
     isClosable: true,

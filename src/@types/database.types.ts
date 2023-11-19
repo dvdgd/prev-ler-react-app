@@ -357,6 +357,7 @@ export interface Database {
           first_name: string
           email: string
           last_name: string
+          cpf: string
           id_tipo_usuario: Database["public"]["Enums"]["tipo_usuario"] | "representante"
           id_cargo: number | null
           id_empresa: string | null
@@ -367,6 +368,7 @@ export interface Database {
           born_date?: string | null
           first_name?: string | null
           email?: string
+          cpf?: string | null
           id_cargo?: number | null
           id_empresa?: string | null
           id_tipo_usuario?: Database["public"]["Enums"]["tipo_usuario"] | "representante"
@@ -377,8 +379,8 @@ export interface Database {
         Update: {
           born_date?: string | null
           email?: string | null
-          cpf?: string | null
           first_name?: string | null
+          cpf?: string | null
           id_cargo?: number | null
           id_empresa?: string | null
           id_tipo_usuario?: Database["public"]["Enums"]["tipo_usuario"] | null

@@ -21,6 +21,7 @@ export type TUserProfile = {
   email: string;
   firstName: string;
   lastName: string;
+  cpf: string;
   userType: EUserType;
   idCompany?: string | null;
   jobRole?: string;

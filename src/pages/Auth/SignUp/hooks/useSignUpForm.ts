@@ -10,6 +10,7 @@ interface IFormSignUpInputs {
   email: string;
   password: string;
   profile: {
+    cpf: string;
     firstName: string;
     lastName: string;
   };
@@ -19,7 +20,7 @@ export function useSignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { signUp } = useAuth();
-  const { register, handleSubmit } = useForm<IFormSignUpInputs>();
+  const { register, handleSubmit, control } = useForm<IFormSignUpInputs>();
 
   const toast = useToast();
   const { showErrorToast } = useShowToastErrorHandler();
@@ -70,5 +71,6 @@ export function useSignUpForm() {
     isLoading,
     register,
     onFormSubmit,
+    control
   };
 }

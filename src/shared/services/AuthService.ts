@@ -39,11 +39,12 @@ export class AuthService {
     password,
     profile
   }: TSignUpBody): Promise<TUserSession> {
+    const profileSupabase = UserProfileToSupabase(profile);
     const { data, error } = await supabaseClient.auth.signUp({
       email,
       password,
       options: {
-        data: UserProfileToSupabase(profile),
+        data: profileSupabase,
       }
     });
 
