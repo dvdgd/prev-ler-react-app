@@ -1,6 +1,3 @@
-import {
-  Button
-} from "@chakra-ui/react";
 import { TableCard } from "@shared/components/Card/TableCard";
 import { getAdminPaymnetConfig } from "@shared/functions/PaymentStatusMap";
 import { Tag } from "antd";
@@ -8,6 +5,7 @@ import Table, { ColumnsType } from "antd/es/table";
 import { EPaymentStatus, TPayment } from "types/payment";
 import { AdminPaymentTableOptions } from "../../../Payments/components/AdminPaymentsTableOptions";
 import { useSubscriptionsCompanyByParams } from "../../hooks/useSubscriptionsCompanyByParams";
+import { SubscriptionModal } from "./SubscriptionModal";
 
 const columns = (): ColumnsType<TPayment> => {
   return [
@@ -114,9 +112,7 @@ export function SubscriptionPaymentsTable() {
                 position: ["bottomRight"],
               }}
             />
-            <Button size={"md"} onClick={(() => { })}>
-              Detalhes da assinatura
-            </Button>
+            <SubscriptionModal subscription={s} />
           </TableCard>
         </>
       ))}
