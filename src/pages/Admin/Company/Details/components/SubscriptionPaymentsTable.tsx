@@ -3,8 +3,8 @@ import { getAdminPaymnetConfig } from "@shared/functions/PaymentStatusMap";
 import { Tag } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import { EPaymentStatus, TPayment } from "types/payment";
+import { TSubscription } from "../../../../../@types/subscription";
 import { AdminPaymentTableOptions } from "../../../Payments/components/AdminPaymentsTableOptions";
-import { useSubscriptionsCompanyByParams } from "../../hooks/useSubscriptionsCompanyByParams";
 import { SubscriptionModal } from "./SubscriptionModal";
 
 const columns = (): ColumnsType<TPayment> => {
@@ -92,30 +92,34 @@ const columns = (): ColumnsType<TPayment> => {
   ];
 };
 
-export function SubscriptionPaymentsTable() {
-  const { subscriptions, isLoading } = useSubscriptionsCompanyByParams();
+type SubscriptionPaymentsTableProps = {
+  subscription: TSubscription,
+  isLoading: boolean,
+}
+
+export function SubscriptionPaymentsTable({ subscription, isLoading }: SubscriptionPaymentsTableProps) {
+  const {
+    subscriptionId,
+    payments,
+  } = subscription;
 
   return (
     <>
-      {subscriptions?.map((s) => (
-        <>
-          <TableCard title={`Pagamentos Assinatura ${s.subscriptionId}`} titleSize={["md", null, "lg"]}>
-            <Table
-              loading={isLoading}
-              dataSource={s.payments}
-              columns={columns()}
-              rowKey="paymentId"
-              scroll={{ x: 800, y: 300 }}
-              bordered
-              pagination={{
-                pageSize: 5,
-                position: ["bottomRight"],
-              }}
-            />
-            <SubscriptionModal subscription={s} />
-          </TableCard>
-        </>
-      ))}
+      <TableCard title={`Pagamentos Assinatura ${subscriptionId}`} titleSize={["md", null, "lg"]}>
+        <Table
+          loading={isLoading}
+          dataSource={payments}
+          columns={columns()}
+          rowKey="paymentId"
+          scroll={{ x: 800, y: 300 }}
+          bordered
+          pagination={{
+            pageSize: 5,
+            position: ["bottomRight"],
+          }}
+        />
+        <SubscriptionModal subscription={subscription} />
+      </TableCard>
     </>
   )
 }
