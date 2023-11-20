@@ -11,7 +11,7 @@ export function JobRoleToSupabase(jobRole: TJobRole): TJobRoleSupabaseInsert {
 export function JobRoleFromSupabase(jobRoleSupabaseInsert: TJobRoleSupabaseInsert): TJobRole {
   return {
     jobRoleId: jobRoleSupabaseInsert.id_cargo || undefined,
-    companyId: parseInt(jobRoleSupabaseInsert.id_empresa, 10),
+    companyId: jobRoleSupabaseInsert.id_empresa || "0",
     jobName: jobRoleSupabaseInsert.nome
   };
 }
