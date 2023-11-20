@@ -1,8 +1,10 @@
 import { TCompany, TCompanySupabaseRow } from "../../@types/company";
+import { TCompanyUser, TuserCompanyRow } from "../../@types/company-user";
 import { EUserType } from "../../@types/profile";
 import { supabaseClient } from "../../config/supabase";
 import { BaseError } from "../errors/BaseError";
 import { CompanyFromSupabase, CompanyToSupabase } from "../mappers/CompanySupabaseMappers";
+import { UserCompanyFromSupabase } from "../mappers/CompanyUserSupabaseMapper";
 import { SubscriptionService } from "./SubscriptionService";
 import { UserService } from "./UserService";
 
@@ -85,5 +87,20 @@ export class CompanyService {
     }
 
     return CompanyFromSupabase(company as TCompanySupabaseRow);
+  }
+
+  async getCompanyUsers(): Promise<TCompanyUser[]> {
+    const { data, error } = await supabaseClient
+      .from("usuario_empresa")
+      .select("*");
+
+    if (!data || error) {
+      throw new BaseError({
+        title: "Erro ao recuperar os usuários da empresa.",
+        description: "Por favor, tente novamente mais tarde.",
+      });
+    }
+
+    return data.map((u) => UserCompanyFromSupabase(u as TuserCompanyRow));
   }
 }

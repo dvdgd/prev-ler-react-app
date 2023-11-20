@@ -13,6 +13,8 @@ import { Logout } from "../pages/Auth/Logout/AuthLogout";
 import { AuthSignUp } from "../pages/Auth/SignUp/AuthSignUp";
 import { CompanyDashboard } from "../pages/Company/Dashboard/CompanyDashboard";
 import { CompanyPlans } from "../pages/Company/Plans/CompanyPlans";
+import { CompanyUserForm } from "../pages/Company/Users/CompanyUserForm";
+import { CompanyUsers } from "../pages/Company/Users/CompanyUsers";
 import { NotFound } from "../pages/Errors/NotFound";
 import { Unauthorized } from "../pages/Errors/Unauthorized";
 import { LandingPage } from "../pages/LandingPage/LandingPage";
@@ -38,6 +40,11 @@ export const routesCreateBrowserRoute = createBrowserRouter(
             <Route index element={<CompanyDashboard />} />
             <Route path="plan-details" element={<Outlet />} handle={{ title: "Planos" }} >
               <Route index element={<CompanyPlans />} />
+            </Route>
+            <Route path="users" element={<Outlet />} handle={{ title: "Usuários" }}>
+              <Route index element={<CompanyUsers />} />
+              <Route path="create" element={<CompanyUserForm />} handle={{ title: "Criar Usuário" }} />
+              <Route path="create/:userId" element={<CompanyUserForm />} handle={{ title: "Editar Usuário" }} />
             </Route>
           </Route>
         </Route>
