@@ -1,3 +1,5 @@
+import { JobRoles } from "@pages/Company/JobRoles/JobRoles";
+import { JobRolesForm } from "@pages/Company/JobRoles/JobRolesForm";
 import { Outlet, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import { EUserType } from "../@types/profile";
 import { AdminCompanies } from "../pages/Admin/Company/AdminCompanies";
@@ -40,6 +42,11 @@ export const routesCreateBrowserRoute = createBrowserRouter(
             <Route index element={<CompanyDashboard />} />
             <Route path="plan-details" element={<Outlet />} handle={{ title: "Planos" }} >
               <Route index element={<CompanyPlans />} />
+            </Route>
+            <Route path="job-roles" element={<Outlet />} handle={{ title: "Cargos" }}>
+              <Route index element={<JobRoles />} />
+              <Route path="create" element={<JobRolesForm />} handle={{ title: "Criar Cargo" }} />
+              <Route path="create/:jobRoleId" element={<JobRolesForm />} handle={{ title: "Editar Cargo" }} />
             </Route>
             <Route path="users" element={<Outlet />} handle={{ title: "Usuários" }}>
               <Route index element={<CompanyUsers />} />
