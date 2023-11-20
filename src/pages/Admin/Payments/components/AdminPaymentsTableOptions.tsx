@@ -29,7 +29,12 @@ export function AdminPaymentTableOptions({ payment }: AdminPaymentTableOptionsPr
   const recognizeMutation = useMutation({
     mutationFn: () => new PaymentService().recognizeCompanyPayment(payment.paymentId || 0),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["payments"] });
+      queryClient.invalidateQueries({
+        queryKey: ["payments"]
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["company", "subscriptions"]
+      });
       toast({
         ...baseSuccessToast,
         title: "Pagamento aprovado",
@@ -51,7 +56,12 @@ export function AdminPaymentTableOptions({ payment }: AdminPaymentTableOptionsPr
   const contestMutation = useMutation({
     mutationFn: () => new PaymentService().contestCompanyPayment(payment.paymentId || 0),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["payments"] });
+      queryClient.invalidateQueries({
+        queryKey: ["payments",]
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["company", "subscriptions"]
+      });
       toast({
         ...baseSuccessToast,
         title: "Pagamento contestado",
