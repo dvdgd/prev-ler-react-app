@@ -6,7 +6,7 @@ import { JobRoleService } from "@shared/services/JobRoleService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 type TJobRoleForm = {
   jobName: string;
@@ -33,6 +33,7 @@ export function useJobRoleForm() {
 
   const { showErrorToast } = useShowToastErrorHandler();
   const toast = useToast();
+  const navigate = useNavigate();
 
   const createOrUpdateJobRoleMutation = useMutation({
     mutationFn: () => {
@@ -41,6 +42,7 @@ export function useJobRoleForm() {
       return jobRoleService.createOrUpdate({
         ...jobRoleAttributes,
         companyId,
+        jobRoleId: parseInt(jobRoleId || '0'),
       });
     },
     onSuccess: () => {
@@ -52,6 +54,7 @@ export function useJobRoleForm() {
         isClosable: true,
         status: "success",
       });
+      navigate(-1);
     },
     onError: (error) => {
       showErrorToast({
