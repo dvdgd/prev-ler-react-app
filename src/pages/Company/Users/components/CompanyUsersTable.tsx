@@ -42,6 +42,7 @@ const columns = (): ColumnsType<TCompanyUser> => {
       key: "jobRole",
       responsive: ["md"],
       width: 120,
+      render: (_value, { jobRole }) => jobRole.jobName,
     },
     {
       title: "Tipo",
