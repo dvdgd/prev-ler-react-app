@@ -7,6 +7,6 @@ export type TJobRoleSupabaseRow = TJobRoleSupabase['Row'];
 
 export type TJobRole = {
   jobRoleId?: number;
-  companyId: number;
+  companyId: string;
   jobName: string;
 }

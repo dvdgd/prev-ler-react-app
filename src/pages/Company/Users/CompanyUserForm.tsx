@@ -2,9 +2,9 @@ import { Box, Button, FormControl, FormLabel, HStack, Input, Select, SimpleGrid,
 import { Controller, FormProvider } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { EUserType } from "types/profile";
+import { useJobRoles } from "../../../hooks/useJobRoles";
 import { FormCard } from "../../../shared/components/Card/FormCard";
 import { useCompanyUserForm } from "./hooks/useCompanyUserForm";
-import { useJobRoles } from "./hooks/useJobRoles";
 
 const usersTypeOptions = [
   { value: EUserType.funcionario, label: "Funcionário" },
