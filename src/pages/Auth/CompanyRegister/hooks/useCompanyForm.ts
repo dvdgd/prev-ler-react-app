@@ -1,34 +1,76 @@
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { TCompany } from "../../../../@types/company";
-import { useAuth } from "../../../../hooks/useCurrentUser";
-import { NewCompany } from "../../../../shared/services/auth/NewCompanyService";
+import { UseToastOptions, useToast } from "@chakra-ui/react";
+import { queryClient } from "@config/tanStackQueryClient";
+import { useAuth } from "@hooks/useCurrentUser";
+import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
+import { CompanyService } from "@shared/services/CompanyService";
+import { useMutation } from "@tanstack/react-query";
+import { useCallback } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { TCompany } from "types/company";
+
+export type TCompanyCreateForm = TCompany & { planId: number }
 
 export function useCompanyForm() {
-  const { userSession, setUserSession } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
-  const { register, handleSubmit, setValue, getValues } = useForm<TCompany>();
+  const toast = useToast();
+  const navigate = useNavigate();
 
-  const handleNewCompany: SubmitHandler<TCompany> = async (formAttributes) => {
-    try {
-      setIsLoading(true);
-      const newCompany = await NewCompany(formAttributes);
-      if (!userSession?.user?.id) return;
-      const user = Object.assign(userSession, {
-        user: {
-          company: newCompany
-        }
+  const { userSession } = useAuth();
+  const { register, handleSubmit, setValue, getValues, control } = useForm<TCompanyCreateForm>();
+  const { showErrorToast } = useShowToastErrorHandler();
+
+  const toastErrorAttributes: UseToastOptions = {
+    title: "Erro ao salvar",
+    description: "Não foi possível recuperar a sessão do usuario, tente novamente mais tarde.",
+    status: "error",
+    duration: 5000,
+    isClosable: true
+  };
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      if (!userSession?.user?.id) {
+        toast(toastErrorAttributes);
+        return;
+      }
+
+      const formValues = getValues();
+      const newCompany = await new CompanyService().create(
+        formValues,
+        userSession?.user?.id,
+        formValues.planId
+      );
+      return newCompany;
+    },
+    onSuccess: (newCompany) => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      toast({
+        title: "Cadastro concluído.",
+        description: "Você se associou como representate da empresa " + newCompany?.fantasyName,
+        status: "success",
+        duration: 4000,
+        isClosable: true,
       });
-      setUserSession(user);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
+
+      navigate("/check/login");
+    },
+    onError: (error) => {
+      toast.closeAll();
+      showErrorToast({
+        error,
+        toastAttributes: toastErrorAttributes
+      });
     }
-  }
+  });
+
+  const handleNewCompany = useCallback(
+    () => mutation.mutate(),
+    [mutation],
+  );
 
   return {
-    isLoading,
+    control,
+    isLoading: mutation.isPending,
     register,
     handleSubmit,
     setValue,

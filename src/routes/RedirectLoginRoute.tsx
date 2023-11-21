@@ -1,13 +1,23 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { EUserType } from "../@types/profile";
+import { TUser } from "../@types/user";
 import { useAuth } from "../hooks/useCurrentUser";
-import { CheckCompanyComplete } from "../shared/functions/CheckCompanyComplete";
+import { ReturnTrueIfCompanyComplete } from "../shared/functions/ReturnTrueIfCompanyComplete";
 
-const getRouteRedirectByUserType = (userType: EUserType | undefined) => {
+const getRouteRedirectByUserType = (user: TUser | undefined) => {
   const routes = new Map<EUserType | undefined, string>([
     [EUserType.representante, "/auth/company/dashboard"],
     [EUserType.administrador, "/auth/admin/dashboard"],
   ]);
+
+  const userType = user?.profile?.userType;
+
+  if (userType === EUserType.administrador) {
+    return routes.get(userType);
+  }
+
+  const ableToAccess = ReturnTrueIfCompanyComplete(user);
+  if (!ableToAccess) return "/auth/complete-register";
 
   return routes.get(userType);
 }
@@ -22,12 +32,7 @@ export const RedirectLoginRoute = () => {
     return <Outlet />
   }
 
-  const ableToAccess = CheckCompanyComplete(user);
-  if (!ableToAccess) {
-    return <Navigate to="/auth/complete-register" />
-  }
-
-  const redirectRoute = getRouteRedirectByUserType(user?.profile?.userType);
+  const redirectRoute = getRouteRedirectByUserType(user);
   return (
     redirectRoute
       ? <Navigate to={redirectRoute} />

@@ -1,6 +1,7 @@
 import { extendTheme } from "@chakra-ui/react";
 
 export const chakraTheme = extendTheme({
+
   colors: {
     brand: {
       50: "#E6FFFA",
@@ -14,9 +15,5 @@ export const chakraTheme = extendTheme({
       800: "#234E52",
       900: "#1D4044",
     },
-  },
-  fonts: {
-    heading: `'Inter', sans-serif`,
-    body: `'Inter', sans-serif`,
   },
 });

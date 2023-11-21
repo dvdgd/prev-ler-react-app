@@ -1,10 +1,30 @@
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
-import { TCompany } from "../../../../@types/company";
-import { TGetCompanyByCnpjHttp } from "../@types";
+import { TCompanyCreateForm } from "./useCompanyForm";
 
 interface IUseGetCompanyApi {
-  setValue: UseFormSetValue<TCompany>;
-  getValues: UseFormGetValues<TCompany>
+  setValue: UseFormSetValue<TCompanyCreateForm>;
+  getValues: UseFormGetValues<TCompanyCreateForm>
+}
+
+type TGetCompanyByCnpjHttp = {
+  "NOME FANTASIA": string;
+  "RAZAO SOCIAL": string;
+  "CNPJ": string;
+  "STATUS": string;
+  "CNAE PRINCIPAL DESCRICAO": string;
+  "CNAE PRINCIPAL CODIGO": string;
+  "CEP": string;
+  "DATA ABERTURA": string;
+  "DDD": string;
+  "TELEFONE": string;
+  "EMAIL": string;
+  "TIPO LOGRADOURO": string;
+  "LOGRADOURO": string;
+  "NUMERO": string;
+  "COMPLEMENTO": string;
+  "BAIRRO": string;
+  "MUNICIPIO": string;
+  "UF": string;
 }
 
 export const useGetCompanyApi = ({
@@ -37,7 +57,7 @@ export const useGetCompanyApi = ({
     setValue("phone.number", companyAttributesHttp.TELEFONE);
     setValue("companyName", companyAttributesHttp["RAZAO SOCIAL"]);
     setValue("fantasyName", companyAttributesHttp["NOME FANTASIA"]);
-    setValue("openAt", companyAttributesHttp["DATA ABERTURA"]);
+    setValue("openAt", new Date(companyAttributesHttp["DATA ABERTURA"]));
     setValue("email", companyAttributesHttp.EMAIL);
   }
 

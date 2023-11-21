@@ -1,3 +1,6 @@
+import { Database } from "./database.types";
+import { TJobRoleSupabaseRow } from "./job-role";
+
 export enum EUserType {
   representante = "representante",
   funcionario = "funcionario",
@@ -5,15 +8,20 @@ export enum EUserType {
   administrador = "administrador"
 }
 
+type ProfileSupabase = Database["public"]["Tables"]["profiles"]
+export type EProfileType = Database["public"]["Enums"]["tipo_usuario"]
+export type TUserProfileSupabaseInsert = ProfileSupabase["Insert"]
+export type TUserProfileSupabaseRow = ProfileSupabase["Row"] & {
+  cargo: Omit<TJobRoleSupabaseRow, "id_cargo" | "id_empresa">
+}
+export type TUserProfileSupabaseUpdate = ProfileSupabase["Update"]
+
 export type TUserProfile = {
+  email: string;
   firstName: string;
   lastName: string;
+  cpf: string;
   userType: EUserType;
-}
-
-export type TUserProfileSupabase = {
-  id_usuario?: string;
-  first_name: string,
-  last_name: string,
-  id_tipo_usuario: EUserType;
+  idCompany?: string | null;
+  jobRole?: string;
 }

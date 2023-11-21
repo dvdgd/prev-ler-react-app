@@ -1,39 +1,76 @@
-import { Route, Routes } from "react-router-dom";
+import { JobRoles } from "@pages/Company/JobRoles/JobRoles";
+import { JobRolesForm } from "@pages/Company/JobRoles/JobRolesForm";
+import { Outlet, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import { EUserType } from "../@types/profile";
-import { AdminDashboard } from "../pages/Admin/Dashboard";
-import { CompanyRegister } from "../pages/Auth/CompanyRegister";
-import { Login } from "../pages/Auth/Login";
-import { Logout } from "../pages/Auth/Logout";
-import { SignUp } from "../pages/Auth/SignUp";
+import { AdminCompanies } from "../pages/Admin/Company/AdminCompanies";
+import { AdminCompanyDetails } from "../pages/Admin/Company/Details/AdminCompanyDetails";
+import { CompanyNameBreadcrumb } from "../pages/Admin/Company/components/CompanyNameBreadcrumb";
+import { AdminDashboard } from "../pages/Admin/Dashboard/AdminDashboard";
+import { AdminPayments } from "../pages/Admin/Payments/AdminPayments";
+import { AdminPlansPage } from "../pages/Admin/Plans/AdminPlansPage";
+import { PlansForm } from "../pages/Admin/Plans/form/PlansForm";
+import { AuthCompanyRegister } from "../pages/Auth/CompanyRegister/AuthCompanyRegister";
+import { Login } from "../pages/Auth/Login/AuthLogin";
+import { Logout } from "../pages/Auth/Logout/AuthLogout";
+import { AuthSignUp } from "../pages/Auth/SignUp/AuthSignUp";
 import { CompanyDashboard } from "../pages/Company/Dashboard/CompanyDashboard";
+import { CompanyPlans } from "../pages/Company/Plans/CompanyPlans";
+import { CompanyUserForm } from "../pages/Company/Users/CompanyUserForm";
+import { CompanyUsers } from "../pages/Company/Users/CompanyUsers";
 import { NotFound } from "../pages/Errors/NotFound";
 import { Unauthorized } from "../pages/Errors/Unauthorized";
-import { LandingPage } from "../pages/LandingPage";
+import { LandingPage } from "../pages/LandingPage/LandingPage";
 import { Auth } from "./Auth";
 import { RedirectLoginRoute } from "./RedirectLoginRoute";
 import { RequireRole } from "./RequireRole";
 
-export const Router = () => {
-  return (
-    <Routes>
+export const routesCreateBrowserRoute = createBrowserRouter(
+  createRoutesFromElements(
+    <Route>
+      <Route path="/" element={<LandingPage />} />
       <Route path="*" element={<NotFound />} />
       <Route path="unauthorized" element={<Unauthorized />} />
-      <Route index element={<LandingPage />} />
       <Route path="logout" element={<Logout />} />
-      <Route path="check" element={<RedirectLoginRoute />} >
+      <Route path="check" element={<RedirectLoginRoute />}>
         <Route path="login" element={<Login />} />
-        <Route path="sign-up" element={<SignUp />} />
+        <Route path="sign-up" element={<AuthSignUp />} />
       </Route>
-
       <Route path="auth" element={<Auth />}>
-        <Route path="complete-register" element={<CompanyRegister />} />
+        <Route path="complete-register" element={<AuthCompanyRegister />} />
         <Route path="company" element={<RequireRole allowedRoles={[EUserType.representante]} />} >
-          <Route path="dashboard" element={<CompanyDashboard />} />
+          <Route path="dashboard" element={<Outlet />} handle={{ title: "Dashboard" }} >
+            <Route index element={<CompanyDashboard />} />
+            <Route path="plan-details" element={<Outlet />} handle={{ title: "Planos" }} >
+              <Route index element={<CompanyPlans />} />
+            </Route>
+            <Route path="job-roles" element={<Outlet />} handle={{ title: "Cargos" }}>
+              <Route index element={<JobRoles />} />
+              <Route path="create" element={<JobRolesForm />} handle={{ title: "Criar Cargo" }} />
+              <Route path="create/:jobRoleId" element={<JobRolesForm />} handle={{ title: "Editar Cargo" }} />
+            </Route>
+            <Route path="users" element={<Outlet />} handle={{ title: "Usuários" }}>
+              <Route index element={<CompanyUsers />} />
+              <Route path="create" element={<CompanyUserForm />} handle={{ title: "Criar Usuário" }} />
+              <Route path="create/:userId" element={<CompanyUserForm />} handle={{ title: "Editar Usuário" }} />
+            </Route>
+          </Route>
         </Route>
         <Route path="admin" element={<RequireRole allowedRoles={[EUserType.administrador]} />} >
-          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="dashboard" element={<Outlet />} handle={{ title: "Dashboard" }} >
+            <Route path="companies" element={<Outlet />} handle={{ title: "Empresas" }} >
+              <Route index element={<AdminCompanies />} />
+              <Route path=":companyId" element={<AdminCompanyDetails />} handle={{ title: "Detalhes", breadcrumb: <CompanyNameBreadcrumb /> }} />
+            </Route>
+            <Route index element={<AdminDashboard />} />
+            <Route path="payments" element={<AdminPayments />} handle={{ title: "Pagamentos" }} />
+            <Route path="plans" element={<Outlet />} handle={{ title: "Plano" }} >
+              <Route index element={<AdminPlansPage />} />
+              <Route path="create" element={<PlansForm />} handle={{ title: "Criar Plano" }} />
+              <Route path="create/:idPlan?" element={<PlansForm />} handle={{ title: "Editar Plano" }} />
+            </Route>
+          </Route>
         </Route>
       </Route>
-    </Routes>
-  );
-}
+    </Route>
+  )
+);

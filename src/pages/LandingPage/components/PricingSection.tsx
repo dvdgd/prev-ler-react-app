@@ -1,7 +1,8 @@
 import { CheckCircleIcon } from "@chakra-ui/icons";
-import { Box, Button, Container, HStack, List, ListIcon, ListItem, SimpleGrid, Text, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { supabaseClient } from "../../../config/supabase";
+import { Box, Center, HStack, List, ListIcon, ListItem, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { ClickMeButton } from "@shared/components/ClickMeButton";
+import { useNavigate } from "react-router-dom";
+import { usePlans } from "../../../hooks/usePlans";
 
 interface PricingCardProps {
   id: number;
@@ -10,15 +11,6 @@ interface PricingCardProps {
   price: number;
   periodicy: string;
   maxUsers: number;
-}
-
-type PlanoResponse = {
-  id_plano: number;
-  titulo: string;
-  descricao: string;
-  valor_plano: number;
-  periodicidade: string;
-  qtd_max_usuarios: number;
 }
 
 function PricingCard(props: PricingCardProps) {
@@ -46,11 +38,6 @@ function PricingCard(props: PricingCardProps) {
         </Box>
 
         <Text>{props.description}</Text>
-        <VStack>
-          <Button size="sm" colorScheme="brand">
-            Saiba mais →
-          </Button>
-        </VStack>
 
         <VStack pt={8} spacing={4} align="flex-start">
           <List spacing={3}>
@@ -70,37 +57,21 @@ function PricingCard(props: PricingCardProps) {
 }
 
 export default function PricingSection() {
-  const [pricings, setPrincings] = useState<PricingCardProps[]>([]);
+  const navigate = useNavigate();
+  const { allPlans } = usePlans();
 
-  useEffect(() => {
-    fetchPlans();
-  }, []);
-
-  const fetchPlans = async () => {
-    const { data } = await supabaseClient
-      .from('plano')
-      .select()
-      .order('valor_plano', { ascending: true });
-
-    const pricings: PricingCardProps[] | undefined = data?.map((p: PlanoResponse) => {
-      return {
-        id: p.id_plano,
-        title: p.titulo,
-        price: p.valor_plano,
-        description: p.descricao,
-        periodicy: p.periodicidade,
-        maxUsers: p.qtd_max_usuarios,
-      };
-    });
-
-    if (pricings) {
-      setPrincings([...pricings]);
-    }
-  }
+  const pricings: PricingCardProps[] = allPlans?.map((plan) => {
+    const { planId, value, ...planProps } = plan;
+    return {
+      id: planId || 0,
+      price: value,
+      ...planProps
+    };
+  }) ?? [];
 
   return (
     <>
-      <Container py={28} maxW="container.lg" w="full" id="pricing">
+      <Box py={28} w="full" id="pricing">
         <SimpleGrid columns={[1, null, 3]} spacing={10}>
           {
             pricings.length > 0 ? pricings.map((p) => (
@@ -108,7 +79,13 @@ export default function PricingSection() {
             )) : []
           }
         </SimpleGrid>
-      </Container >
+        <Center margin={8}>
+          <ClickMeButton
+            onClick={() => navigate("/check/sign-up")}
+            text={"Começar"}
+          />
+        </Center>
+      </Box >
     </>
   );
 }
