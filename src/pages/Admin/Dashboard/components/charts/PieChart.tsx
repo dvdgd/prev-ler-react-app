@@ -2,7 +2,7 @@ import { ApexOptions } from "apexcharts";
 import Chart from 'react-apexcharts';
 
 type ChartProps = {
-  chartData: ApexAxisChartSeries;
+  chartData: ApexOptions["series"];
   chartOptions: ApexOptions;
 };
 
