@@ -50,9 +50,9 @@ export const useGetCompanyApi = ({
     const companyAttributesHttp = await result.json() as TGetCompanyByCnpjHttp;
     if (!companyAttributesHttp) return;
 
-    setValue("adress.cep", companyAttributesHttp.CEP);
-    setValue("adress.city", companyAttributesHttp.MUNICIPIO);
-    setValue("adress.uf", companyAttributesHttp.UF);
+    setValue("address.cep", companyAttributesHttp.CEP);
+    setValue("address.city", companyAttributesHttp.MUNICIPIO);
+    setValue("address.uf", companyAttributesHttp.UF);
     setValue("phone.ddd", parseInt(companyAttributesHttp.DDD));
     setValue("phone.number", companyAttributesHttp.TELEFONE);
     setValue("companyName", companyAttributesHttp["RAZAO SOCIAL"]);

@@ -5,9 +5,9 @@ import { PartialUserProfileFromSupabase } from "./UserProfileSupabaseMappers";
 
 export function CompanyToSupabase(company: TCompany): TCompanySupabaseInsert {
   return {
-    cep: company.adress.cep,
-    municipio: company.adress.city,
-    uf: company.adress.uf,
+    cep: company.address.cep,
+    municipio: company.address.city,
+    uf: company.address.uf,
     telefone: company.phone.number,
     ddd: company.phone.ddd,
     id_cnpj: company.cnpj.replace(/\D/g, ''),
@@ -20,7 +20,7 @@ export function CompanyToSupabase(company: TCompany): TCompanySupabaseInsert {
 
 export function CompanyFromSupabase(company: TCompanySupabaseRow): TCompany {
   return {
-    adress: {
+    address: {
       cep: company.cep,
       city: company.municipio,
       uf: company.uf
@@ -41,7 +41,7 @@ export function CompanyFromSupabase(company: TCompanySupabaseRow): TCompany {
 
 export function PartialCompanyFromSupabase(company: Partial<TCompanySupabaseRow> | undefined): TPartialCompany {
   return {
-    adress: {
+    address: {
       cep: company?.cep,
       city: company?.municipio,
       uf: company?.uf

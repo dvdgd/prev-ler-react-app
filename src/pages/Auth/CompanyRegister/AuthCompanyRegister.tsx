@@ -76,15 +76,15 @@ export function AuthCompanyRegister() {
           <SimpleGrid w="full" columns={[1, 1, 3]} spacingX={4} spacingY={8}>
             <FormControl isRequired >
               <FormLabel htmlFor="cep">CEP</FormLabel>
-              <Input id="cep" {...register("adress.cep")} maxLength={10} />
+              <Input id="cep" {...register("address.cep")} maxLength={10} />
             </FormControl>
             <FormControl isRequired >
               <FormLabel htmlFor="uf">UF</FormLabel>
-              <Input id="uf" {...register("adress.uf")} maxLength={2} />
+              <Input id="uf" {...register("address.uf")} maxLength={2} />
             </FormControl>
             <FormControl isRequired >
               <FormLabel htmlFor="city">Municipio</FormLabel>
-              <Input id="city" {...register("adress.city")} />
+              <Input id="city" {...register("address.city")} />
             </FormControl>
           </SimpleGrid>
           <Divider />

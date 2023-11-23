@@ -8,7 +8,7 @@ import { MyInfoCard } from "./MyInfoCard";
 type CompanyProps = { company: TCompany }
 
 function CompanyInfoCard({ company }: CompanyProps) {
-  const adress = company.adress;
+  const address = company.address;
   const phone = company.phone;
 
   return (
@@ -32,7 +32,7 @@ function CompanyInfoCard({ company }: CompanyProps) {
           <Text fontSize={"md"} maxW={["132px", "132px", "132px", "132px", "294px"]}>
             <Link href={`mailto:${company.email}`}>{company.email}</Link>
           </Text>
-          <Text fontSize={"md"}>{adress.city} - {adress?.uf}, {formatCep(adress?.cep || "")}</Text>
+          <Text fontSize={"md"}>{address.city} - {address?.uf}, {formatCep(address?.cep || "")}</Text>
         </VStack>
       </SimpleGrid>
     </MyInfoCard>

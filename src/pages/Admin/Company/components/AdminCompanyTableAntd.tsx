@@ -54,7 +54,7 @@ const columns = (): ColumnsType<TCompany> => {
       dataIndex: "",
       width: 55,
       render: (_value, company) => {
-        const { uf, city } = company.adress;
+        const { uf, city } = company.address;
         return (
           <>
             {city} - {uf.toUpperCase()}
