@@ -1,5 +1,4 @@
 import { TCompany, TCompanySupabaseInsert, TCompanySupabaseRow, TPartialCompany } from "../../@types/company";
-import { DateonlyPtBrToISO } from "./DatePtBrMapper";
 import { PartialSubscriptionFromSupabase } from "./SubscriptionSupabaseMapper";
 import { PartialUserProfileFromSupabase } from "./UserProfileSupabaseMappers";
 
@@ -14,7 +13,7 @@ export function CompanyToSupabase(company: TCompany): TCompanySupabaseInsert {
     razao_social: company.companyName,
     nome_fantasia: company.fantasyName,
     email: company.email,
-    data_abertura: DateonlyPtBrToISO(company.openAt.toISOString()) || "",
+    data_abertura: company.openAt.toISOString(),
   }
 }
 

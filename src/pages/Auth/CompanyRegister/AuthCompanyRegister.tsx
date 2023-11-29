@@ -12,15 +12,17 @@ import { useGetCompanyApi } from "./hooks/useGetCompanyApi";
 export function AuthCompanyRegister() {
   const {
     isLoading,
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
     handleNewCompany,
-    control
+    formMethods,
   } = useCompanyForm();
 
-  const { getCompanyByCnpjApi } = useGetCompanyApi({ setValue, getValues });
+  const {
+    register,
+    handleSubmit,
+    control
+  } = formMethods;
+
+  const { getCompanyByCnpjApi } = useGetCompanyApi({ ...formMethods });
 
   const { allPlans } = usePlans();
   const plans = allPlans ?? [];
@@ -54,9 +56,27 @@ export function AuthCompanyRegister() {
             <FormLabel htmlFor="companyName">Razão Social</FormLabel>
             <Input id="companyName" {...register("companyName")} />
           </FormControl>
-          <FormControl isRequired flex={0.5}>
-            <FormLabel htmlFor="openAt">Data de abertura</FormLabel>
-            <Input id="openAt" {...register("openAt")} />
+
+          <FormControl isRequired>
+            <FormLabel>Plano</FormLabel>
+            <Controller
+              name="openAt"
+              control={control}
+              render={({ field }) => {
+                const dateStr = field.value
+                  ? new Date(field.value).toISOString().split('T')[0]
+                  : undefined;
+
+                return (
+                  <Input
+                    id="openAt"
+                    type="date"
+                    {...register("openAt", { valueAsDate: true })}
+                    value={dateStr}
+                  />
+                )
+              }}
+            />
           </FormControl>
           <SimpleGrid w="full" columns={[1, 2]} spacingX={4} spacingY={8}>
             <FormControl isRequired flex={0.3}>
