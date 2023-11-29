@@ -1,5 +1,4 @@
 import { UseToastOptions, useToast } from "@chakra-ui/react";
-import { queryClient } from "@config/tanStackQueryClient";
 import { useAuth } from "@hooks/useCurrentUser";
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
 import { CompanyService } from "@shared/services/CompanyService";
@@ -8,6 +7,7 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { TCompany } from "types/company";
+import { TUserSession } from "types/user";
 
 export type TCompanyCreateForm = TCompany & { planId: number }
 
@@ -15,9 +15,10 @@ export function useCompanyForm() {
   const toast = useToast();
   const navigate = useNavigate();
 
-  const { userSession } = useAuth();
-  const { register, handleSubmit, setValue, getValues, control } = useForm<TCompanyCreateForm>();
+  const { userSession, setUserSession } = useAuth();
+  const formMethods = useForm<TCompanyCreateForm>();
   const { showErrorToast } = useShowToastErrorHandler();
+  const { getValues } = formMethods;
 
   const toastErrorAttributes: UseToastOptions = {
     title: "Erro ao salvar",
@@ -40,10 +41,17 @@ export function useCompanyForm() {
         userSession?.user?.id,
         formValues.planId
       );
+      const newSession: TUserSession = {
+        ...userSession,
+        user: {
+          ...userSession.user,
+          company: newCompany,
+        }
+      }
+      setUserSession(newSession);
       return newCompany;
     },
-    onSuccess: (newCompany) => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+    onSuccess: async (newCompany) => {
       toast({
         title: "Cadastro concluído.",
         description: "Você se associou como representate da empresa " + newCompany?.fantasyName,
@@ -69,12 +77,8 @@ export function useCompanyForm() {
   );
 
   return {
-    control,
     isLoading: mutation.isPending,
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
+    formMethods,
     handleNewCompany,
   }
 }

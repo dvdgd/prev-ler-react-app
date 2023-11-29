@@ -49,7 +49,12 @@ export class AuthService {
     });
 
     // TODO: adicionar validacao
-    if (error || !data.user || !data.session) throw error;
+    if (error || !data.user || !data.session) {
+      throw new BaseError({
+        title: "Não foi possível criar a conta.",
+        description: "Esse email já está registrado em nosso sistema.",
+      });
+    }
     const userProfile = await this.userService.getUserProfile();
 
     return {

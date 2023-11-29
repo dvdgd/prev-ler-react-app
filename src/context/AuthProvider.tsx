@@ -1,3 +1,4 @@
+import { queryClient } from "@config/tanStackQueryClient";
 import { useQuery } from "@tanstack/react-query";
 import { createContext, useEffect, useState } from "react";
 import { IChildrenProps } from "../@types/react-base-props";
@@ -78,12 +79,14 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
     localStorage.removeItem("@userSession");
     await supabaseClient.auth.signOut();
     setStateSession(undefined);
+    queryClient.invalidateQueries({ queryKey: ["user"] });
     if (isLoading) setIsLoading(false);
   };
 
   const login = async (props: TLoginBody) => {
     const session = await authService.login(props);
     setUserSession(session);
+    queryClient.invalidateQueries({ queryKey: ["user"] });
     if (isLoading) setIsLoading(false);
     return session;
   };
@@ -91,6 +94,7 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
   const signUp = async (props: TSignUpBody) => {
     const session = await authService.signUp(props);
     setUserSession(session);
+    queryClient.invalidateQueries({ queryKey: ["user"] });
     if (isLoading) setIsLoading(false);
     return session;
   };
