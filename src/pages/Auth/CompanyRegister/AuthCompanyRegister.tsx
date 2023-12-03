@@ -58,7 +58,7 @@ export function AuthCompanyRegister() {
           </FormControl>
 
           <FormControl isRequired>
-            <FormLabel>Plano</FormLabel>
+            <FormLabel>Data Abertura</FormLabel>
             <Controller
               name="openAt"
               control={control}

@@ -9,24 +9,21 @@ interface IUseGetCompanyApi {
 }
 
 type TGetCompanyByCnpjHttp = {
-  "NOME FANTASIA": string;
-  "RAZAO SOCIAL": string;
-  "CNPJ": string;
-  "STATUS": string;
-  "CNAE PRINCIPAL DESCRICAO": string;
-  "CNAE PRINCIPAL CODIGO": string;
-  "CEP": string;
-  "DATA ABERTURA": string;
-  "DDD": string;
-  "TELEFONE": string;
-  "EMAIL": string;
+  "fantasia": string;
+  "nome": string;
+  "cnpj": string;
+  "status": string;
+  "cep": string;
+  "abertura": string;
+  "telefone": string;
+  "email": string;
   "TIPO LOGRADOURO": string;
-  "LOGRADOURO": string;
-  "NUMERO": string;
-  "COMPLEMENTO": string;
-  "BAIRRO": string;
-  "MUNICIPIO": string;
-  "UF": string;
+  "logradouro": string;
+  "numero": string;
+  "complemento": string;
+  "bairro": string;
+  "municipio": string;
+  "uf": string;
 }
 
 export const useGetCompanyApi = ({
@@ -45,28 +42,28 @@ export const useGetCompanyApi = ({
     const { cnpjNumber, isLenghtCorrect } = verifyCnpj();
     if (!isLenghtCorrect) return;
 
-    const result = await fetch(
-      `https://api-publica.speedio.com.br/buscarcnpj?cnpj=${cnpjNumber}`
-    );
+    const result = await fetch(`https://receitaws.com.br/v1/cnpj/${cnpjNumber}`, {
+      mode: 'no-cors'
+    });
 
     const companyAttributesHttp = await result.json() as TGetCompanyByCnpjHttp;
-    if (!companyAttributesHttp) return;
+    if (!companyAttributesHttp?.cnpj) return;
 
-    const openAtText = companyAttributesHttp["DATA ABERTURA"];
+    const openAtText = companyAttributesHttp.abertura;
     const openAt = BrDateStringToDateInstance(openAtText);
     if (openAt)
       isNaN(openAt.getMilliseconds())
         ? resetField('openAt')
         : setValue("openAt", openAt);
 
-    setValue("address.cep", companyAttributesHttp.CEP);
-    setValue("address.city", companyAttributesHttp.MUNICIPIO);
-    setValue("address.uf", companyAttributesHttp.UF);
-    setValue("phone.ddd", parseInt(companyAttributesHttp.DDD));
-    setValue("phone.number", companyAttributesHttp.TELEFONE);
-    setValue("companyName", companyAttributesHttp["RAZAO SOCIAL"]);
-    setValue("fantasyName", companyAttributesHttp["NOME FANTASIA"]);
-    setValue("email", companyAttributesHttp.EMAIL);
+    setValue("address.cep", companyAttributesHttp.cep);
+    setValue("address.city", companyAttributesHttp.municipio);
+    setValue("address.uf", companyAttributesHttp.uf);
+    setValue("phone.ddd", parseInt(companyAttributesHttp.telefone.split(' ')[0]));
+    setValue("phone.number", companyAttributesHttp.telefone.split(' ')[1]);
+    setValue("companyName", companyAttributesHttp.nome);
+    setValue("fantasyName", companyAttributesHttp.fantasia);
+    setValue("email", companyAttributesHttp.email);
   }
 
   return {
