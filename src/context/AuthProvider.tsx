@@ -79,7 +79,6 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
     localStorage.removeItem("@userSession");
     await supabaseClient.auth.signOut();
     setStateSession(undefined);
-    queryClient.invalidateQueries({ queryKey: ["user"] });
     if (isLoading) setIsLoading(false);
   };
 
