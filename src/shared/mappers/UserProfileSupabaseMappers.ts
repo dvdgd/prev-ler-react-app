@@ -2,10 +2,10 @@ import { EUserType, TUserProfile, TUserProfileSupabaseInsert, TUserProfileSupaba
 
 export function UserProfileToSupabase(userProfile: Partial<TUserProfile>): TUserProfileSupabaseInsert {
   return {
-    first_name: userProfile.firstName,
+    first_name: userProfile.firstName ?? "",
     email: userProfile.email,
-    last_name: userProfile.lastName,
-    cpf: userProfile.cpf,
+    last_name: userProfile.lastName ?? "",
+    cpf: userProfile.cpf ?? "",
     id_tipo_usuario: userProfile.userType,
     id_empresa: userProfile.idCompany,
   }

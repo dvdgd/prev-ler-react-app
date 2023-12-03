@@ -463,7 +463,7 @@ export interface Database {
         Row: {
           born_date: string | null
           cpf: string
-          email: string | null
+          email: string
           first_name: string
           id_cargo: number | null
           id_empresa: string | null
@@ -480,7 +480,7 @@ export interface Database {
           id_cargo?: number | null
           id_empresa?: string | null
           id_tipo_usuario?: Database["public"]["Enums"]["tipo_usuario"]
-          id_usuario: string
+          id_usuario?: string
           last_name: string
           updated_at?: string | null
         }
