@@ -1,26 +1,25 @@
 import { TCompany, TCompanySupabaseInsert, TCompanySupabaseRow, TPartialCompany } from "../../@types/company";
-import { DateonlyPtBrToISO } from "./DatePtBrMapper";
 import { PartialSubscriptionFromSupabase } from "./SubscriptionSupabaseMapper";
 import { PartialUserProfileFromSupabase } from "./UserProfileSupabaseMappers";
 
 export function CompanyToSupabase(company: TCompany): TCompanySupabaseInsert {
   return {
-    cep: company.adress.cep,
-    municipio: company.adress.city,
-    uf: company.adress.uf,
+    cep: company.address.cep,
+    municipio: company.address.city,
+    uf: company.address.uf,
     telefone: company.phone.number,
     ddd: company.phone.ddd,
     id_cnpj: company.cnpj.replace(/\D/g, ''),
     razao_social: company.companyName,
     nome_fantasia: company.fantasyName,
     email: company.email,
-    data_abertura: DateonlyPtBrToISO(company.openAt.toISOString()) || "",
+    data_abertura: company.openAt.toISOString(),
   }
 }
 
 export function CompanyFromSupabase(company: TCompanySupabaseRow): TCompany {
   return {
-    adress: {
+    address: {
       cep: company.cep,
       city: company.municipio,
       uf: company.uf
@@ -41,7 +40,7 @@ export function CompanyFromSupabase(company: TCompanySupabaseRow): TCompany {
 
 export function PartialCompanyFromSupabase(company: Partial<TCompanySupabaseRow> | undefined): TPartialCompany {
   return {
-    adress: {
+    address: {
       cep: company?.cep,
       city: company?.municipio,
       uf: company?.uf

@@ -12,9 +12,8 @@ export class PaymentService {
 
   async getAllPayments(): Promise<TPayment[]> {
     const { data } = await supabaseClient
-      .from('pagamento')
-      .select(`*, assinatura (*, plano (*), empresa(*))`)
-      .order('data_abertura', { ascending: false });
+      .from('pagamento_assinatura_empresa')
+      .select('*');
 
     if (!data) {
       throw new BaseError({

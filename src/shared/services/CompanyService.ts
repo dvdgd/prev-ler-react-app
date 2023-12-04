@@ -1,6 +1,6 @@
+import { EUserType } from "types/profile";
 import { TCompany, TCompanySupabaseRow } from "../../@types/company";
 import { TCompanyUser, TuserCompanyRow } from "../../@types/company-user";
-import { EUserType } from "../../@types/profile";
 import { supabaseClient } from "../../config/supabase";
 import { BaseError } from "../errors/BaseError";
 import { CompanyFromSupabase, CompanyToSupabase } from "../mappers/CompanySupabaseMappers";
@@ -55,28 +55,36 @@ export class CompanyService {
   }
 
   async getAllCompanies(): Promise<TCompany[]> {
-    const { data: companies, error } = await supabaseClient
+    const { data: companiesSup, error } = await supabaseClient
       .from("empresa")
-      .select("*, assinatura(*, plano(*)), profiles(*)")
-      .eq("profiles.id_tipo_usuario", EUserType.representante);
+      .select("*, profiles(*)")
+      .eq("profiles.id_tipo_usuario", EUserType.representante)
 
-    if (!companies || error) {
+    if (!companiesSup || error) {
+      throw new BaseError({
+        title: "Ops, um erro inesperado ocorreu",
+        description: "Não foi possível buscar as empresas do sistema.",
+      });
+
+    }
+
+    try {
+      const companies = companiesSup.map((c) => CompanyFromSupabase(c as TCompanySupabaseRow))
+      return companies;
+    } catch (error) {
       throw new BaseError({
         title: "Ops, um erro inesperado ocorreu",
         description: "Não foi possível buscar as empresas do sistema.",
       });
     }
-
-    return companies.map((c) => CompanyFromSupabase(c as TCompanySupabaseRow));
   }
 
   async getCompanyById(companyId: string): Promise<TCompany> {
     const { data: company, error } = await supabaseClient
       .from("empresa")
-      .select("*, profiles(*), assinatura(*, plano(*))")
+      .select("*, profiles!inner(*), assinatura!inner(*, plano!inner(*))")
       .eq("profiles.id_tipo_usuario", EUserType.representante)
       .eq("id_cnpj", companyId)
-      .order('id_assinatura', { foreignTable: 'assinatura', ascending: false })
       .single();
 
     if (!company || error) {

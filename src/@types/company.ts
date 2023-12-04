@@ -1,4 +1,4 @@
-import { TAdress } from "./adress";
+import { TAddress } from "./address";
 import { Database } from "./database.types";
 import { TPhone } from "./phone";
 import { TUserProfile, TUserProfileSupabaseRow } from "./profile";
@@ -20,11 +20,11 @@ export type TCompany = {
   cnpj: string;
   openAt: Date;
   email: string;
-  adress: TAdress;
+  address: TAddress;
   phone: TPhone;
 }
 
-export type TPartialCompany = Partial<Omit<TCompany, "adress" | "phone">> & {
-  adress: Partial<TAdress>
+export type TPartialCompany = Partial<Omit<TCompany, "address" | "phone">> & {
+  address: Partial<TAddress>
   phone: Partial<TPhone>
 }

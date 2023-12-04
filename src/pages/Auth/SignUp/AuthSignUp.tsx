@@ -2,6 +2,8 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
   Button,
   FormControl,
+  FormErrorMessage,
+  FormHelperText,
   FormLabel,
   Input,
   InputGroup,
@@ -20,12 +22,14 @@ import { useSignUpForm } from "./hooks/useSignUpForm";
 
 export function AuthSignUp() {
   const [showPassword, setShowPassword] = useState(false);
-  const { handleSubmit, isLoading, onFormSubmit, register } = useSignUpForm();
+  const { handleSubmit, isLoading, formMethods: { register, formState } } = useSignUpForm();
+  const { errors } = formState;
+
   const navigate = useNavigate();
 
   return (
     <OnboardingLayout>
-      <form onSubmit={handleSubmit(onFormSubmit)}>
+      <form onSubmit={handleSubmit}>
         <FormCard title="Cadastre-se" maxW={"md"}>
           <SimpleGrid w="full" columns={[1, 2]} spacingX={4} spacingY={8}>
             <FormControl isRequired>
@@ -58,12 +62,33 @@ export function AuthSignUp() {
             <Input type="email" {...register("email", { required: true })} />
           </FormControl>
 
-          <FormControl isRequired>
+          <FormControl isRequired isInvalid={!!errors.password?.message}>
             <FormLabel htmlFor="password">Senha</FormLabel>
             <InputGroup>
               <Input
                 id="password"
-                {...register("password", { required: true })}
+                {...register("password", {
+                  required: true,
+                  validate: (password: string) => {
+                    const passwordLengthRegex = /^.{8,}$/;
+                    const passwordNumberRegex = /\d/;
+                    const passwordSpecialCharRegex = /[^a-zA-Z0-9]/;
+
+                    if (!passwordLengthRegex.test(password)) {
+                      return 'Sua senha precisa ter 8 ou mais caracteres.';
+                    }
+
+                    if (!passwordNumberRegex.test(password)) {
+                      return 'Sua senha precisa ter pelo menos um número.';
+                    }
+
+                    if (!passwordSpecialCharRegex.test(password)) {
+                      return 'Sua senha precisa ter pelo menos um símbolo especial.';
+                    }
+
+                    return true;
+                  },
+                })}
                 type={showPassword ? "text" : "password"}
               />
               <InputRightElement h={"full"}>
@@ -77,6 +102,13 @@ export function AuthSignUp() {
                 </Button>
               </InputRightElement>
             </InputGroup>
+            {errors.password?.message
+              ? <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+              : <>
+                <FormHelperText>A senha precisa ter no mínimo 8 caracteres.</FormHelperText>
+                <FormHelperText>A senha precisa ter pelo menos um número.</FormHelperText>
+                <FormHelperText>A senha precisa ter pelo menos um caractere especial.</FormHelperText>
+              </>}
           </FormControl>
 
           <VStack spacing={4} mt={3}>

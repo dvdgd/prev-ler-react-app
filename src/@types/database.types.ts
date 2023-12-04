@@ -11,42 +11,51 @@ export interface Database {
     Tables: {
       assinatura: {
         Row: {
+          data_expiracao: string | null
           data_fim: string | null
           data_inicio: string
           id_assinatura: number
           id_empresa: string
           id_plano: number
-          data_expiracao?: string;
           status_assinatura: Database["public"]["Enums"]["status_assinatura"]
         }
         Insert: {
+          data_expiracao?: string | null
           data_fim?: string | null
           data_inicio?: string
           id_assinatura?: number
           id_empresa: string
           id_plano: number
-          data_expiracao?: string;
           status_assinatura: Database["public"]["Enums"]["status_assinatura"]
         }
         Update: {
+          data_expiracao?: string | null
           data_fim?: string | null
           data_inicio?: string
           id_assinatura?: number
           id_empresa?: string
           id_plano?: number
-          data_expiracao?: string;
           status_assinatura?: Database["public"]["Enums"]["status_assinatura"]
         }
         Relationships: [
           {
             foreignKeyName: "assinatura_id_empresa_fkey"
             columns: ["id_empresa"]
+            isOneToOne: false
             referencedRelation: "empresa"
+            referencedColumns: ["id_cnpj"]
+          },
+          {
+            foreignKeyName: "assinatura_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa_representante_assinatura_plano"
             referencedColumns: ["id_cnpj"]
           },
           {
             foreignKeyName: "assinatura_id_plano_fkey"
             columns: ["id_plano"]
+            isOneToOne: false
             referencedRelation: "plano"
             referencedColumns: ["id_plano"]
           }
@@ -72,7 +81,15 @@ export interface Database {
           {
             foreignKeyName: "cargo_id_empresa_fkey"
             columns: ["id_empresa"]
+            isOneToOne: false
             referencedRelation: "empresa"
+            referencedColumns: ["id_cnpj"]
+          },
+          {
+            foreignKeyName: "cargo_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa_representante_assinatura_plano"
             referencedColumns: ["id_cnpj"]
           }
         ]
@@ -83,7 +100,9 @@ export interface Database {
           data_inclusao: string
           descricao: string
           id_conteudo: number
-          id_usuario: string
+          id_empresa: string
+          id_enfermidade: number
+          id_usuario: string | null
           observacao: string | null
           subtitulo: string | null
           titulo: string
@@ -93,7 +112,9 @@ export interface Database {
           data_inclusao?: string
           descricao: string
           id_conteudo?: number
-          id_usuario: string
+          id_empresa: string
+          id_enfermidade: number
+          id_usuario?: string | null
           observacao?: string | null
           subtitulo?: string | null
           titulo: string
@@ -103,38 +124,48 @@ export interface Database {
           data_inclusao?: string
           descricao?: string
           id_conteudo?: number
-          id_usuario?: string
+          id_empresa?: string
+          id_enfermidade?: number
+          id_usuario?: string | null
           observacao?: string | null
           subtitulo?: string | null
           titulo?: string
         }
-        Relationships: []
-      }
-      conteudo_enfermidade: {
-        Row: {
-          id_conteudo: number
-          id_enfermidade: number
-        }
-        Insert: {
-          id_conteudo: number
-          id_enfermidade: number
-        }
-        Update: {
-          id_conteudo?: number
-          id_enfermidade?: number
-        }
         Relationships: [
           {
-            foreignKeyName: "conteudo_enfermidade_id_conteudo_fkey"
-            columns: ["id_conteudo"]
-            referencedRelation: "conteudo"
-            referencedColumns: ["id_conteudo"]
+            foreignKeyName: "conteudo_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa"
+            referencedColumns: ["id_cnpj"]
           },
           {
-            foreignKeyName: "conteudo_enfermidade_id_enfermidade_fkey"
+            foreignKeyName: "conteudo_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa_representante_assinatura_plano"
+            referencedColumns: ["id_cnpj"]
+          },
+          {
+            foreignKeyName: "conteudo_id_enfermidade_fkey"
             columns: ["id_enfermidade"]
+            isOneToOne: false
             referencedRelation: "enfermidade"
             referencedColumns: ["id_enfermidade"]
+          },
+          {
+            foreignKeyName: "conteudo_id_usuario_fkey"
+            columns: ["id_usuario"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id_usuario"]
+          },
+          {
+            foreignKeyName: "conteudo_id_usuario_fkey"
+            columns: ["id_usuario"]
+            isOneToOne: false
+            referencedRelation: "usuario_empresa_assinaturra"
+            referencedColumns: ["id_usuario"]
           }
         ]
       }
@@ -156,29 +187,414 @@ export interface Database {
           cep: string
           created_at?: string
           data_abertura: string
-          ddd?: number | null
+          ddd: number
           email: string
           id_cnpj: string
           municipio: string
           nome_fantasia: string
           razao_social: string
-          telefone?: string | null
+          telefone: string
           uf: string
         }
         Update: {
           cep?: string
           created_at?: string
           data_abertura?: string
-          ddd?: number | null
+          ddd?: number
           email?: string
           id_cnpj?: string
           municipio?: string
           nome_fantasia?: string
           razao_social?: string
-          telefone?: string | null
+          telefone?: string
           uf?: string
         }
         Relationships: []
+      }
+      enfermidade: {
+        Row: {
+          data_atualizacao: string | null
+          data_inclusao: string
+          descricao: string
+          id_empresa: string
+          id_enfermidade: number
+          id_usuario: string | null
+          nome: string
+        }
+        Insert: {
+          data_atualizacao?: string | null
+          data_inclusao?: string
+          descricao: string
+          id_empresa: string
+          id_enfermidade?: number
+          id_usuario?: string | null
+          nome: string
+        }
+        Update: {
+          data_atualizacao?: string | null
+          data_inclusao?: string
+          descricao?: string
+          id_empresa?: string
+          id_enfermidade?: number
+          id_usuario?: string | null
+          nome?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enfermidade_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa"
+            referencedColumns: ["id_cnpj"]
+          },
+          {
+            foreignKeyName: "enfermidade_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa_representante_assinatura_plano"
+            referencedColumns: ["id_cnpj"]
+          },
+          {
+            foreignKeyName: "enfermidade_id_usuario_fkey"
+            columns: ["id_usuario"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id_usuario"]
+          },
+          {
+            foreignKeyName: "enfermidade_id_usuario_fkey"
+            columns: ["id_usuario"]
+            isOneToOne: false
+            referencedRelation: "usuario_empresa_assinaturra"
+            referencedColumns: ["id_usuario"]
+          }
+        ]
+      }
+      exercicio: {
+        Row: {
+          data_atualizacao: string | null
+          data_inclusao: string
+          descricao: string
+          id_empresa: string
+          id_enfermidade: number
+          id_exercicio: number
+          id_usuario: string
+          imagem_base64: string
+          instrucoes: string
+          observacoes: string
+          precaucoes: string
+          titulo: string
+        }
+        Insert: {
+          data_atualizacao?: string | null
+          data_inclusao?: string
+          descricao: string
+          id_empresa: string
+          id_enfermidade: number
+          id_exercicio?: number
+          id_usuario: string
+          imagem_base64: string
+          instrucoes: string
+          observacoes: string
+          precaucoes: string
+          titulo: string
+        }
+        Update: {
+          data_atualizacao?: string | null
+          data_inclusao?: string
+          descricao?: string
+          id_empresa?: string
+          id_enfermidade?: number
+          id_exercicio?: number
+          id_usuario?: string
+          imagem_base64?: string
+          instrucoes?: string
+          observacoes?: string
+          precaucoes?: string
+          titulo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exercicio_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa"
+            referencedColumns: ["id_cnpj"]
+          },
+          {
+            foreignKeyName: "exercicio_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa_representante_assinatura_plano"
+            referencedColumns: ["id_cnpj"]
+          },
+          {
+            foreignKeyName: "exercicio_id_enfermidade_fkey"
+            columns: ["id_enfermidade"]
+            isOneToOne: false
+            referencedRelation: "enfermidade"
+            referencedColumns: ["id_enfermidade"]
+          }
+        ]
+      }
+      notificacao: {
+        Row: {
+          enviado: boolean
+          horario: string
+          id_exercicio: number
+          id_notificacao: number
+          id_rotina: number
+          mensagem: string
+          titulo: string
+        }
+        Insert: {
+          enviado: boolean
+          horario: string
+          id_exercicio: number
+          id_notificacao?: number
+          id_rotina: number
+          mensagem: string
+          titulo: string
+        }
+        Update: {
+          enviado?: boolean
+          horario?: string
+          id_exercicio?: number
+          id_notificacao?: number
+          id_rotina?: number
+          mensagem?: string
+          titulo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notificacao_id_exercicio_fkey"
+            columns: ["id_exercicio"]
+            isOneToOne: false
+            referencedRelation: "exercicio"
+            referencedColumns: ["id_exercicio"]
+          },
+          {
+            foreignKeyName: "notificacao_id_rotina_fkey"
+            columns: ["id_rotina"]
+            isOneToOne: false
+            referencedRelation: "rotina"
+            referencedColumns: ["id_rotina"]
+          }
+        ]
+      }
+      pagamento: {
+        Row: {
+          data_abertura: string | null
+          data_aprovacao: string | null
+          data_pago: string | null
+          data_vencimento: string | null
+          id_assinatura: number
+          id_pagamento: number
+          status_pagamento: Database["public"]["Enums"]["status_pagamento"]
+          valor_pagamento: number
+        }
+        Insert: {
+          data_abertura?: string | null
+          data_aprovacao?: string | null
+          data_pago?: string | null
+          data_vencimento?: string | null
+          id_assinatura: number
+          id_pagamento?: number
+          status_pagamento: Database["public"]["Enums"]["status_pagamento"]
+          valor_pagamento: number
+        }
+        Update: {
+          data_abertura?: string | null
+          data_aprovacao?: string | null
+          data_pago?: string | null
+          data_vencimento?: string | null
+          id_assinatura?: number
+          id_pagamento?: number
+          status_pagamento?: Database["public"]["Enums"]["status_pagamento"]
+          valor_pagamento?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pagamento_id_assinatura_fkey"
+            columns: ["id_assinatura"]
+            isOneToOne: false
+            referencedRelation: "assinatura"
+            referencedColumns: ["id_assinatura"]
+          }
+        ]
+      }
+      plano: {
+        Row: {
+          ativo: boolean
+          data_criacao: string
+          data_fim: string | null
+          descricao: string
+          id_plano: number
+          periodicidade: string
+          qtd_max_usuarios: number
+          titulo: string
+          valor_plano: number
+        }
+        Insert: {
+          ativo: boolean
+          data_criacao?: string
+          data_fim?: string | null
+          descricao: string
+          id_plano?: number
+          periodicidade: string
+          qtd_max_usuarios: number
+          titulo: string
+          valor_plano: number
+        }
+        Update: {
+          ativo?: boolean
+          data_criacao?: string
+          data_fim?: string | null
+          descricao?: string
+          id_plano?: number
+          periodicidade?: string
+          qtd_max_usuarios?: number
+          titulo?: string
+          valor_plano?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          born_date: string | null
+          cpf: string
+          email: string
+          first_name: string
+          id_cargo: number | null
+          id_empresa: string | null
+          id_tipo_usuario: Database["public"]["Enums"]["tipo_usuario"]
+          id_usuario: string
+          last_name: string
+          updated_at: string | null
+        }
+        Insert: {
+          born_date?: string | null
+          cpf: string
+          email?: string | null
+          first_name: string
+          id_cargo?: number | null
+          id_empresa?: string | null
+          id_tipo_usuario?: Database["public"]["Enums"]["tipo_usuario"]
+          id_usuario?: string
+          last_name: string
+          updated_at?: string | null
+        }
+        Update: {
+          born_date?: string | null
+          cpf?: string
+          email?: string | null
+          first_name?: string
+          id_cargo?: number | null
+          id_empresa?: string | null
+          id_tipo_usuario?: Database["public"]["Enums"]["tipo_usuario"]
+          id_usuario?: string
+          last_name?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_cargo_fkey"
+            columns: ["id_cargo"]
+            isOneToOne: false
+            referencedRelation: "cargo"
+            referencedColumns: ["id_cargo"]
+          },
+          {
+            foreignKeyName: "profiles_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa"
+            referencedColumns: ["id_cnpj"]
+          },
+          {
+            foreignKeyName: "profiles_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa_representante_assinatura_plano"
+            referencedColumns: ["id_cnpj"]
+          },
+          {
+            foreignKeyName: "profiles_id_usuario_fkey"
+            columns: ["id_usuario"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      rotina: {
+        Row: {
+          ativa: boolean
+          descricao: string | null
+          dias_semana: Database["public"]["Enums"]["dia_semana"][]
+          hora_fim: string
+          hora_inicio: string
+          id_rotina: number
+          id_usuario: string
+          intervalo: string
+          titulo: string
+        }
+        Insert: {
+          ativa: boolean
+          descricao?: string | null
+          dias_semana: Database["public"]["Enums"]["dia_semana"][]
+          hora_fim: string
+          hora_inicio: string
+          id_rotina?: number
+          id_usuario: string
+          intervalo: string
+          titulo: string
+        }
+        Update: {
+          ativa?: boolean
+          descricao?: string | null
+          dias_semana?: Database["public"]["Enums"]["dia_semana"][]
+          hora_fim?: string
+          hora_inicio?: string
+          id_rotina?: number
+          id_usuario?: string
+          intervalo?: string
+          titulo?: string
+        }
+        Relationships: []
+      }
+      rotina_exercicio: {
+        Row: {
+          id_exercicio: number
+          id_rotina: number
+          id_rotina_exercicio: number
+        }
+        Insert: {
+          id_exercicio: number
+          id_rotina: number
+          id_rotina_exercicio?: number
+        }
+        Update: {
+          id_exercicio?: number
+          id_rotina?: number
+          id_rotina_exercicio?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rotina_exercicio_id_exercicio_fkey"
+            columns: ["id_exercicio"]
+            isOneToOne: false
+            referencedRelation: "exercicio"
+            referencedColumns: ["id_exercicio"]
+          },
+          {
+            foreignKeyName: "rotina_exercicio_id_rotina_fkey"
+            columns: ["id_rotina"]
+            isOneToOne: false
+            referencedRelation: "rotina"
+            referencedColumns: ["id_rotina"]
+          }
+        ]
       }
       usuario_empresa: {
         Row: {
@@ -225,334 +641,193 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "empresa"
             referencedColumns: ["id_cnpj"]
-          }
-        ]
-      }
-      enfermidade: {
-        Row: {
-          data_atualizacao: string | null
-          data_inclusao: string
-          descricao: string
-          id_empresa: string
-          id_enfermidade: number
-          nome: string
-        }
-        Insert: {
-          data_atualizacao?: string | null
-          data_inclusao?: string
-          descricao: string
-          id_empresa: string
-          id_enfermidade?: number
-          nome: string
-        }
-        Update: {
-          data_atualizacao?: string | null
-          data_inclusao?: string
-          descricao?: string
-          id_empresa?: string
-          id_enfermidade?: number
-          nome?: string
-        }
-        Relationships: [
+          },
           {
-            foreignKeyName: "enfermidade_id_empresa_fkey"
+            foreignKeyName: "usuario_empresa_id_empresa_fkey"
             columns: ["id_empresa"]
-            referencedRelation: "empresa"
+            isOneToOne: false
+            referencedRelation: "empresa_representante_assinatura_plano"
             referencedColumns: ["id_cnpj"]
           }
         ]
       }
-      exercicio: {
+    }
+    Views: {
+      empresa_representante_assinatura_plano: {
         Row: {
-          data_atualizacao: string | null
-          data_inclusao: string
-          descricao: string
-          id_exercicio: number
-          id_usuario: string
-          "instrucoes ": string
-          observacoes: string
-          precaucoes: string
-          titulo: string
-        }
-        Insert: {
-          data_atualizacao?: string | null
-          data_inclusao?: string
-          descricao: string
-          id_exercicio?: number
-          id_usuario: string
-          "instrucoes ": string
-          observacoes: string
-          precaucoes: string
-          titulo: string
-        }
-        Update: {
-          data_atualizacao?: string | null
-          data_inclusao?: string
-          descricao?: string
-          id_exercicio?: number
-          id_usuario?: string
-          "instrucoes "?: string
-          observacoes?: string
-          precaucoes?: string
-          titulo?: string
+          assinatura: Json | null
+          cep: string | null
+          created_at: string | null
+          data_abertura: string | null
+          ddd: number | null
+          email: string | null
+          id_cnpj: string | null
+          municipio: string | null
+          nome_fantasia: string | null
+          profiles: Json | null
+          razao_social: string | null
+          telefone: string | null
+          uf: string | null
         }
         Relationships: []
       }
-      exercicio_enfermidade: {
+      notificacoes_ativas: {
         Row: {
-          id_enfermidade: number
-          id_exercicio: number
-        }
-        Insert: {
-          id_enfermidade: number
-          id_exercicio: number
-        }
-        Update: {
-          id_enfermidade?: number
-          id_exercicio?: number
+          enviado: boolean | null
+          exercicio: Json | null
+          horario: string | null
+          id_exercicio: number | null
+          id_notificacao: number | null
+          id_rotina: number | null
+          id_usuario: string | null
+          mensagem: string | null
+          titulo: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "exercicio_enfermidade _id_enfermidade_fkey"
-            columns: ["id_enfermidade"]
-            referencedRelation: "enfermidade"
-            referencedColumns: ["id_enfermidade"]
-          },
-          {
-            foreignKeyName: "exercicio_enfermidade _id_exercicio_fkey"
+            foreignKeyName: "notificacao_id_exercicio_fkey"
             columns: ["id_exercicio"]
+            isOneToOne: false
             referencedRelation: "exercicio"
             referencedColumns: ["id_exercicio"]
+          },
+          {
+            foreignKeyName: "notificacao_id_rotina_fkey"
+            columns: ["id_rotina"]
+            isOneToOne: false
+            referencedRelation: "rotina"
+            referencedColumns: ["id_rotina"]
           }
         ]
       }
-      pagamento: {
+      pagamento_assinatura_empresa: {
         Row: {
-          data_pago?: string
-          data_aprovacao?: string
-          data_abertura: string
-          id_assinatura: number
-          id_pagamento: number
-          status_pagamento: Database["public"]["Enums"]["status_pagamento"]
-          valor_pagamento: number
-        }
-        Insert: {
-          data_pago?: string
-          data_aprovacao?: string
-          data_abertura: string
-          id_assinatura: number
-          id_pagamento?: number
-          status_pagamento: Database["public"]["Enums"]["status_pagamento"]
-          valor_pagamento: number
-        }
-        Update: {
-          data_pago?: string
-          data_aprovacao?: string
-          data_abertura?: string
-          id_assinatura?: number
-          id_pagamento?: number
-          status_pagamento?: Database["public"]["Enums"]["status_pagamento"]
-          valor_pagamento?: number
+          assinatura: Json | null
+          data_abertura: string | null
+          data_aprovacao: string | null
+          data_pago: string | null
+          data_vencimento: string | null
+          id_assinatura: number | null
+          id_pagamento: number | null
+          status_pagamento:
+          | Database["public"]["Enums"]["status_pagamento"]
+          | null
+          valor_pagamento: number | null
         }
         Relationships: [
           {
             foreignKeyName: "pagamento_id_assinatura_fkey"
             columns: ["id_assinatura"]
+            isOneToOne: false
             referencedRelation: "assinatura"
             referencedColumns: ["id_assinatura"]
           }
         ]
       }
-      plano: {
+      usuario_empresa_assinaturra: {
         Row: {
-          ativo: boolean
-          data_criacao: string
-          data_fim: string | null
-          descricao: string
-          id_plano: number
-          periodicidade: string
-          qtd_max_usuarios: number
-          titulo: string
-          valor_plano: number
-        }
-        Insert: {
-          ativo: boolean
-          data_criacao?: string
-          data_fim?: string | null
-          descricao: string
-          id_plano?: number
-          periodicidade: string
-          qtd_max_usuarios: number
-          titulo: string
-          valor_plano: number
-        }
-        Update: {
-          ativo?: boolean
-          data_criacao?: string
-          data_fim?: string | null
-          descricao?: string
-          id_plano?: number
-          periodicidade?: string
-          qtd_max_usuarios?: number
-          titulo?: string
-          valor_plano?: number
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
+          assinatura: Json | null
           born_date: string | null
-          first_name: string
-          email: string
-          last_name: string
-          cpf: string
-          id_tipo_usuario: Database["public"]["Enums"]["tipo_usuario"] | "representante"
+          cpf: string | null
+          email: string | null
+          empresa: Json | null
+          first_name: string | null
           id_cargo: number | null
           id_empresa: string | null
-          id_usuario: string
+          id_tipo_usuario: Database["public"]["Enums"]["tipo_usuario"] | null
+          id_usuario: string | null
+          last_name: string | null
+          nome: string | null
           updated_at: string | null
-        }
-        Insert: {
-          born_date?: string | null
-          first_name?: string | null
-          email?: string
-          cpf?: string | null
-          id_cargo?: number | null
-          id_empresa?: string | null
-          id_tipo_usuario?: Database["public"]["Enums"]["tipo_usuario"] | "representante"
-          id_usuario?: string
-          last_name?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          born_date?: string | null
-          email?: string | null
-          first_name?: string | null
-          cpf?: string | null
-          id_cargo?: number | null
-          id_empresa?: string | null
-          id_tipo_usuario?: Database["public"]["Enums"]["tipo_usuario"] | null
-          id_usuario?: string
-          last_name?: string | null
-          updated_at?: string | null
-          username?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "profiles_id_cargo_fkey"
             columns: ["id_cargo"]
+            isOneToOne: false
             referencedRelation: "cargo"
             referencedColumns: ["id_cargo"]
           },
           {
             foreignKeyName: "profiles_id_empresa_fkey"
             columns: ["id_empresa"]
+            isOneToOne: false
             referencedRelation: "empresa"
+            referencedColumns: ["id_cnpj"]
+          },
+          {
+            foreignKeyName: "profiles_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa_representante_assinatura_plano"
             referencedColumns: ["id_cnpj"]
           },
           {
             foreignKeyName: "profiles_id_usuario_fkey"
             columns: ["id_usuario"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]
       }
-      rotina: {
+      usuarios_ativos: {
         Row: {
-          ativa: boolean
-          descricao: string | null
-          hora_fim: string
-          hora_inicio: string
-          id: number
-          id_usuario: string
-          intervalo: string
-          titulo: string
+          email: string | null
+          id_cargo: number | null
+          id_empresa: string | null
+          primeiro_nome: string | null
+          tipo: Database["public"]["Enums"]["tipo_usuario"] | null
+          ultimo_nome: string | null
         }
         Insert: {
-          ativa: boolean
-          descricao?: string | null
-          hora_fim: string
-          hora_inicio: string
-          id?: number
-          id_usuario: string
-          intervalo: string
-          titulo: string
+          email?: string | null
+          id_cargo?: number | null
+          id_empresa?: string | null
+          primeiro_nome?: string | null
+          tipo?: Database["public"]["Enums"]["tipo_usuario"] | null
+          ultimo_nome?: string | null
         }
         Update: {
-          ativa?: boolean
-          descricao?: string | null
-          hora_fim?: string
-          hora_inicio?: string
-          id?: number
-          id_usuario?: string
-          intervalo?: string
-          titulo?: string
-        }
-        Relationships: []
-      }
-      rotina_dia_semana: {
-        Row: {
-          id_dia_semana: Database["public"]["Enums"]["dia_semana"]
-          id_rotina: number
-          id_rotina_dia_semana: number
-        }
-        Insert: {
-          id_dia_semana: Database["public"]["Enums"]["dia_semana"]
-          id_rotina: number
-          id_rotina_dia_semana?: number
-        }
-        Update: {
-          id_dia_semana?: Database["public"]["Enums"]["dia_semana"]
-          id_rotina?: number
-          id_rotina_dia_semana?: number
+          email?: string | null
+          id_cargo?: number | null
+          id_empresa?: string | null
+          primeiro_nome?: string | null
+          tipo?: Database["public"]["Enums"]["tipo_usuario"] | null
+          ultimo_nome?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "rotina_dia_semana_id_rotina_fkey"
-            columns: ["id_rotina"]
-            referencedRelation: "rotina"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      rotina_exercicio: {
-        Row: {
-          id_exercicio: number
-          id_rotina: number
-          id_rotina_exercicio: number
-        }
-        Insert: {
-          id_exercicio: number
-          id_rotina: number
-          id_rotina_exercicio?: number
-        }
-        Update: {
-          id_exercicio?: number
-          id_rotina?: number
-          id_rotina_exercicio?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "rotina_exercicio_id_exercicio_fkey"
-            columns: ["id_exercicio"]
-            referencedRelation: "exercicio"
-            referencedColumns: ["id_exercicio"]
+            foreignKeyName: "usuario_empresa_id_cargo_fkey"
+            columns: ["id_cargo"]
+            isOneToOne: false
+            referencedRelation: "cargo"
+            referencedColumns: ["id_cargo"]
           },
           {
-            foreignKeyName: "rotina_exercicio_id_rotina_fkey"
-            columns: ["id_rotina"]
-            referencedRelation: "rotina"
-            referencedColumns: ["id"]
+            foreignKeyName: "usuario_empresa_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa"
+            referencedColumns: ["id_cnpj"]
+          },
+          {
+            foreignKeyName: "usuario_empresa_id_empresa_fkey"
+            columns: ["id_empresa"]
+            isOneToOne: false
+            referencedRelation: "empresa_representante_assinatura_plano"
+            referencedColumns: ["id_cnpj"]
           }
         ]
       }
     }
-    Views: {
-      [_ in never]: never
-    }
     Functions: {
-      [_ in never]: never
+      is_admin: {
+        Args: {
+          user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       dia_semana:
@@ -564,7 +839,12 @@ export interface Database {
       | "Sábado"
       | "Domingo"
       status_assinatura: "ativo" | "pendente_pagamento" | "cancelada"
-      status_pagamento: "pago" | "processando" | "nao pago" | "aberto" | "cancelado"
+      status_pagamento:
+      | "pago"
+      | "processando"
+      | "nao pago"
+      | "aberto"
+      | "cancelado"
       tipo_usuario:
       | "representante"
       | "funcionario"
@@ -576,3 +856,83 @@ export interface Database {
     }
   }
 }
+
+export type Tables<
+  PublicTableNameOrOptions extends
+  | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+  | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+  ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+    Database[PublicTableNameOrOptions["schema"]]["Views"])
+  : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+    Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+  ? R
+  : never
+  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
+    Database["public"]["Views"])
+  ? (Database["public"]["Tables"] &
+    Database["public"]["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R
+    }
+  ? R
+  : never
+  : never
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+  | keyof Database["public"]["Tables"]
+  | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+  ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+  : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+    Insert: infer I
+  }
+  ? I
+  : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+    Insert: infer I
+  }
+  ? I
+  : never
+  : never
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+  | keyof Database["public"]["Tables"]
+  | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+  ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+  : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+    Update: infer U
+  }
+  ? U
+  : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+    Update: infer U
+  }
+  ? U
+  : never
+  : never
+
+export type Enums<
+  PublicEnumNameOrOptions extends
+  | keyof Database["public"]["Enums"]
+  | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+  : never = never
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
+  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
+  : never

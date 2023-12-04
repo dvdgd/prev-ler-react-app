@@ -20,7 +20,7 @@ export function useSignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { signUp } = useAuth();
-  const { register, handleSubmit, control } = useForm<IFormSignUpInputs>();
+  const formMethods = useForm<IFormSignUpInputs>();
 
   const toast = useToast();
   const { showErrorToast } = useShowToastErrorHandler();
@@ -67,10 +67,8 @@ export function useSignUpForm() {
   };
 
   return {
-    handleSubmit,
+    handleSubmit: formMethods.handleSubmit(onFormSubmit),
     isLoading,
-    register,
-    onFormSubmit,
-    control
+    formMethods,
   };
 }
