@@ -1,3 +1,4 @@
+import { EUserType } from "types/profile";
 import { TCompany, TCompanySupabaseRow } from "../../@types/company";
 import { TCompanyUser, TuserCompanyRow } from "../../@types/company-user";
 import { supabaseClient } from "../../config/supabase";
@@ -55,8 +56,9 @@ export class CompanyService {
 
   async getAllCompanies(): Promise<TCompany[]> {
     const { data: companiesSup, error } = await supabaseClient
-      .from("empresa_representante_assinatura_plano")
-      .select("*");
+      .from("empresa")
+      .select("*, profiles(*)")
+      .eq("profiles.id_tipo_usuario", EUserType.representante)
 
     if (!companiesSup || error) {
       throw new BaseError({
@@ -79,8 +81,9 @@ export class CompanyService {
 
   async getCompanyById(companyId: string): Promise<TCompany> {
     const { data: company, error } = await supabaseClient
-      .from("empresa_representante_assinatura_plano")
-      .select("*")
+      .from("empresa")
+      .select("*, profiles!inner(*), assinatura!inner(*, plano!inner(*))")
+      .eq("profiles.id_tipo_usuario", EUserType.representante)
       .eq("id_cnpj", companyId)
       .single();
 
