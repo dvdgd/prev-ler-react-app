@@ -82,7 +82,6 @@ export class CompanyService {
       .from("empresa_representante_assinatura_plano")
       .select("*")
       .eq("id_cnpj", companyId)
-      .order('id_assinatura', { foreignTable: 'assinatura', ascending: false })
       .single();
 
     if (!company || error) {
