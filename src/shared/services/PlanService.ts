@@ -67,11 +67,14 @@ export class PlanService {
   }
 
   async setPlanActive(planId: number, active: boolean) {
+    const updateObj = { ativo: active };
+    if (!active) {
+      Object.assign(updateObj, { data_fim: new Date().toISOString() });
+    }
+
     const { data, error } = await supabaseClient
       .from("plano")
-      .update({
-        ativo: active,
-      })
+      .update(updateObj)
       .eq("id_plano", planId)
       .select()
       .single();
