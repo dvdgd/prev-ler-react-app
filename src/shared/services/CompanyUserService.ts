@@ -65,6 +65,13 @@ export class CompanyUserService {
       .from("usuario_empresa")
       .upsert(companyUserSupabase);
 
+    if (error?.code === '23505') {
+      throw new BaseError({
+        title: 'Ops... Esse usuário já existe.',
+        description: "Já existe um usuário cadastrado com esse e-mail...",
+      });
+    }
+
     if (error) {
       throw new BaseError({
         title: "Erro ao salvar dados do usuário",

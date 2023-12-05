@@ -23,7 +23,11 @@ export function useCompanyUserForm() {
   const { userId } = useParams();
   const { data: user, isLoading } = useQuery({
     queryKey: ["company", "users", userId],
-    queryFn: () => companyUserService.getUserById(parseInt(userId || "0")),
+    queryFn: () => {
+      if (userId) {
+        return companyUserService.getUserById(parseInt(userId || "0"))
+      }
+    },
   })
 
   useEffect(() => {

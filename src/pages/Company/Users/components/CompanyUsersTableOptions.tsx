@@ -33,7 +33,7 @@ export function CompanyUsersTableOptions({ userCompany }: CompanyUsersTableOptio
       queryClient.invalidateQueries({ queryKey: ["company", "users"] });
       toast({
         title: "Sucesso",
-        description: "O usuário foi exlcuído com sucesso.",
+        description: "O usuário foi excluído com sucesso.",
         status: "success",
         duration: 3000,
         isClosable: true,
