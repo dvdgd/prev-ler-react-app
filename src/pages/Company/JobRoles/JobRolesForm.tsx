@@ -40,7 +40,11 @@ export function JobRolesForm() {
               </FormControl>
               <FormControl isRequired>
                 <FormLabel htmlFor="title">Nome</FormLabel>
-                <Input id="title" type="text" {...register("jobName")} />
+                <Input id="title" type="text" {...register("jobName", {
+                  onChange(e) {
+                    formMethods.setValue('jobName', e.target.value.toUpperCase());
+                  },
+                })} />
               </FormControl>
               <Button
                 colorScheme="brand"

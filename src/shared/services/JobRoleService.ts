@@ -58,6 +58,8 @@ export class JobRoleService {
 
   async createOrUpdate(jobRole: TJobRole): Promise<void> {
     const jobRoleSupabase = JobRoleToSupabase(jobRole);
+    await this.throwErrorIfJobRoleAlreadyExists(jobRole);
+
     const { error } = await supabaseClient
       .from("cargo")
       .upsert(jobRoleSupabase);
@@ -66,6 +68,21 @@ export class JobRoleService {
       throw new BaseError({
         title: "Ops, ocorreu um erro inesperado.",
         description: "Desculpe, não foi salvar as informações de cargo."
+      });
+    }
+  }
+
+  private async throwErrorIfJobRoleAlreadyExists(jobRole: TJobRole): Promise<void> {
+    const { data } = await supabaseClient
+      .from('cargo')
+      .select('*')
+      .eq('nome', jobRole.jobName.toUpperCase())
+      .eq('id_empresa', jobRole.companyId);
+
+    if (data?.length != 0) {
+      throw new BaseError({
+        title: 'Ops... Esse cargo já existe.',
+        description: "Você não pode ter mais de um cargo com o mesmo nome...",
       });
     }
   }
