@@ -138,7 +138,7 @@ function BusinessRepresentativeCard({ company }: CompanyProps) {
           </Box>
           <Box>
             <Text fontWeight={"medium"} fontSize={"md"}>CPF</Text>
-            <Text fontSize={"md"}>{"Não informado"}</Text>
+            <Text fontSize={"md"}>{person.cpf}</Text>
           </Box>
           <Box>
             <Text fontWeight={"medium"} fontSize={"md"}>Email</Text>
