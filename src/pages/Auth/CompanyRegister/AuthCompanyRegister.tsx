@@ -1,6 +1,7 @@
-import { Button, Divider, FormControl, FormLabel, Input, Select, SimpleGrid, Stack } from "@chakra-ui/react";
+import { Button, Divider, FormControl, FormErrorMessage, FormLabel, Input, Select, SimpleGrid, Stack } from "@chakra-ui/react";
 import { FormCard } from "@shared/components/Card/FormCard";
 import { ReturnTrueIfCompanyComplete } from "@shared/functions/ReturnTrueIfCompanyComplete";
+import { cnpj } from "cpf-cnpj-validator";
 import { Controller } from "react-hook-form";
 import MaskedInput from "react-input-mask";
 import { Navigate } from "react-router-dom";
@@ -16,6 +17,8 @@ export function AuthCompanyRegister() {
     handleNewCompany,
     formMethods,
   } = useCompanyForm();
+
+  const { errors } = formMethods.formState;
 
   const {
     register,
@@ -44,7 +47,7 @@ export function AuthCompanyRegister() {
           spacing={4}
         >
           <SimpleGrid w="full" columns={[1, 2]} spacingX={4} spacingY={8}>
-            <FormControl isRequired>
+            <FormControl isRequired isInvalid={!!errors.cnpj?.message}>
               <FormLabel htmlFor="cnpj" >CNPJ</FormLabel>
               <Input
                 id="cnpj"
@@ -53,8 +56,17 @@ export function AuthCompanyRegister() {
                 maskChar={null}
                 {...register("cnpj", {
                   onChange: getCompanyByCnpjApi,
+                  validate: (companyCnpj: string) => {
+                    if (!cnpj.isValid(companyCnpj)) {
+                      return 'CNPJ inválido!';
+                    }
+                    return true;
+                  }
                 })}
               />
+              {errors.cnpj?.message
+                ? <FormErrorMessage>{errors.cnpj?.message}</FormErrorMessage>
+                : <></>}
             </FormControl>
             <FormControl isRequired>
               <FormLabel htmlFor="fantasyName" >Nome Fantasia</FormLabel>
@@ -90,20 +102,38 @@ export function AuthCompanyRegister() {
           <SimpleGrid w="full" columns={[1, 2]} spacingX={4} spacingY={8}>
             <FormControl isRequired flex={0.3}>
               <FormLabel htmlFor="ddd">DDD</FormLabel>
-              <Input
-                id="ddd"
-                as={MaskedInput}
-                mask="(999)"
-                {...register("phone.ddd")}
+              <Controller
+                control={control}
+                name={"phone.ddd"}
+                render={({ field }) => {
+                  return (
+                    <Input
+                      id="ddd"
+                      as={MaskedInput}
+                      alwaysShowMask={true}
+                      mask="(999)"
+                      {...register("phone.ddd", { onChange: field.onChange })}
+                    />
+                  )
+                }}
               />
             </FormControl>
             <FormControl isRequired flex={1}>
               <FormLabel htmlFor="phoneNumber">Telefone</FormLabel>
-              <Input
-                as={MaskedInput}
-                mask="99999-9999"
-                id="phoneNumber"
-                {...register("phone.number")}
+              <Controller
+                control={control}
+                name={"phone.number"}
+                render={({ field }) => {
+                  return (
+                    <Input
+                      id="phoneNumber"
+                      as={MaskedInput}
+                      mask="99999-9999"
+                      alwaysShowMask={true}
+                      {...register("phone.number", { onChange: field.onChange })}
+                    />
+                  );
+                }}
               />
             </FormControl>
           </SimpleGrid>
@@ -115,21 +145,39 @@ export function AuthCompanyRegister() {
           <SimpleGrid w="full" columns={[1, 1, 3]} spacingX={4} spacingY={8}>
             <FormControl isRequired >
               <FormLabel htmlFor="cep">CEP</FormLabel>
-              <Input
-                as={MaskedInput}
-                mask="99999-999"
-                id="cep"
-                {...register("address.cep")}
+              <Controller
+                control={control}
+                name={"address.cep"}
+                render={({ field }) => {
+                  return (
+                    <Input
+                      as={MaskedInput}
+                      mask="99999-999"
+                      id="cep"
+                      {...register("address.cep", { onChange: field.onChange })}
+                    />
+                  );
+                }}
               />
+
             </FormControl>
             <FormControl isRequired >
               <FormLabel htmlFor="uf">UF</FormLabel>
-              <Input
-                as={MaskedInput}
-                mask="aa"
-                id="uf"
-                {...register("address.uf")}
+              <Controller
+                control={control}
+                name={"address.uf"}
+                render={({ field }) => {
+                  return (
+                    <Input
+                      as={MaskedInput}
+                      mask="aa"
+                      id="uf"
+                      {...register("address.uf", { onChange: field.onChange })}
+                    />
+                  );
+                }}
               />
+
             </FormControl>
             <FormControl isRequired >
               <FormLabel htmlFor="city">Municipio</FormLabel>
