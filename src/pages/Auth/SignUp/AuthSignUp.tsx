@@ -14,6 +14,7 @@ import {
   VStack
 } from "@chakra-ui/react";
 import { FormCard } from "@shared/components/Card/FormCard";
+import { cpf } from "cpf-cnpj-validator";
 import { useState, } from "react";
 import MaskedInput from "react-input-mask";
 import { useNavigate } from "react-router-dom";
@@ -46,15 +47,26 @@ export function AuthSignUp() {
             </FormControl>
           </SimpleGrid>
 
-          <FormControl isRequired>
+          <FormControl isRequired isInvalid={!!errors.profile?.cpf?.message}>
             <FormLabel htmlFor="cpf">CPF</FormLabel>
             <Input
               id="cpf"
               as={MaskedInput}
               mask="999.999.999-99"
               maskChar={null}
-              {...register("profile.cpf")}
+              {...register("profile.cpf", {
+                validate: (userCpf: string) => {
+                  if (!cpf.isValid(userCpf)) {
+                    return 'CPF inválido.'
+                  }
+
+                  return true;
+                },
+              })}
             />
+            {errors.profile?.cpf?.message
+              ? <FormErrorMessage>{errors.profile?.cpf?.message}</FormErrorMessage>
+              : <></>}
           </FormControl>
 
           <FormControl isRequired>

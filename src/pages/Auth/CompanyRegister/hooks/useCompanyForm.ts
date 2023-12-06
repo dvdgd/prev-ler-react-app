@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { TCompany } from "types/company";
 import { TUserSession } from "types/user";
 
-export type TCompanyCreateForm = TCompany & { planId: number }
+export type TCompanyCreateForm = Omit<TCompany, 'subscriptions' | 'users'> & { planId: number }
 
 export function useCompanyForm() {
   const toast = useToast();
