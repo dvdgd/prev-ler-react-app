@@ -28,7 +28,7 @@ export function DashInfoCard({ title, icon, children, minW, ...props }: DashInfo
           <Flex flexDirection='row' align='center' justify='center' columnGap={[4]}>
             <Stat me='auto'>
               <StatLabel
-                fontSize='xl'
+                fontSize='lg'
                 color='black'
                 fontWeight='bold'
                 pb='.1rem'
@@ -43,7 +43,7 @@ export function DashInfoCard({ title, icon, children, minW, ...props }: DashInfo
               </Flex>
             </Stat>
             <IconBox
-              h={"45px"} w={"45px"} bg={"blue.300"}
+              h={"45px"} w={"45px"} bg={"brand.300"}
             >
               {icon}
             </IconBox>

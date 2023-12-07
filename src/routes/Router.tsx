@@ -1,3 +1,4 @@
+import { UsersCompany } from "@pages/Admin/UsersCompany/UsersCompany";
 import { JobRoles } from "@pages/Company/JobRoles/JobRoles";
 import { JobRolesForm } from "@pages/Company/JobRoles/JobRolesForm";
 import { Outlet, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
@@ -62,6 +63,7 @@ export const routesCreateBrowserRoute = createBrowserRouter(
               <Route path=":companyId" element={<AdminCompanyDetails />} handle={{ title: "Detalhes", breadcrumb: <CompanyNameBreadcrumb /> }} />
             </Route>
             <Route index element={<AdminDashboard />} />
+            <Route path="business-controllers" element={<UsersCompany />} handle={{ title: "Representantes" }} />
             <Route path="payments" element={<AdminPayments />} handle={{ title: "Pagamentos" }} />
             <Route path="plans" element={<Outlet />} handle={{ title: "Plano" }} >
               <Route index element={<AdminPlansPage />} />

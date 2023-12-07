@@ -471,6 +471,7 @@ export interface Database {
           id_usuario: string
           last_name: string
           updated_at: string | null
+          created_at: string
         }
         Insert: {
           born_date?: string | null

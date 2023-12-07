@@ -1,3 +1,4 @@
+import { FaBuildingUser } from "react-icons/fa6";
 import { MdHomeWork, MdOutlinePayments } from "react-icons/md";
 import { TbBusinessplan, TbDashboard } from "react-icons/tb";
 import { useLocation } from "react-router-dom";
@@ -35,6 +36,12 @@ export function AdminMenuContents() {
         title="Empresas"
         active={pathname.includes("companies")}
         onClick={() => handleGoPage("/auth/admin/dashboard/companies")}
+      />
+      <SidebarItem
+        icon={FaBuildingUser}
+        title="Representantes"
+        active={pathname.includes("business-controllers")}
+        onClick={() => handleGoPage("/auth/admin/dashboard/business-controllers")}
       />
     </>
   );
