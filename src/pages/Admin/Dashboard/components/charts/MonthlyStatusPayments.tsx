@@ -99,11 +99,6 @@ export function MonthlyStatusPayments() {
             options={{
               ...pieData.options,
               dataLabels: {
-                formatter: function (val) {
-                  const value = val as number;
-                  const percent = (value / 1);
-                  return percent.toFixed(0)
-                },
                 offsetX: 0,
                 offsetY: 0,
               },
