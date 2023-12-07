@@ -1,11 +1,11 @@
 
-import { ViewIcon } from "@chakra-ui/icons";
-import { BoxProps, HStack, Spacer, Text } from "@chakra-ui/react";
+import { BoxProps, HStack, Text } from "@chakra-ui/react";
 import { supabaseClient } from "@config/supabase";
 import { ViewIconAction } from "@shared/components/ViewIconAction";
 import { UserProfileFromSupabase } from "@shared/mappers/UserProfileSupabaseMappers";
 import { useQuery } from "@tanstack/react-query";
 import { BsBuildings } from "react-icons/bs";
+import { MdDoubleArrow } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { DashInfoCard } from "../../../../../shared/components/Card/DashInfoCard";
 
@@ -18,15 +18,15 @@ function BaseCard({ qtd, ...props }: ActiveCompanyCardProps) {
 
   return (
     <DashInfoCard title={"Usuários sem empresa"} icon={<BsBuildings />}{...props}>
-      <HStack spacing={4} alignItems={"end"}>
+      <HStack spacing={4} alignItems={"center"}>
         <Text>
-          {qtd}
+          {qtd} {qtd > 1 ? 'usuários' : 'usuário'}
         </Text>
-        <Spacer></Spacer>
         <ViewIconAction
           aria-label={"Visualizar usuários"}
           size={"md"}
-          icon={<ViewIcon />}
+          rounded={'xl'}
+          icon={<MdDoubleArrow />}
           isDisabled={qtd === 0}
           onClick={() => navigate('business-controllers?complete-onboarding=false')}
         />

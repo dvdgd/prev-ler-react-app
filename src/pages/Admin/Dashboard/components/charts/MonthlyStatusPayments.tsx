@@ -50,7 +50,6 @@ export function MonthlyStatusPayments() {
   const formMethods = useForm<YearMonthSelector>();
   const [selectedDate, setSelectedDate] = useState(date);
   const [isLoading, setIsLoading] = useState(true);
-
   const [pieData, setPieData] = useState<TPieData | undefined>();
 
   useEffect(() => {
@@ -89,7 +88,7 @@ export function MonthlyStatusPayments() {
 
   return (
     <>
-      <TableCard title={"Pagamentos por Status no mês"}>
+      <TableCard title={"Pagamentos por Status no mês"} titleSize={'lg'} minH='505px' alignContent={'center'}>
         <Box w="full">
           {isLoading ? <Box w="full" h="full">
             <Center>
@@ -128,7 +127,7 @@ export function MonthlyStatusPayments() {
           </Center>}
         </Box>
         <form onSubmit={formMethods.handleSubmit(onFormSubmit)}>
-          <SimpleGrid alignSelf={"self-start"} columns={[1, 2, 3]} gap={6} alignItems={'end'}>
+          <SimpleGrid alignSelf={"self-start"} columns={[1, 2, 3]} gap={6} alignItems={'end'} h='full'>
             <FormControl>
               <FormLabel>Mês</FormLabel>
               <Controller
