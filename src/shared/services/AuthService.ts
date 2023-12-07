@@ -15,6 +15,7 @@ export class AuthService {
       description: "Ocorreu um erro ao recuperar as informações do usuário."
     };
 
+    await supabaseClient.auth.signOut();
     const { data, error } = await supabaseClient.auth.signInWithPassword(loginRequestBody);
     if (error) {
       const title = error.status === 403
@@ -40,6 +41,7 @@ export class AuthService {
     profile
   }: TSignUpBody): Promise<TUserSession> {
     const profileSupabase = UserProfileToSupabase(profile);
+    await supabaseClient.auth.signOut();
     const { data, error } = await supabaseClient.auth.signUp({
       email,
       password,

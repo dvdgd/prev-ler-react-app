@@ -8,7 +8,7 @@ export function CompanyToSupabase(company: TCompany): TCompanySupabaseInsert {
     municipio: company.address.city,
     uf: company.address.uf,
     telefone: company.phone.number,
-    ddd: company.phone.ddd,
+    ddd: parseInt(company.phone.ddd),
     id_cnpj: company.cnpj.replace(/\D/g, ''),
     razao_social: company.companyName,
     nome_fantasia: company.fantasyName,
@@ -26,7 +26,7 @@ export function CompanyFromSupabase(company: TCompanySupabaseRow): TCompany {
     },
     phone: {
       number: company.telefone,
-      ddd: company.ddd,
+      ddd: company.ddd.toString(),
     },
     users: company.profiles?.map((user) => PartialUserProfileFromSupabase(user ?? {})),
     subscriptions: company.assinatura?.map((subscription) => PartialSubscriptionFromSupabase(subscription)),
@@ -47,7 +47,7 @@ export function PartialCompanyFromSupabase(company: Partial<TCompanySupabaseRow>
     },
     phone: {
       number: company?.telefone,
-      ddd: company?.ddd,
+      ddd: company?.ddd?.toString(),
     },
     cnpj: company?.id_cnpj,
     companyName: company?.razao_social,

@@ -1,4 +1,4 @@
 export type TPhone = {
-  ddd: number;
+  ddd: string;
   number: string;
 }

@@ -13,6 +13,8 @@ export function UserProfileToSupabase(userProfile: Partial<TUserProfile>): TUser
 
 export function UserProfileFromSupabase(userProfileSupabase: TUserProfileSupabaseRow): TUserProfile {
   return {
+    createdAt: new Date(userProfileSupabase.created_at),
+    userId: userProfileSupabase.id_usuario,
     cpf: userProfileSupabase.cpf,
     email: userProfileSupabase.email,
     firstName: userProfileSupabase.first_name,

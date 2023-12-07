@@ -41,14 +41,6 @@ export const MenuAvatar = () => {
       <MenuDivider />
       <Button
         borderRadius={0}
-        variant={"ghost"}
-        width={"100%"}
-        justifyContent={"start"}
-      >
-        Perfil
-      </Button>
-      <Button
-        borderRadius={0}
         justifyContent={"space-between"}
         variant={"ghost"}
         width={"100%"}

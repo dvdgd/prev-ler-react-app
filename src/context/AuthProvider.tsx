@@ -1,4 +1,5 @@
 import { queryClient } from "@config/tanStackQueryClient";
+import { UserService } from "@shared/services/UserService";
 import { useQuery } from "@tanstack/react-query";
 import { createContext, useEffect, useState } from "react";
 import { IChildrenProps } from "../@types/react-base-props";
@@ -6,7 +7,6 @@ import { TUserSession } from "../@types/user";
 import { supabaseClient } from "../config/supabase";
 import { TLoginBody, TSignUpBody } from "../shared/services/@types";
 import { AuthService } from "../shared/services/AuthService";
-import { UserService } from "../shared/services/UserService";
 
 interface TCurrentUserContextValues {
   userSession: TUserSession | undefined;
@@ -26,10 +26,11 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const authService = new AuthService();
-  const userService = new UserService();
 
+  const userService = new UserService();
   useQuery({
     queryKey: ["user"],
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       if (!userSession?.session) return {};
       const userProfile = await userService.getUserProfile();
@@ -79,6 +80,7 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
     localStorage.removeItem("@userSession");
     await supabaseClient.auth.signOut();
     setStateSession(undefined);
+    queryClient.invalidateQueries({ queryKey: ["user"] });
     if (isLoading) setIsLoading(false);
   };
 

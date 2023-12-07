@@ -59,7 +59,8 @@ export function JobRolesTable() {
         columns={columns()}
         rowKey="planId"
         pagination={{
-          position: ["none"],
+          pageSize: 5,
+          position: ["bottomRight"],
         }}
       />
     </>

@@ -50,7 +50,7 @@ export class SubscriptionService {
   }
 
   async subscribePlan(companyId: string, planId: number): Promise<TSubscription> {
-    await this.paymentService.throwErrorIfCompanyHasAnyOfStatus();
+    await this.paymentService.throwErrorIfCompanyHasAnyOfStatus([EPaymentStatus.processing], companyId);
     const newSubscription = await this.generateNewSubscription(companyId, planId);
 
     if (!newSubscription.subscriptionId) {
@@ -87,7 +87,7 @@ export class SubscriptionService {
   }
 
   async changeSubscription(companyId: string, newPlanId: number, olderPlanId: number): Promise<Partial<TSubscription>> {
-    await this.paymentService.throwErrorIfCompanyHasAnyOfStatus();
+    await this.paymentService.throwErrorIfCompanyHasAnyOfStatus([EPaymentStatus.processing], companyId);
     let olderPlan: TPlan;
     try {
       olderPlan = await this.planService.getPlanById(olderPlanId);

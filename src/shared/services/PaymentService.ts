@@ -179,7 +179,7 @@ export class PaymentService {
       await this.throwErrorIfCompanyHasAnyOfStatus([
         EPaymentStatus.notPaid,
         EPaymentStatus.processing,
-      ]);
+      ], payment.subscription.companyId!);
     } catch (error) {
       return PaymentFromSupabase(paymentUpdated as TPaymentSupabaseRow);
     }
@@ -225,11 +225,12 @@ export class PaymentService {
     return PaymentFromSupabase(data as TPaymentSupabaseRow);
   }
 
-  async throwErrorIfCompanyHasAnyOfStatus(status = [EPaymentStatus.processing]): Promise<void> {
+  async throwErrorIfCompanyHasAnyOfStatus(status = [EPaymentStatus.processing], companyId: string): Promise<void> {
     const { data: pendingPayments } = await supabaseClient
       .from("pagamento")
-      .select()
-      .in("status_pagamento", status);
+      .select('*, assinatura!inner(*)')
+      .in("status_pagamento", status)
+      .eq('assinatura.id_empresa', companyId);
 
     if (!pendingPayments || pendingPayments.length <= 0) return;
 

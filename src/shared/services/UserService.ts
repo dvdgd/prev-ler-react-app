@@ -5,7 +5,7 @@ import { TUser, TUserSession } from "../../@types/user";
 import { supabaseClient } from "../../config/supabase";
 import { BaseError } from "../errors/BaseError";
 import { CompanyFromSupabase } from "../mappers/CompanySupabaseMappers";
-import { UserProfileFromSupabase, UserProfileToSupabase } from "../mappers/UserProfileSupabaseMappers";
+import { UserProfileFromSupabase } from "../mappers/UserProfileSupabaseMappers";
 
 export class UserService {
   async getUserSession(): Promise<TUserSession | undefined> {
@@ -67,11 +67,11 @@ export class UserService {
   }
 
   async updateProfileByUserId(profile: Partial<TUserProfile>, userId: string): Promise<void> {
-    const profileSupabase = UserProfileToSupabase(profile);
-
     const { error: profileUpdateError } = await supabaseClient
       .from("profiles")
-      .update(profileSupabase)
+      .update({
+        'id_empresa': profile.idCompany
+      })
       .eq("id_usuario", userId);
 
     if (profileUpdateError) {

@@ -22,7 +22,11 @@ export function useJobRoleForm() {
   const { jobRoleId } = useParams();
   const { data: jobRole } = useQuery({
     queryKey: ["company", "jobroles", jobRoleId],
-    queryFn: () => jobRoleService.getJobRoleById(parseInt(jobRoleId || "0"))
+    queryFn: () => {
+      if (jobRoleId) {
+        return jobRoleService.getJobRoleById(parseInt(jobRoleId || "0"));
+      }
+    }
   })
 
   const { setValue } = formMethods;
@@ -41,7 +45,7 @@ export function useJobRoleForm() {
       const companyId = userSession?.user?.company?.cnpj || "0";
       return jobRoleService.createOrUpdate({
         ...jobRoleAttributes,
-        companyId,
+        companyId: companyId.replace(/\D/g, ''),
         jobRoleId: parseInt(jobRoleId || '0'),
       });
     },

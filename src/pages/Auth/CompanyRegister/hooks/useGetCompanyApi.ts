@@ -30,7 +30,9 @@ type TGetCompanyByCnpjHttp = {
 }
 
 export const useGetCompanyApi = ({
-  setValue, getValues, resetField
+  setValue,
+  getValues,
+  resetField
 }: IUseGetCompanyApi) => {
   const verifyCnpj = () => {
     const { cnpj } = getValues();
@@ -62,7 +64,7 @@ export const useGetCompanyApi = ({
     setValue("address.cep", companyAttributesHttp.CEP);
     setValue("address.city", companyAttributesHttp.MUNICIPIO);
     setValue("address.uf", companyAttributesHttp.UF);
-    setValue("phone.ddd", parseInt(companyAttributesHttp.DDD));
+    setValue("phone.ddd", companyAttributesHttp.DDD.padStart(3, '0'));
     setValue("phone.number", companyAttributesHttp.TELEFONE);
     setValue("companyName", companyAttributesHttp["RAZAO SOCIAL"]);
     setValue("fantasyName", companyAttributesHttp["NOME FANTASIA"]);

@@ -17,6 +17,7 @@ export type TUserProfileSupabaseRow = ProfileSupabase["Row"] & {
 export type TUserProfileSupabaseUpdate = ProfileSupabase["Update"]
 
 export type TUserProfile = {
+  userId?: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -24,4 +25,5 @@ export type TUserProfile = {
   userType: EUserType;
   idCompany?: string | null;
   jobRole?: string;
+  createdAt?: Date;
 }

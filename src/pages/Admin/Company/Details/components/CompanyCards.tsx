@@ -24,7 +24,7 @@ function CompanyInfoCard({ company }: CompanyProps) {
           <Text fontWeight={"medium"} fontSize={"md"}>Informações Gerais</Text>
           <Text fontSize={"md"}>CNPJ: {formatCnpj(company.cnpj || "")}</Text>
           <Text fontSize={"md"}>Razão Social: {company.companyName}</Text>
-          <Text fontSize={"md"}>Data Abertura: {company.openAt.toLocaleDateString()}</Text>
+          <Text fontSize={"md"}>Data Abertura: {getDateToLocaleStringOrDashDash(company.openAt)}</Text>
         </VStack>
         <VStack spacing={1} w={"full"} alignItems={"start"}>
           <Text fontWeight={"medium"} fontSize={"md"}>Contato</Text>
@@ -68,8 +68,16 @@ function BlankSubscriptionCard() {
   )
 }
 
-function CurrentSubscriptionCard({ company }: CompanyProps) {
+function getDateToLocaleStringOrDashDash(date?: Date): string {
+  if (date) {
+    const newDate = new Date(date);
+    return newDate.toLocaleDateString();
+  } else {
+    return '--';
+  }
+}
 
+function CurrentSubscriptionCard({ company }: CompanyProps) {
   const subscription = company.subscriptions?.at(0);
   if (!subscription) {
     return <BlankSubscriptionCard />
@@ -80,6 +88,8 @@ function CurrentSubscriptionCard({ company }: CompanyProps) {
   const planPeriodicyText = plan?.periodicy === "mensais" ? "mês" : "ano";
   const subscriptionStatus = subscription?.status || ESubscriptionStatus.canceled;
   const statusSubscriptionText = getSubscriptionStatusText(subscriptionStatus);
+  const startSubscriptionDate = getDateToLocaleStringOrDashDash(subscription?.startDate);
+  const expirationSubscriptionDate = getDateToLocaleStringOrDashDash(subscription?.expirationDate);
 
   return (
     <>
@@ -93,8 +103,8 @@ function CurrentSubscriptionCard({ company }: CompanyProps) {
         >
           <VStack spacing={1} w={"full"} alignItems={"start"}>
             <Text fontWeight={"medium"} fontSize={"md"}>Assinatura {subscription?.subscriptionId}</Text>
-            <Text fontSize={"md"}>Início: {subscription?.startDate?.toLocaleDateString()}</Text>
-            <Text fontSize={"md"}>Expiração: {subscription?.expirationDate?.toLocaleDateString() || "--"}</Text>
+            <Text fontSize={"md"}>Início: {startSubscriptionDate}</Text>
+            <Text fontSize={"md"}>Expiração: {expirationSubscriptionDate}</Text>
             <Text fontSize={"md"}>Status: {statusSubscriptionText}</Text>
           </VStack>
           <VStack spacing={1} w={"full"} alignItems={"start"}>
@@ -138,7 +148,7 @@ function BusinessRepresentativeCard({ company }: CompanyProps) {
           </Box>
           <Box>
             <Text fontWeight={"medium"} fontSize={"md"}>CPF</Text>
-            <Text fontSize={"md"}>{"Não informado"}</Text>
+            <Text fontSize={"md"}>{person.cpf}</Text>
           </Box>
           <Box>
             <Text fontWeight={"medium"} fontSize={"md"}>Email</Text>
