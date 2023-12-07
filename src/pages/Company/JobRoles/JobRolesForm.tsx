@@ -3,7 +3,7 @@ import { useAuth } from "@hooks/useCurrentUser";
 import { FormCard } from "@shared/components/Card/FormCard";
 import { formatCnpj } from "@shared/functions/Formatters";
 import { useEffect } from "react";
-import { FormProvider } from "react-hook-form";
+import { Controller, FormProvider } from "react-hook-form";
 import MaskedInput from "react-input-mask";
 import { useParams } from "react-router-dom";
 import { useJobRoleForm } from "./hooks/useJobRoleForm";
@@ -28,14 +28,20 @@ export function JobRolesForm() {
             <FormCard title={title}>
               <FormControl isRequired>
                 <FormLabel htmlFor="title">CNPJ</FormLabel>
-                <Input
-                  id="title"
-                  as={MaskedInput}
-                  mask="99.999.999/9999-99"
-                  maskChar={null}
-                  type="text"
-                  isDisabled
-                  {...register("companyId")}
+                <Controller
+                  control={formMethods.control}
+                  name={"companyId"}
+                  render={({ field }) => {
+                    return (
+                      <Input
+                        id="companyId"
+                        as={MaskedInput}
+                        mask="99.999.999/9999-99"
+                        isDisabled
+                        {...register("companyId", { onChange: field.onChange })}
+                      />
+                    );
+                  }}
                 />
               </FormControl>
               <FormControl isRequired>
