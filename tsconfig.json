@@ -43,6 +43,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    /* Tsyringe setup */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
