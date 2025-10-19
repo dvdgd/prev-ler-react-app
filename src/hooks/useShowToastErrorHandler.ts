@@ -1,5 +1,5 @@
 import { UseToastOptions, useToast } from "@chakra-ui/react";
-import { BaseError } from "../shared/errors/BaseError";
+import { BaseError } from "../_core/errors/BaseError";
 
 interface IShowErrorToast {
   error: unknown,

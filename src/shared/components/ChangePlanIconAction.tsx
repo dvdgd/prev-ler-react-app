@@ -19,11 +19,11 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { queryClient } from "../../config/tanStackQueryClient";
+import { queryClient } from "@config/tanStackQueryClient";
 import { useAuth } from "../../hooks/useCurrentUser";
 import { usePlans } from "../../hooks/usePlans";
 import { useShowToastErrorHandler } from "../../hooks/useShowToastErrorHandler";
-import { SubscriptionService } from "../services/SubscriptionService";
+import { SubscriptionRepositorySupabase } from "@adapters/supabase/SubscriptionRepositorySupabase";
 import { MyIconButton } from "./MyIconButton";
 
 type TChangePlanForm = {
@@ -51,7 +51,7 @@ export function ChangePlanIconAction({ ...props }) {
   const changePlanMutation = useMutation({
     mutationFn: async () => {
       const formValues = formMethods.getValues();
-      await new SubscriptionService().changeSubscription(
+      await new SubscriptionRepositorySupabase().changeSubscription(
         userSession?.user?.company?.cnpj || "",
         formValues.newPlanId,
         companyPlan?.planId || 0

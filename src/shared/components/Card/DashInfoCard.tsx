@@ -1,5 +1,5 @@
 import { Box, BoxProps, Card, CardBody, CardProps, Flex, FlexProps, Stat, StatLabel } from "@chakra-ui/react";
-import { IChildrenProps } from "../../../@types/react-base-props";
+import { IChildrenProps } from "types/react-base-props";
 
 type DashInfoCardProps = {
   title: string,

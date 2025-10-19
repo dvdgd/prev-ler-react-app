@@ -2,12 +2,12 @@ import { useToast } from "@chakra-ui/react";
 import { queryClient } from "@config/tanStackQueryClient";
 import { useAuth } from "@hooks/useCurrentUser";
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
-import { CompanyUserService } from "@shared/services/CompanyUserService";
+import { CompanyUserRepositorySupabase } from "@adapters/supabase/CompanyUserRepositorySupabase";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { TCompanyUser } from "types/company-user";
+import { TCompanyUser } from "@core/entities/company-user";
 
 type TCompanyUserForm = TCompanyUser
 
@@ -40,7 +40,7 @@ export function useCompanyUserForm() {
     setValue("jobRole.jobRoleId", user.jobRole.jobRoleId);
   }, [user]);
 
-  const companyUserService = new CompanyUserService();
+  const companyUserService = new CompanyUserRepositorySupabase();
   const createOrUpdateMutation = useMutation({
     mutationFn: async () => {
       const companyId = userSession?.user?.company?.cnpj;

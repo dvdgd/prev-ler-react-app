@@ -1,7 +1,7 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { IChildrenProps } from "../@types/react-base-props";
+import { IChildrenProps } from "types/react-base-props";
 
 interface IDrawnerProvider {
   isOpen: boolean;

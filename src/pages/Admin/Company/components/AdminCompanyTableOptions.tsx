@@ -2,7 +2,7 @@ import { Center } from "@chakra-ui/react";
 import { MyIconButton } from "@shared/components/MyIconButton";
 import { MdDoubleArrow } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { TCompany } from "types/company";
+import { TCompany } from "@core/entities/company";
 
 type OptionsProps = {
   company: TCompany

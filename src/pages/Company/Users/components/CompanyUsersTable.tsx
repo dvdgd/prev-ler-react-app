@@ -1,9 +1,9 @@
 import { getUserTypeText } from "@shared/functions/UserTypeMap";
-import { CompanyUserService } from "@shared/services/CompanyUserService";
+import { CompanyUserRepositorySupabase } from "@adapters/supabase/CompanyUserRepositorySupabase";
 import { useQuery } from "@tanstack/react-query";
 import Table, { ColumnsType } from "antd/es/table";
-import { TCompanyUser } from "types/company-user";
-import { EUserType } from "types/profile";
+import { TCompanyUser } from "@core/entities/company-user";
+import { EUserType } from "@core/entities/profile";
 import { CompanyUsersTableOptions } from "./CompanyUsersTableOptions";
 
 const columns = (): ColumnsType<TCompanyUser> => {
@@ -99,7 +99,7 @@ const columns = (): ColumnsType<TCompanyUser> => {
 export function CompanyUsersTable() {
   const { data: users, isLoading } = useQuery({
     queryKey: ["company", "users"],
-    queryFn: () => new CompanyUserService().getCompanyUsers()
+    queryFn: () => new CompanyUserRepositorySupabase().getCompanyUsers()
   });
 
   return (

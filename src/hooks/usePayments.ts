@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { PaymentService } from "../shared/services/PaymentService";
+import { PaymentRepositorySupabase } from "@adapters/supabase/PaymentRepositorySupabase";
 import { useShowToastErrorHandler } from "./useShowToastErrorHandler";
 
 export function usePayments() {
@@ -7,7 +7,7 @@ export function usePayments() {
 
   const fetchPaymentsFn = async () => {
     try {
-      return await new PaymentService().getAllPayments();
+      return await new PaymentRepositorySupabase().getAllPayments();
     } catch (error) {
       showErrorToast({
         error, toastAttributes: {

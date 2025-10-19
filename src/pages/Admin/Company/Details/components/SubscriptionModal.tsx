@@ -1,6 +1,6 @@
 import { Box, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, VStack, useDisclosure } from "@chakra-ui/react";
 import { getSubscriptionStatusText } from "@shared/functions/SubscriptionStatusMap";
-import { TSubscription } from "types/subscription";
+import { TSubscription } from "@core/entities/subscription";
 
 type SubscriptionModalProps = {
   subscription: TSubscription

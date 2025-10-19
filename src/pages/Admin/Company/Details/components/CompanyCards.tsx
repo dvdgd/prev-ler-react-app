@@ -1,8 +1,8 @@
 import { Box, Link, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { formatCep, formatCnpj } from "@shared/functions/Formatters";
 import { getSubscriptionStatusText } from "@shared/functions/SubscriptionStatusMap";
-import { TCompany } from "types/company";
-import { ESubscriptionStatus } from "types/subscription";
+import { TCompany } from "@core/entities/company";
+import { ESubscriptionStatus } from "@core/entities/subscription";
 import { MyInfoCard } from "./MyInfoCard";
 
 type CompanyProps = { company: TCompany }

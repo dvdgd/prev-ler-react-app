@@ -3,10 +3,10 @@ import { queryClient } from "@config/tanStackQueryClient";
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
 import { DeleteIconAction } from "@shared/components/DeleteIconAction";
 import { EditIconAction } from "@shared/components/EditIconAction";
-import { JobRoleService } from "@shared/services/JobRoleService";
+import { JobRoleRepositorySupabase } from "@adapters/supabase/JobRoleRepositorySupabase";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { TJobRole } from "types/job-role";
+import { TJobRole } from "@core/entities/job-role";
 
 type JobRolesTableOptionsProps = { jobRole: TJobRole }
 
@@ -19,7 +19,7 @@ export function JobRolesTableOptions({ jobRole }: JobRolesTableOptionsProps) {
     navigate("create/" + jobRole.jobRoleId)
   }
 
-  const jobRoleService = new JobRoleService();
+  const jobRoleService = new JobRoleRepositorySupabase();
   const deleteJobRoleMutation = useMutation({
     mutationFn: () => jobRoleService.deleteJobroleById(jobRole.jobRoleId || 0),
     onSuccess: () => {

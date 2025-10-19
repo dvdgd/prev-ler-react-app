@@ -1,5 +1,5 @@
 import { Box, Card, CardBody, CardProps, Flex, FlexProps, Stat, StatLabel } from "@chakra-ui/react";
-import { IChildrenProps } from "../../../@types/react-base-props";
+import { IChildrenProps } from "types/react-base-props";
 
 type MiniStatisticsCardProps = {
   title: string,

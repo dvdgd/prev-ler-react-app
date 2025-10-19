@@ -3,9 +3,9 @@ import { Center, HStack, UseToastOptions, useToast } from "@chakra-ui/react"
 import { queryClient } from "@config/tanStackQueryClient"
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler"
 import { MyIconButton } from "@shared/components/MyIconButton"
-import { PaymentService } from "@shared/services/PaymentService"
+import { PaymentRepositorySupabase } from "@adapters/supabase/PaymentRepositorySupabase"
 import { useMutation } from "@tanstack/react-query"
-import { EPaymentStatus, TPayment } from "types/payment"
+import { EPaymentStatus, TPayment } from "@core/entities/payment"
 
 type AdminPaymentTableOptionsProps = {
   payment: TPayment
@@ -27,7 +27,7 @@ export function AdminPaymentTableOptions({ payment }: AdminPaymentTableOptionsPr
   }
 
   const recognizeMutation = useMutation({
-    mutationFn: () => new PaymentService().recognizeCompanyPayment(payment.paymentId || 0),
+    mutationFn: () => new PaymentRepositorySupabase().recognizeCompanyPayment(payment.paymentId || 0),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["payments"]
@@ -54,7 +54,7 @@ export function AdminPaymentTableOptions({ payment }: AdminPaymentTableOptionsPr
   });
 
   const contestMutation = useMutation({
-    mutationFn: () => new PaymentService().contestCompanyPayment(payment.paymentId || 0),
+    mutationFn: () => new PaymentRepositorySupabase().contestCompanyPayment(payment.paymentId || 0),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["payments",]

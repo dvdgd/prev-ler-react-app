@@ -9,6 +9,8 @@ export default defineConfig({
     alias: {
       "@shared": path.resolve(__dirname, "./src/shared"),
       "@hooks": path.resolve(__dirname, "./src/hooks"),
+      "@core": path.resolve(__dirname, "./src/_core"),
+      "@adapters": path.resolve(__dirname, "./src/_adapters"),
       "@config": path.resolve(__dirname, "./src/config"),
       "@layouts": path.resolve(__dirname, "./src/layouts"),
       "@pages": path.resolve(__dirname, "./src/pages"),

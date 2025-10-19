@@ -4,7 +4,7 @@ import { formatCnpj } from "@shared/functions/Formatters";
 import { Table } from "antd";
 import { ColumnsType, TableProps } from "antd/es/table";
 import { useSearchParams } from "react-router-dom";
-import { TUserProfile } from "types/profile";
+import { TUserProfile } from "@core/entities/profile";
 import { useUsersCompany } from "./hooks/useUsersCompany";
 
 export function UsersCompany() {

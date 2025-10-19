@@ -1,12 +1,11 @@
+import { AuthRepositorySupabase } from "@adapters/supabase/AuthRepositorySupabase";
 import { queryClient } from "@config/tanStackQueryClient";
-import { UserService } from "@shared/services/UserService";
 import { useQuery } from "@tanstack/react-query";
 import { createContext, useEffect, useState } from "react";
-import { IChildrenProps } from "../@types/react-base-props";
-import { TUserSession } from "../@types/user";
+import { UserRepositorySupabase } from "@adapters/supabase/UserRepositorySupabase";
+import { TLoginBody, TSignUpBody, TUserSession } from "@core/entities/user";
+import { IChildrenProps } from "types/react-base-props";
 import { supabaseClient } from "../config/supabase";
-import { TLoginBody, TSignUpBody } from "../shared/services/@types";
-import { AuthService } from "../shared/services/AuthService";
 
 interface TCurrentUserContextValues {
   userSession: TUserSession | undefined;
@@ -25,9 +24,9 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
   const [userSession, setStateSession] = useState<TUserSession>();
   const [isLoading, setIsLoading] = useState(true);
 
-  const authService = new AuthService();
+  const authService = new AuthRepositorySupabase();
+  const userService = new UserRepositorySupabase();
 
-  const userService = new UserService();
   useQuery({
     queryKey: ["user"],
     refetchOnWindowFocus: false,

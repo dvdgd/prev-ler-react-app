@@ -1,5 +1,5 @@
 import { Box, HStack, VStack } from "@chakra-ui/react";
-import { IChildrenProps } from "../../@types/react-base-props";
+import { IChildrenProps } from "types/react-base-props";
 import { Footer } from "../../shared/components/Footer";
 import { OnboardingHeader } from "./components/OnboardinHeader";
 

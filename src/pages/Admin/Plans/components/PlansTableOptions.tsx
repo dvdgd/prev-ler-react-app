@@ -18,7 +18,7 @@ import { EditIconAction } from "@shared/components/EditIconAction";
 import { ViewIconAction } from "@shared/components/ViewIconAction";
 import { } from "antd";
 import { useNavigate } from "react-router-dom";
-import { TPlan } from "types/plan";
+import { TPlan } from "@core/entities/plan";
 
 type PlansModalProps = {
   plan: TPlan;

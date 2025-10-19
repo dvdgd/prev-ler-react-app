@@ -20,6 +20,12 @@
       "types/*": [
         "src/@types/*"
       ],
+      "@core/*": [
+        "src/_core/*"
+      ],
+      "@adapters/*": [
+        "src/_adapters/*"
+      ],
       "@config/*": [
         "./src/config/*"
       ],

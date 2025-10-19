@@ -1,9 +1,9 @@
-import { SubscriptionService } from "@shared/services/SubscriptionService";
+import { SubscriptionRepositorySupabase } from "@adapters/supabase/SubscriptionRepositorySupabase";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 export function useSubscriptionsCompanyByParams() {
-  const subscriptionService = new SubscriptionService();
+  const subscriptionService = new SubscriptionRepositorySupabase();
   const { companyId } = useParams();
 
   const {

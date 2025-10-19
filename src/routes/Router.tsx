@@ -2,7 +2,7 @@ import { UsersCompany } from "@pages/Admin/UsersCompany/UsersCompany";
 import { JobRoles } from "@pages/Company/JobRoles/JobRoles";
 import { JobRolesForm } from "@pages/Company/JobRoles/JobRolesForm";
 import { Outlet, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
-import { EUserType } from "../@types/profile";
+import { EUserType } from "@core/entities/profile";
 import { AdminCompanies } from "../pages/Admin/Company/AdminCompanies";
 import { AdminCompanyDetails } from "../pages/Admin/Company/Details/AdminCompanyDetails";
 import { CompanyNameBreadcrumb } from "../pages/Admin/Company/components/CompanyNameBreadcrumb";

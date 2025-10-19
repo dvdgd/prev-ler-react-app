@@ -1,7 +1,7 @@
 import { Box, Button, Center, FormControl, FormLabel, Select, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import { TableCard } from "@shared/components/Card/TableCard";
 import { getCompanyPaymnetConfig } from "@shared/functions/PaymentStatusMap";
-import { AdminDashboardService } from "@shared/services/AdminDashboardService";
+import { AdminDashboardRepository } from "@adapters/supabase/AdminDashboardRepository";
 import { useEffect, useState } from "react";
 import Chart from 'react-apexcharts';
 import {
@@ -9,9 +9,9 @@ import {
   SubmitHandler,
   useForm
 } from "react-hook-form";
-import { EPaymentStatus } from "types/payment";
+import { EPaymentStatus } from "@core/entities/payment";
 
-const dashboardService = new AdminDashboardService();
+const dashboardService = new AdminDashboardRepository();
 
 const monthsConfig = [
   { text: 'Jan', value: 0 },

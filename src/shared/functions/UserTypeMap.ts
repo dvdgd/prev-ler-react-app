@@ -1,4 +1,4 @@
-import { EUserType } from "../../@types/profile";
+import { EUserType } from "@core/entities/profile";
 
 const userTypeMap = {
   [EUserType.administrador]: "Administrador",

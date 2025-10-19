@@ -4,7 +4,7 @@ import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { EUserType } from "types/profile";
+import { EUserType } from "@core/entities/profile";
 
 interface IFormSignUpInputs {
   email: string;

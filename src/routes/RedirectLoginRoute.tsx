@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { EUserType } from "../@types/profile";
-import { TUser } from "../@types/user";
+import { EUserType } from "@core/entities/profile";
+import { TUser } from "@core/entities/user";
 import { useAuth } from "../hooks/useCurrentUser";
 import { ReturnTrueIfCompanyComplete } from "../shared/functions/ReturnTrueIfCompanyComplete";
 

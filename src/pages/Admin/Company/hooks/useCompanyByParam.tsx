@@ -1,10 +1,10 @@
 
-import { CompanyService } from "@shared/services/CompanyService";
+import { CompanyRepositorySupabase } from "@adapters/supabase/CompanyRepositorySupabase";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 export function useCompanyByParam() {
-  const companyService = new CompanyService();
+  const companyService = new CompanyRepositorySupabase();
   const { companyId } = useParams();
 
   const {

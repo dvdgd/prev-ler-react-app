@@ -5,10 +5,10 @@ import { DeleteIconAction } from "@shared/components/DeleteIconAction"
 import { EditIconAction } from "@shared/components/EditIconAction"
 import { ViewIconAction } from "@shared/components/ViewIconAction"
 import { getUserTypeText } from "@shared/functions/UserTypeMap"
-import { CompanyUserService } from "@shared/services/CompanyUserService"
+import { CompanyUserRepositorySupabase } from "@adapters/supabase/CompanyUserRepositorySupabase"
 import { useMutation } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
-import { TCompanyUser } from "types/company-user"
+import { TCompanyUser } from "@core/entities/company-user"
 
 type CompanyUsersTableOptionsProps = {
   userCompany: TCompanyUser
@@ -26,7 +26,7 @@ export function CompanyUsersTableOptions({ userCompany }: CompanyUsersTableOptio
   const { showErrorToast } = useShowToastErrorHandler();
   const toast = useToast();
 
-  const companyUserService = new CompanyUserService();
+  const companyUserService = new CompanyUserRepositorySupabase();
   const deleteMutation = useMutation({
     mutationFn: () => companyUserService.deleteCompanyUser(userCompany.userId),
     onSuccess: () => {

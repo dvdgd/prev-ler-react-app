@@ -1,5 +1,5 @@
-import { EUserType } from "../../@types/profile";
-import { TUser } from "../../@types/user";
+import { EUserType } from "@core/entities/profile";
+import { TUser } from "@core/entities/user";
 
 export function ReturnTrueIfCompanyComplete(user: TUser | undefined): boolean {
   const isRepresentante = user?.profile?.userType === EUserType.representante;

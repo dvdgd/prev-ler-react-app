@@ -1,4 +1,4 @@
-import { EPaymentStatus } from "types/payment";
+import { EPaymentStatus } from "@core/entities/payment";
 
 const adminStatusConfigMap = {
   [EPaymentStatus.paid]: { colorTag: "green", statusText: "Aprovado" },

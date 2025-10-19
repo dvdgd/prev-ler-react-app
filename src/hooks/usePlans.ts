@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { PlanService } from "../shared/services/PlanService";
+import { PlanRepositorySupabase } from "@adapters/supabase/PlanRepositorySupabase";
 import { useShowToastErrorHandler } from "./useShowToastErrorHandler";
 
 export function usePlans() {
@@ -9,7 +9,7 @@ export function usePlans() {
     queryKey: ['plans'],
     queryFn: async () => {
       try {
-        const plans = await new PlanService().getAllPlans();
+        const plans = await new PlanRepositorySupabase().getAllPlans();
         return plans;
       } catch (error) {
         showErrorToast({

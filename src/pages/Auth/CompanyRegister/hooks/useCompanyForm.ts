@@ -1,13 +1,13 @@
 import { UseToastOptions, useToast } from "@chakra-ui/react";
 import { useAuth } from "@hooks/useCurrentUser";
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
-import { CompanyService } from "@shared/services/CompanyService";
+import { CompanyRepositorySupabase } from "@adapters/supabase/CompanyRepositorySupabase";
 import { useMutation } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { TCompany } from "types/company";
-import { TUserSession } from "types/user";
+import { TCompany } from "@core/entities/company";
+import { TUserSession } from "@core/entities/user";
 
 export type TCompanyCreateForm = Omit<TCompany, 'subscriptions' | 'users'> & { planId: number }
 
@@ -36,7 +36,7 @@ export function useCompanyForm() {
       }
 
       const formValues = getValues();
-      const newCompany = await new CompanyService().create(
+      const newCompany = await new CompanyRepositorySupabase().create(
         formValues,
         userSession?.user?.id,
         formValues.planId

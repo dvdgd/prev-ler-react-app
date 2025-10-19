@@ -1,12 +1,12 @@
 import { useToast } from "@chakra-ui/react";
 import { queryClient } from "@config/tanStackQueryClient";
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
-import { PlanService } from "@shared/services/PlanService";
+import { PlanRepositorySupabase } from "@adapters/supabase/PlanRepositorySupabase";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { TPlan } from "types/plan";
+import { TPlan } from "@core/entities/plan";
 
 export type TCreatePlanForm = Omit<TPlan, "createdAt" | "endDate">
 
@@ -19,7 +19,7 @@ export function usePlanForm() {
   const planId = parseInt(idPlanParam ?? '0');
   const { data: plan, isLoading } = useQuery({
     queryKey: ["plans", planId],
-    queryFn: () => new PlanService().getPlanById(planId),
+    queryFn: () => new PlanRepositorySupabase().getPlanById(planId),
   })
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export function usePlanForm() {
   const mutation = useMutation({
     mutationFn: () => {
       const formValues = formMethods.getValues();
-      return new PlanService().createNewPlan({
+      return new PlanRepositorySupabase().createNewPlan({
         ...formValues,
         planId,
         createdAt: new Date(),

@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { EUserType } from "../@types/profile";
+import { EUserType } from "@core/entities/profile";
 import { useAuth } from "../hooks/useCurrentUser";
 import { AuthPageLayout } from "../layouts/AuthenticatedPageLayout/AuthPageLayout";
 import { ReturnTrueIfCompanyComplete } from "../shared/functions/ReturnTrueIfCompanyComplete";

@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { Database } from "../@types/database.types";
+import { Database } from "@adapters/supabase/entities/database.types";
 
 const environment = {
   SUPABASE_PROJECT_URL: "https://kssukrxppllwblifylcw.supabase.co",

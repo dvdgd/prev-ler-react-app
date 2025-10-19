@@ -3,7 +3,7 @@ import { usePayments } from "@hooks/usePayments";
 import { getCompanyPaymnetConfig } from "@shared/functions/PaymentStatusMap";
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { TPayment } from "types/payment";
+import { TPayment } from "@core/entities/payment";
 import { PaymentsTableOptions } from "./PaymentsTableOptions";
 
 const columns = (): ColumnsType<TPayment> => {

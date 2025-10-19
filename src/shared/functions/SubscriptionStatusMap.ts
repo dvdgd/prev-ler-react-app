@@ -1,4 +1,4 @@
-import { ESubscriptionStatus } from "types/subscription";
+import { ESubscriptionStatus } from "@core/entities/subscription";
 
 const statusTextMap = {
   [ESubscriptionStatus.active]: "Ativa",

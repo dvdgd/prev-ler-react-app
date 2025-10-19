@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, FormLabel, HStack, Input, Select, SimpleGrid, Switch, Text } from "@chakra-ui/react";
 import { Controller, FormProvider } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { EUserType } from "types/profile";
+import { EUserType } from "@core/entities/profile";
 import { useJobRoles } from "../../../hooks/useJobRoles";
 import { FormCard } from "../../../shared/components/Card/FormCard";
 import { useCompanyUserForm } from "./hooks/useCompanyUserForm";

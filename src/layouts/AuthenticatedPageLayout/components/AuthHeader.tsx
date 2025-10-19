@@ -18,7 +18,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
-import { EUserType } from "types/profile";
+import { EUserType } from "@core/entities/profile";
 
 import { TbLogout } from "react-icons/tb";
 import { useLocation, useNavigate } from "react-router-dom";

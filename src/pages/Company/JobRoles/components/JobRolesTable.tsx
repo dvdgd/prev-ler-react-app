@@ -1,7 +1,7 @@
 import { useJobRoles } from "@hooks/useJobRoles";
 import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { TJobRole } from "types/job-role";
+import { TJobRole } from "@core/entities/job-role";
 import { JobRolesTableOptions } from "./JobRolesTableOptions";
 
 const columns = (): ColumnsType<TJobRole> => {

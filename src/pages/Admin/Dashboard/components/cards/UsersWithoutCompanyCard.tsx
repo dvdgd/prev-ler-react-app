@@ -2,7 +2,7 @@
 import { BoxProps, HStack, Text } from "@chakra-ui/react";
 import { supabaseClient } from "@config/supabase";
 import { ViewIconAction } from "@shared/components/ViewIconAction";
-import { UserProfileFromSupabase } from "@shared/mappers/UserProfileSupabaseMappers";
+import { UserProfileFromSupabase } from "@adapters/supabase/mappers/UserProfileSupabaseMappers";
 import { useQuery } from "@tanstack/react-query";
 import { BsBuildings } from "react-icons/bs";
 import { MdDoubleArrow } from "react-icons/md";

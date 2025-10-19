@@ -1,7 +1,7 @@
 import { usePlans } from "@hooks/usePlans";
 import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { TPlan } from "types/plan";
+import { TPlan } from "@core/entities/plan";
 import { PlanActiveToggleButton } from "./PlanActiveToggleButton";
 import { PlansTableOptions } from "./PlansTableOptions";
 

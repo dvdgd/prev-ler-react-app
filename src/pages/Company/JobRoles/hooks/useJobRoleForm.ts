@@ -2,7 +2,7 @@ import { useToast } from "@chakra-ui/react";
 import { queryClient } from "@config/tanStackQueryClient";
 import { useAuth } from "@hooks/useCurrentUser";
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
-import { JobRoleService } from "@shared/services/JobRoleService";
+import { JobRoleRepositorySupabase } from "@adapters/supabase/JobRoleRepositorySupabase";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -17,7 +17,7 @@ export function useJobRoleForm() {
   const { userSession } = useAuth();
   const formMethods = useForm<TJobRoleForm>();
 
-  const jobRoleService = new JobRoleService();
+  const jobRoleService = new JobRoleRepositorySupabase();
 
   const { jobRoleId } = useParams();
   const { data: jobRole } = useQuery({

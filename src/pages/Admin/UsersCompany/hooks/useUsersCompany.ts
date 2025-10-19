@@ -1,5 +1,5 @@
 import { supabaseClient } from "@config/supabase";
-import { UserProfileFromSupabase } from "@shared/mappers/UserProfileSupabaseMappers";
+import { UserProfileFromSupabase } from "@adapters/supabase/mappers/UserProfileSupabaseMappers";
 import { useQuery } from "@tanstack/react-query";
 
 export function useUsersCompany() {

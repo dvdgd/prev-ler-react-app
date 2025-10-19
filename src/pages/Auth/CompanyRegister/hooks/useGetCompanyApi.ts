@@ -1,4 +1,4 @@
-import { BrDateStringToDateInstance } from "@shared/mappers/DatePtBrMapper";
+import { BrDateStringToDateInstance } from "@core/useCases/DatePtBrMapper";
 import { UseFormGetValues, UseFormResetField, UseFormSetValue } from "react-hook-form";
 import { TCompanyCreateForm } from "./useCompanyForm";
 
@@ -29,6 +29,7 @@ type TGetCompanyByCnpjHttp = {
   "UF": string;
 }
 
+// TODO: refactor to port and adapter
 export const useGetCompanyApi = ({
   setValue,
   getValues,

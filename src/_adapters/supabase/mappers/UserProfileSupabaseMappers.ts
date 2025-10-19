@@ -1,0 +1,39 @@
+import { TUserProfile } from "@core/entities/profile";
+import { EUserType, TUserProfileSupabaseInsert, TUserProfileSupabaseRow } from "@adapters/supabase/entities/profile";
+
+export function UserProfileToSupabase(userProfile: Partial<TUserProfile>): TUserProfileSupabaseInsert {
+  return {
+    first_name: userProfile.firstName ?? "",
+    email: userProfile.email,
+    last_name: userProfile.lastName ?? "",
+    cpf: userProfile.cpf ?? "",
+    id_tipo_usuario: userProfile.userType,
+    id_empresa: userProfile.idCompany,
+  }
+}
+
+export function UserProfileFromSupabase(userProfileSupabase: TUserProfileSupabaseRow): TUserProfile {
+  return {
+    createdAt: new Date(userProfileSupabase.created_at),
+    userId: userProfileSupabase.id_usuario,
+    cpf: userProfileSupabase.cpf,
+    email: userProfileSupabase.email,
+    firstName: userProfileSupabase.first_name,
+    lastName: userProfileSupabase.last_name,
+    userType: userProfileSupabase.id_tipo_usuario as EUserType,
+    idCompany: userProfileSupabase.id_empresa,
+    jobRole: userProfileSupabase.cargo?.nome
+  }
+}
+
+export function PartialUserProfileFromSupabase(userProfileSupabase: Partial<TUserProfileSupabaseRow>): Partial<TUserProfile> {
+  return {
+    email: userProfileSupabase.email,
+    firstName: userProfileSupabase.first_name,
+    lastName: userProfileSupabase.last_name,
+    cpf: userProfileSupabase.cpf,
+    userType: userProfileSupabase.id_tipo_usuario as EUserType,
+    idCompany: userProfileSupabase.id_empresa,
+    jobRole: userProfileSupabase.cargo?.nome
+  }
+}

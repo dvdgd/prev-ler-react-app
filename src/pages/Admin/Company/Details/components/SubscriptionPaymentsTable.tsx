@@ -2,8 +2,8 @@ import { TableCard } from "@shared/components/Card/TableCard";
 import { getAdminPaymnetConfig } from "@shared/functions/PaymentStatusMap";
 import { Tag } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
-import { EPaymentStatus, TPayment } from "types/payment";
-import { TSubscription } from "../../../../../@types/subscription";
+import { EPaymentStatus, TPayment } from "@core/entities/payment";
+import { TSubscription } from "@core/entities/subscription";
 import { AdminPaymentTableOptions } from "../../../Payments/components/AdminPaymentsTableOptions";
 import { SubscriptionModal } from "./SubscriptionModal";
 
