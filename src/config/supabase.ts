@@ -9,8 +9,9 @@ const environment = {
 export const supabaseClient = createClient<Database>(
   environment.SUPABASE_PROJECT_URL,
   environment.SUPABASE_ANON_KEY, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-  },
-});
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+    },
+  }
+);

@@ -3,7 +3,8 @@ import { Center, HStack, UseToastOptions, useToast } from "@chakra-ui/react"
 import { queryClient } from "@config/tanStackQueryClient"
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler"
 import { MyIconButton } from "@shared/components/MyIconButton"
-import { PaymentRepositorySupabase } from "@adapters/supabase/PaymentRepositorySupabase"
+import { container } from "tsyringe";
+import { IPaymentPort } from "@core/ports/payment.port";
 import { useMutation } from "@tanstack/react-query"
 import { EPaymentStatus, TPayment } from "@core/entities/payment"
 
@@ -14,6 +15,7 @@ type AdminPaymentTableOptionsProps = {
 export function AdminPaymentTableOptions({ payment }: AdminPaymentTableOptionsProps) {
   const { showErrorToast } = useShowToastErrorHandler();
   const toast = useToast();
+  const paymentService = container.resolve<IPaymentPort>("PaymentRepository");
 
   const baseErrorToast: UseToastOptions = {
     status: "error",
@@ -27,7 +29,7 @@ export function AdminPaymentTableOptions({ payment }: AdminPaymentTableOptionsPr
   }
 
   const recognizeMutation = useMutation({
-    mutationFn: () => new PaymentRepositorySupabase().recognizeCompanyPayment(payment.paymentId || 0),
+    mutationFn: () => paymentService.recognizeCompanyPayment(payment.paymentId || 0),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["payments"]
@@ -54,7 +56,7 @@ export function AdminPaymentTableOptions({ payment }: AdminPaymentTableOptionsPr
   });
 
   const contestMutation = useMutation({
-    mutationFn: () => new PaymentRepositorySupabase().contestCompanyPayment(payment.paymentId || 0),
+    mutationFn: () => paymentService.contestCompanyPayment(payment.paymentId || 0),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["payments",]

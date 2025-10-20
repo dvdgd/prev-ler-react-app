@@ -1,7 +1,8 @@
 import { useToast } from "@chakra-ui/react";
 import { queryClient } from "@config/tanStackQueryClient";
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
-import { PlanRepositorySupabase } from "@adapters/supabase/PlanRepositorySupabase";
+import { container } from "tsyringe";
+import { IPlanPort } from "@core/ports/plan.port";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -17,9 +18,10 @@ export function usePlanForm() {
 
   const { idPlan: idPlanParam } = useParams();
   const planId = parseInt(idPlanParam ?? '0');
+  const planService = container.resolve<IPlanPort>("PlanRepository");
   const { data: plan, isLoading } = useQuery({
     queryKey: ["plans", planId],
-    queryFn: () => new PlanRepositorySupabase().getPlanById(planId),
+    queryFn: () => planService.getPlanById(planId),
   })
 
   useEffect(() => {
@@ -36,7 +38,7 @@ export function usePlanForm() {
   const mutation = useMutation({
     mutationFn: () => {
       const formValues = formMethods.getValues();
-      return new PlanRepositorySupabase().createNewPlan({
+      return planService.createNewPlan({
         ...formValues,
         planId,
         createdAt: new Date(),

@@ -1,5 +1,6 @@
 import { getUserTypeText } from "@shared/functions/UserTypeMap";
-import { CompanyUserRepositorySupabase } from "@adapters/supabase/CompanyUserRepositorySupabase";
+import { container } from "tsyringe";
+import { ICompanyUserPort } from "@core/ports/company-user.port";
 import { useQuery } from "@tanstack/react-query";
 import Table, { ColumnsType } from "antd/es/table";
 import { TCompanyUser } from "@core/entities/company-user";
@@ -99,7 +100,7 @@ const columns = (): ColumnsType<TCompanyUser> => {
 export function CompanyUsersTable() {
   const { data: users, isLoading } = useQuery({
     queryKey: ["company", "users"],
-    queryFn: () => new CompanyUserRepositorySupabase().getCompanyUsers()
+    queryFn: () => container.resolve<ICompanyUserPort>("CompanyUserRepository").getCompanyUsers()
   });
 
   return (

@@ -1,8 +1,9 @@
-import { AuthRepositorySupabase } from "@adapters/supabase/AuthRepositorySupabase";
+import { container } from "tsyringe";
+import { IAuthPort } from "@core/ports/auth.port";
+import { IUserPort } from "@core/ports/user.port";
 import { queryClient } from "@config/tanStackQueryClient";
 import { useQuery } from "@tanstack/react-query";
 import { createContext, useEffect, useState } from "react";
-import { UserRepositorySupabase } from "@adapters/supabase/UserRepositorySupabase";
 import { TLoginBody, TSignUpBody, TUserSession } from "@core/entities/user";
 import { IChildrenProps } from "types/react-base-props";
 import { supabaseClient } from "../config/supabase";
@@ -24,8 +25,8 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
   const [userSession, setStateSession] = useState<TUserSession>();
   const [isLoading, setIsLoading] = useState(true);
 
-  const authService = new AuthRepositorySupabase();
-  const userService = new UserRepositorySupabase();
+  const userService = container.resolve<IUserPort>("UserRepository");
+  const authService = container.resolve<IAuthPort>("AuthRepository");
 
   useQuery({
     queryKey: ["user"],

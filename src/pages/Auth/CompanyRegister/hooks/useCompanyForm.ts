@@ -1,7 +1,8 @@
 import { UseToastOptions, useToast } from "@chakra-ui/react";
 import { useAuth } from "@hooks/useCurrentUser";
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
-import { CompanyRepositorySupabase } from "@adapters/supabase/CompanyRepositorySupabase";
+import { container } from "tsyringe";
+import { ICompanyPort } from "@core/ports/company.port";
 import { useMutation } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
@@ -36,7 +37,7 @@ export function useCompanyForm() {
       }
 
       const formValues = getValues();
-      const newCompany = await new CompanyRepositorySupabase().create(
+      const newCompany = await container.resolve<ICompanyPort>("CompanyRepository").create(
         formValues,
         userSession?.user?.id,
         formValues.planId

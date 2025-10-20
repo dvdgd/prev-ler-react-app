@@ -1,11 +1,11 @@
-import { JobRoleRepositorySupabase } from "@adapters/supabase/JobRoleRepositorySupabase";
 import { useQuery } from "@tanstack/react-query";
+import { container } from "tsyringe";
+import { IJobRolePort } from "@core/ports/job-role.port";
 
 export function useJobRoles() {
-  const jobRoleService = new JobRoleRepositorySupabase();
   const { data: jobRoles, isPending } = useQuery({
     queryKey: ["company", "jobroles"],
-    queryFn: jobRoleService.getAllJobsRoles
+    queryFn: () => container.resolve<IJobRolePort>("JobRoleRepository").getAllJobsRoles()
   });
 
   return {

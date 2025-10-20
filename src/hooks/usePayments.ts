@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { PaymentRepositorySupabase } from "@adapters/supabase/PaymentRepositorySupabase";
+import { container } from "tsyringe";
+import { IPaymentPort } from "@core/ports/payment.port";
 import { useShowToastErrorHandler } from "./useShowToastErrorHandler";
 
 export function usePayments() {
@@ -7,7 +8,7 @@ export function usePayments() {
 
   const fetchPaymentsFn = async () => {
     try {
-      return await new PaymentRepositorySupabase().getAllPayments();
+      return await container.resolve<IPaymentPort>("PaymentRepository").getAllPayments();
     } catch (error) {
       showErrorToast({
         error, toastAttributes: {

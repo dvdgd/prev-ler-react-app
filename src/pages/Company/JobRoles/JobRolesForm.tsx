@@ -18,7 +18,7 @@ export function JobRolesForm() {
   useEffect(() => {
     const cnpjFormatted = formatCnpj(userSession?.user?.company?.cnpj || "");
     formMethods.setValue("companyId", cnpjFormatted);
-  }, [])
+  }, [userSession])
 
   return (
     <>

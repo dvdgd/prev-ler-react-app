@@ -3,11 +3,15 @@ import { TLoginBody, TSignUpBody, TUserSession } from "@core/entities/user";
 import { BaseError } from "@core/errors/BaseError";
 import { UserProfileToSupabase } from "./mappers/UserProfileSupabaseMappers";
 
-import { UserRepositorySupabase } from "@adapters/supabase/UserRepositorySupabase";
 import { IAuthPort } from "@core/ports/auth.port";
+import { container } from "tsyringe";
+import { IUserPort } from "@core/ports/user.port";
 
 export class AuthRepositorySupabase implements IAuthPort {
-  constructor(private userService = new UserRepositorySupabase()) { }
+  private userRepository: IUserPort;
+  constructor() {
+    this.userRepository = container.resolve<IUserPort>("UserRepository");
+  }
 
   async login(loginRequestBody: TLoginBody): Promise<TUserSession> {
     const loginUnexpectedError = {
@@ -26,7 +30,7 @@ export class AuthRepositorySupabase implements IAuthPort {
 
     if (!data.session) throw new BaseError(loginUnexpectedError);
 
-    const userProfile = await this.userService.getUserProfile();
+    const userProfile = await this.userRepository.getUserProfile();
     if (!userProfile) throw new BaseError(loginUnexpectedError);
 
     return {
@@ -57,7 +61,7 @@ export class AuthRepositorySupabase implements IAuthPort {
         description: "Esse email já está registrado em nosso sistema.",
       });
     }
-    const userProfile = await this.userService.getUserProfile();
+    const userProfile = await this.userRepository.getUserProfile();
 
     return {
       session: data.session,

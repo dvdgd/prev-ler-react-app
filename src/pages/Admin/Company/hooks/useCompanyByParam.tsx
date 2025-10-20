@@ -1,10 +1,11 @@
 
-import { CompanyRepositorySupabase } from "@adapters/supabase/CompanyRepositorySupabase";
+import { container } from "tsyringe";
+import { ICompanyPort } from "@core/ports/company.port";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 export function useCompanyByParam() {
-  const companyService = new CompanyRepositorySupabase();
+  const companyService = container.resolve<ICompanyPort>("CompanyRepository");
   const { companyId } = useParams();
 
   const {

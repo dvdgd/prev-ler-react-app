@@ -1,19 +1,22 @@
+import { TSubscriptionRow } from "@adapters/supabase/entities/subscription";
+import { supabaseClient } from "@config/supabase";
 import { EPaymentStatus } from "@core/entities/payment";
 import { TPlan } from "@core/entities/plan";
 import { ESubscriptionStatus, TSubscription } from "@core/entities/subscription";
-import { supabaseClient } from "@config/supabase";
 import { BaseError } from "@core/errors/BaseError";
-import { SubscriptionFromSupabase } from "./mappers/SubscriptionSupabaseMapper";
-import { PaymentRepositorySupabase } from "./PaymentRepositorySupabase";
-import { PlanRepositorySupabase } from "./PlanRepositorySupabase";
-import { TSubscriptionRow } from "@adapters/supabase/entities/subscription";
+import { IPlanPort } from "@core/ports/plan.port";
 import { ISubscriptionPort } from "@core/ports/subscription.port";
+import { SubscriptionFromSupabase } from "./mappers/SubscriptionSupabaseMapper";
+import { container } from "tsyringe";
+import { PaymentRepositorySupabase } from "./PaymentRepositorySupabase";
 
 export class SubscriptionRepositorySupabase implements ISubscriptionPort {
-  constructor(
-    private paymentService = new PaymentRepositorySupabase(),
-    private planService = new PlanRepositorySupabase(),
-  ) { }
+  private paymentService: PaymentRepositorySupabase;
+  private planRepository: IPlanPort;
+  constructor() {
+    this.paymentService = container.resolve<PaymentRepositorySupabase>("PaymentRepository");
+    this.planRepository = container.resolve<IPlanPort>("PlanRepository");
+  }
 
   async getSubscriptionById(subscriptionId: number): Promise<TSubscription> {
     const { data: subscription } = await supabaseClient
@@ -92,7 +95,7 @@ export class SubscriptionRepositorySupabase implements ISubscriptionPort {
     await this.paymentService.throwErrorIfCompanyHasAnyOfStatus([EPaymentStatus.processing], companyId);
     let olderPlan: TPlan;
     try {
-      olderPlan = await this.planService.getPlanById(olderPlanId);
+      olderPlan = await this.planRepository.getPlanById(olderPlanId);
     } catch (error) {
       return this.subscribePlan(companyId, newPlanId);
     }

@@ -3,13 +3,22 @@ import { supabaseClient } from "@config/supabase";
 import { BaseError } from "@core/errors/BaseError";
 import { PaymentFromSupabase } from "./mappers/PaymentSupabaseMapper";
 import { SubscriptionRepositorySupabase } from "./SubscriptionRepositorySupabase";
+import { container } from "tsyringe";
 import { TPaymentSupabaseRow } from "@adapters/supabase/entities/payment";
 import { IPaymentPort } from "@core/ports/payment.port";
 
 export class PaymentRepositorySupabase implements IPaymentPort {
   private subscriptionService: SubscriptionRepositorySupabase;
   constructor() {
-    this.subscriptionService = new SubscriptionRepositorySupabase(this)
+    // resolve SubscriptionRepository from container and ensure it has a reference to this payment service
+    const resolvedSub = container.resolve<SubscriptionRepositorySupabase>("SubscriptionRepository");
+    // if resolved subscription repo doesn't have a paymentService pointing back, assign it
+    type SubWithPayment = { paymentService?: PaymentRepositorySupabase };
+    const subWithPayment = resolvedSub as unknown as SubWithPayment;
+    if (!subWithPayment.paymentService) {
+      subWithPayment.paymentService = this;
+    }
+    this.subscriptionService = resolvedSub;
   }
 
   async getAllPayments(): Promise<TPayment[]> {

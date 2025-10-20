@@ -2,7 +2,8 @@ import { useToast } from "@chakra-ui/react";
 import { queryClient } from "@config/tanStackQueryClient";
 import { useAuth } from "@hooks/useCurrentUser";
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
-import { CompanyUserRepositorySupabase } from "@adapters/supabase/CompanyUserRepositorySupabase";
+import { container } from "tsyringe";
+import { ICompanyUserPort } from "@core/ports/company-user.port";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -38,9 +39,9 @@ export function useCompanyUserForm() {
     setValue("isAuthorized", user.isAuthorized);
     setValue("type", user.type);
     setValue("jobRole.jobRoleId", user.jobRole.jobRoleId);
-  }, [user]);
+  }, [isLoading, setValue, user]);
 
-  const companyUserService = new CompanyUserRepositorySupabase();
+  const companyUserService = container.resolve<ICompanyUserPort>("CompanyUserRepository");
   const createOrUpdateMutation = useMutation({
     mutationFn: async () => {
       const companyId = userSession?.user?.company?.cnpj;

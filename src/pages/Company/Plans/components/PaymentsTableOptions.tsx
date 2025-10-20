@@ -20,7 +20,8 @@ import { queryClient } from "@config/tanStackQueryClient";
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
 import { CheckPaymentButtonAction } from "@shared/components/CheckPaymentButtonAction";
 import { ViewIconAction } from "@shared/components/ViewIconAction";
-import { PaymentRepositorySupabase } from "@adapters/supabase/PaymentRepositorySupabase";
+import { container } from "tsyringe";
+import { IPaymentPort } from "@core/ports/payment.port";
 import { useMutation } from "@tanstack/react-query";
 import { EPaymentStatus, TPayment } from "@core/entities/payment";
 
@@ -34,7 +35,7 @@ export function PaymentsTableOptions({ payment }: PaymentsModalProps) {
   const toast = useToast();
 
   const mutation = useMutation({
-    mutationFn: () => new PaymentRepositorySupabase().notifyPaymentToAdmin(payment),
+    mutationFn: () => container.resolve<IPaymentPort>("PaymentRepository").notifyPaymentToAdmin(payment),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['payments'] });
       toast({

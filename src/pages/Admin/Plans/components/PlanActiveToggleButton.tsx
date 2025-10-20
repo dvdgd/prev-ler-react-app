@@ -1,7 +1,8 @@
 import { HStack, Switch, Text, useToast } from "@chakra-ui/react";
 import { queryClient } from "@config/tanStackQueryClient";
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
-import { PlanRepositorySupabase } from "@adapters/supabase/PlanRepositorySupabase";
+import { container } from "tsyringe";
+import { IPlanPort } from "@core/ports/plan.port";
 import { useMutation } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { TPlan } from "@core/entities/plan";
@@ -17,7 +18,7 @@ export function PlanActiveToggleButton({ plan }: PlanActiveToggleButtonProps) {
   const mutation = useMutation({
     mutationFn: async () => {
       const active = !plan.active;
-      await new PlanRepositorySupabase().setPlanActive(plan.planId || 0, active);
+      await container.resolve<IPlanPort>("PlanRepository").setPlanActive(plan.planId || 0, active);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["plans"] });

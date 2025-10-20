@@ -1,14 +1,16 @@
 import { useToast } from "@chakra-ui/react";
 import { useShowToastErrorHandler } from "@hooks/useShowToastErrorHandler";
-import { CompanyRepositorySupabase } from "@adapters/supabase/CompanyRepositorySupabase";
+import { container } from "tsyringe";
+import { ICompanyPort } from "@core/ports/company.port";
 import { useQuery } from "@tanstack/react-query";
 
-const companyService = new CompanyRepositorySupabase();
 
 export function useCompany() {
   const toast = useToast();
   const { showErrorToast } = useShowToastErrorHandler();
   const toastErrorId = "getCompanies-error";
+  
+  const companyService = container.resolve<ICompanyPort>("CompanyRepository");
 
   const getCompanies = async () => {
     try {

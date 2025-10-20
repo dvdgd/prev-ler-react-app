@@ -1,5 +1,6 @@
+import { IPlanPort } from "@core/ports/plan.port";
 import { useQuery } from "@tanstack/react-query";
-import { PlanRepositorySupabase } from "@adapters/supabase/PlanRepositorySupabase";
+import { container } from "tsyringe";
 import { useShowToastErrorHandler } from "./useShowToastErrorHandler";
 
 export function usePlans() {
@@ -9,7 +10,7 @@ export function usePlans() {
     queryKey: ['plans'],
     queryFn: async () => {
       try {
-        const plans = await new PlanRepositorySupabase().getAllPlans();
+        const plans = await container.resolve<IPlanPort>('PlanRepository').getAllPlans();
         return plans;
       } catch (error) {
         showErrorToast({

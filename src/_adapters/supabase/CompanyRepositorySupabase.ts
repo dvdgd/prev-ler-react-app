@@ -5,7 +5,8 @@ import { EUserType } from "@core/entities/profile";
 
 import { TCompanySupabaseRow } from "@adapters/supabase/entities/company";
 import { TuserCompanyRow } from "@adapters/supabase/entities/company-user";
-import { UserRepositorySupabase } from "@adapters/supabase/UserRepositorySupabase";
+import { container } from "tsyringe";
+import { IUserPort } from "@core/ports/user.port";
 import { BaseError } from "@core/errors/BaseError";
 import { ICompanyPort } from "@core/ports/company.port";
 import { CompanyFromSupabase, CompanyToSupabase } from "./mappers/CompanySupabaseMappers";
@@ -13,10 +14,12 @@ import { UserCompanyFromSupabase } from "./mappers/CompanyUserSupabaseMapper";
 import { SubscriptionRepositorySupabase } from "./SubscriptionRepositorySupabase";
 
 export class CompanyRepositorySupabase implements ICompanyPort {
-  constructor(
-    private userService = new UserRepositorySupabase(),
-    private subscriptionService = new SubscriptionRepositorySupabase(),
-  ) { }
+  private userService: IUserPort;
+  private subscriptionService: SubscriptionRepositorySupabase;
+  constructor() {
+    this.userService = container.resolve<IUserPort>("UserRepository");
+    this.subscriptionService = container.resolve<SubscriptionRepositorySupabase>("SubscriptionRepository");
+  }
 
   async create(company: TCompany, userId: string, planId: number): Promise<TCompany> {
     const companySupabase = CompanyToSupabase(company);

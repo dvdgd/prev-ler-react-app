@@ -23,7 +23,8 @@ import { queryClient } from "@config/tanStackQueryClient";
 import { useAuth } from "../../hooks/useCurrentUser";
 import { usePlans } from "../../hooks/usePlans";
 import { useShowToastErrorHandler } from "../../hooks/useShowToastErrorHandler";
-import { SubscriptionRepositorySupabase } from "@adapters/supabase/SubscriptionRepositorySupabase";
+import { container } from "tsyringe";
+import { ISubscriptionPort } from "@core/ports/subscription.port";
 import { MyIconButton } from "./MyIconButton";
 
 type TChangePlanForm = {
@@ -51,7 +52,7 @@ export function ChangePlanIconAction({ ...props }) {
   const changePlanMutation = useMutation({
     mutationFn: async () => {
       const formValues = formMethods.getValues();
-      await new SubscriptionRepositorySupabase().changeSubscription(
+      await container.resolve<ISubscriptionPort>("SubscriptionRepository").changeSubscription(
         userSession?.user?.company?.cnpj || "",
         formValues.newPlanId,
         companyPlan?.planId || 0

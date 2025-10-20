@@ -1,9 +1,10 @@
-import { SubscriptionRepositorySupabase } from "@adapters/supabase/SubscriptionRepositorySupabase";
+import { container } from "tsyringe";
+import { ISubscriptionPort } from "@core/ports/subscription.port";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 export function useSubscriptionsCompanyByParams() {
-  const subscriptionService = new SubscriptionRepositorySupabase();
+  const subscriptionService = container.resolve<ISubscriptionPort>("SubscriptionRepository");
   const { companyId } = useParams();
 
   const {
